@@ -5,7 +5,7 @@
 				type="text"
 				:placeholder="$t('message.account.accountPlaceholder1')"
 				prefix-icon="el-icon-user"
-				v-model="ruleForm.userName"
+				v-model="ruleForm.username"
 				clearable
 				autocomplete="off"
 			>
@@ -58,29 +58,26 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, computed, getCurrentInstance } from 'vue';
+import { toRefs, reactive, defineComponent, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
-import { useI18n } from 'vue-i18n';
 import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
+import { signIn } from '/@/api/login';
+import { getUserInfo } from '/@/api/user';
 export default defineComponent({
 	name: 'login',
 	setup() {
-		const { t } = useI18n();
-		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
 		const route = useRoute();
 		const router = useRouter();
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				userName: 'admin',
-				password: '123456',
-				code: '1234',
+				username: 'lanyulei',
+				password: 'lanyulei'
 			},
 			loading: {
 				signIn: false,
@@ -104,26 +101,28 @@ export default defineComponent({
 			// test 按钮权限标识
 			let testAuthBtnList: Array<string> = ['btn.add', 'btn.link'];
 			// 不同用户模拟不同的用户权限
-			if (state.ruleForm.userName === 'admin') {
+			if (state.ruleForm.username === 'admin') {
 				defaultAuthPageList = adminAuthPageList;
 				defaultAuthBtnList = adminAuthBtnList;
 			} else {
 				defaultAuthPageList = testAuthPageList;
 				defaultAuthBtnList = testAuthBtnList;
 			}
-			// 用户信息模拟数据
-			const userInfos = {
-				userName: state.ruleForm.userName,
-				photo:
-					state.ruleForm.userName === 'admin'
-						? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
-						: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg',
-				time: new Date().getTime(),
-				authPageList: defaultAuthPageList,
-				authBtnList: defaultAuthBtnList,
-			};
+
+			// 获取token
+			const loginResponse = await signIn(state.ruleForm)
 			// 存储 token 到浏览器缓存
-			Session.set('token', Math.random().toString(36).substr(0));
+			Session.set('token', loginResponse.data);
+
+			// 获取用户信息
+			const userInfoResponse = await getUserInfo()
+			const userInfos = userInfoResponse.data
+			userInfos.photo = state.ruleForm.username === 'admin'
+						? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
+						: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg'
+			userInfos.time = new Date().getTime()
+			userInfos.authPageList = defaultAuthPageList
+			userInfos.authBtnList = defaultAuthBtnList
 			// 存储用户信息到浏览器缓存
 			Session.set('userInfo', userInfos);
 			// 1、请注意执行顺序(存储用户信息到vuex)
@@ -142,8 +141,6 @@ export default defineComponent({
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
-			// 初始化登录成功时间问候语
-			let currentTimeInfo = currentTime.value;
 			// 登录成功，跳到转首页
 			// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
 			// 如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
@@ -155,15 +152,6 @@ export default defineComponent({
 			} else {
 				router.push('/');
 			}
-			// 登录成功提示
-			setTimeout(() => {
-				// 关闭 loading
-				state.loading.signIn = true;
-				const signInText = t('message.signInText');
-				ElMessage.success(`${currentTimeInfo}，${signInText}`);
-				// 修复防止退出登录再进入界面时，需要刷新样式才生效的问题，初始化布局样式等(登录的时候触发，目前方案)
-				proxy.mittBus.emit('onSignInClick');
-			}, 300);
 		};
 		return {
 			currentTime,

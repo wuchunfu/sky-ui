@@ -27,8 +27,8 @@ const viteConfig: UserConfig = {
 		port: VITE_PORT,
 		open: VITE_OPEN,
 		proxy: {
-			'/gitee': {
-				target: 'https://gitee.com',
+			'/api': {
+				target: 'http://localhost:8000',
 				ws: true,
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/gitee/, ''),

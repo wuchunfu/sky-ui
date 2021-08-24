@@ -1,4 +1,5 @@
 import request from '/@/utils/request';
+import { version } from '/@/api/version'
 
 /**
  * 用户登录
@@ -7,7 +8,7 @@ import request from '/@/utils/request';
  */
 export function signIn(params: object) {
 	return request({
-		url: '/user/signIn',
+		url: `${version}/login`,
 		method: 'post',
 		data: params,
 	});

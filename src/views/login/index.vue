@@ -40,12 +40,11 @@
 <script lang="ts">
 import { toRefs, reactive, computed } from 'vue';
 import Account from '/@/views/login/component/account.vue';
-import Mobile from '/@/views/login/component/mobile.vue';
 import Scan from '/@/views/login/component/scan.vue';
 import { useStore } from '/@/store/index';
 export default {
 	name: 'login',
-	components: { Account, Mobile, Scan },
+	components: { Account, Scan },
 	setup() {
 		const store = useStore();
 		const state = reactive({
