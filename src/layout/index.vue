@@ -42,6 +42,7 @@ export default {
 		};
 		// 页面加载前
 		onBeforeMount(() => {
+			window.localStorage.clear() // 清除缓存
 			onLayoutResize();
 			window.addEventListener('resize', onLayoutResize);
 		});

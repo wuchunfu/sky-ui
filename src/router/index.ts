@@ -5,7 +5,6 @@ import { store } from '/@/store/index.ts';
 import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
 import { staticRoutes, dynamicRoutes } from '/@/router/route';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 
 /**
@@ -183,11 +182,6 @@ export function resetRoute() {
 	});
 }
 
-// isRequestRoutes 为 true，则开启后端控制路由，路径：`/src/store/modules/themeConfig.ts`
-const { isRequestRoutes } = store.state.themeConfig.themeConfig;
-// 前端控制路由：初始化方法，防止刷新时路由丢失
-if (!isRequestRoutes) initFrontEndControlRoutes();
-
 // 路由加载前
 router.beforeEach(async (to, from, next) => {
 	NProgress.configure({ showSpinner: false });
@@ -207,13 +201,11 @@ router.beforeEach(async (to, from, next) => {
 			NProgress.done();
 		} else {
 			if (store.state.routesList.routesList.length === 0) {
-				if (isRequestRoutes) {
-					// 后端控制路由：路由数据初始化，防止刷新时丢失
-					await initBackEndControlRoutes();
-					// 动态添加路由：防止非首页刷新时跳转回首页的问题
-					// 确保 addRoute() 时动态添加的路由已经被完全加载上去
-					next({ ...to, replace: true });
-				}
+				// 后端控制路由：路由数据初始化，防止刷新时丢失
+				await initBackEndControlRoutes();
+				// 动态添加路由：防止非首页刷新时跳转回首页的问题
+				// 确保 addRoute() 时动态添加的路由已经被完全加载上去
+				next({ ...to, replace: true });
 			} else {
 				next();
 			}

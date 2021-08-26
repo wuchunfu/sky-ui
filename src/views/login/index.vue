@@ -46,6 +46,8 @@ export default {
 	name: 'login',
 	components: { Account, Scan },
 	setup() {
+		window.localStorage.clear()
+
 		const store = useStore();
 		const state = reactive({
 			tabsActiveName: 'account',

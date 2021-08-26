@@ -3,7 +3,7 @@ import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
 import { setAddRoute, setFilterMenuAndCacheTagsViewRoutes } from '/@/router/index';
 import { dynamicRoutes } from '/@/router/route';
-import { getMenuAdmin, getMenuTest } from '/@/api/menu/index';
+import { getMenus } from '/@/api/menu/index';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -43,16 +43,10 @@ export async function initBackEndControlRoutes() {
 
 /**
  * 请求后端路由菜单接口
- * @description isRequestRoutes 为 true，则开启后端控制路由
  * @returns 返回后端路由菜单数据
  */
 export function getBackEndControlRoutes() {
-	// 模拟 admin 与 test
-	const auth = store.state.userInfos.userInfos.authPageList[0];
-	// 管理员 admin
-	if (auth === 'admin') return getMenuAdmin();
-	// 其它用户 test
-	else return getMenuTest();
+	return getMenus()
 }
 
 /**

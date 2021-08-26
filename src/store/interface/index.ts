@@ -45,7 +45,6 @@ export interface ThemeConfigState {
 		columnsAsideStyle: string;
 		columnsAsideLayout: string;
 		layout: string;
-		isRequestRoutes: boolean;
 		globalTitle: string;
 		globalViceTitle: string;
 		globalI18n: string;

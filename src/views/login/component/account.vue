@@ -60,7 +60,6 @@
 <script lang="ts">
 import { toRefs, reactive, defineComponent, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { useStore } from '/@/store/index';
 import { Session } from '/@/utils/storage';
@@ -127,17 +126,11 @@ export default defineComponent({
 			Session.set('userInfo', userInfos);
 			// 1、请注意执行顺序(存储用户信息到vuex)
 			store.dispatch('userInfos/setUserInfos', userInfos);
-			if (!store.state.themeConfig.themeConfig.isRequestRoutes) {
-				// 前端控制路由，2、请注意执行顺序
-				await initFrontEndControlRoutes();
-				signInSuccess();
-			} else {
-				// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-				// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-				await initBackEndControlRoutes();
-				// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-				signInSuccess();
-			}
+
+			// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+			await initBackEndControlRoutes();
+			// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+			signInSuccess();
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
