@@ -27,15 +27,8 @@
 						default-expand-all
 						:filter-node-method="filterNode"
 						@current-change='getCurrentNode'
-						@node-drag-start="handleDragStart"
-						@node-drag-enter="handleDragEnter"
-						@node-drag-leave="handleDragLeave"
-						@node-drag-over="handleDragOver"
 						@node-drag-end="handleDragEnd"
-						@node-drop="handleDrop"
 						draggable
-						:allow-drop="allowDrop"
-						:allow-drag="allowDrag"
 						@node-contextmenu='rightClickCurrentNode'
 						ref='menuTreeRef'
 						:expand-on-click-node="false">
@@ -81,7 +74,7 @@
 								</el-col>
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 									<el-form-item label="展示顺序：" prop="sort">
-										<el-input-number v-model="ruleForm.sort" :min="1" size='small'></el-input-number>
+										<el-input-number v-model="ruleForm.sort" size='small'></el-input-number>
 									</el-form-item>
 								</el-col>
 								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -289,33 +282,29 @@ export default {
 			state.currentNode = data
 		}
 
-		function handleDragStart(node:any) {
-			console.log('drag start', node);
-		}
-		function handleDragEnter(draggingNode:any, dropNode:any) {
-			console.log('tree drag enter: ', dropNode.label);
-		}
-		function handleDragLeave(draggingNode:any, dropNode:any) {
-			console.log('tree drag leave: ', dropNode.label);
-		}
-		function handleDragOver(draggingNode:any, dropNode:any) {
-			console.log('tree drag over: ', dropNode.label);
-		}
-		function handleDragEnd(draggingNode:any, dropNode:any, dropType:any) {
-			console.log('tree drag end: ', dropNode && dropNode.label, dropType);
-		}
-		function handleDrop(draggingNode:any, dropNode:any, dropType:any) {
-			console.log('tree drop: ', dropNode.label, dropType);
-		}
-		function allowDrop(draggingNode:any, dropNode:any, type:any) {
-			if (dropNode.data.label === '二级 3-1') {
-				return type !== 'inner';
+		function handleDragEnd(draggingNode:any, dropNode:any, position:any) {
+			let nodeData = draggingNode.data
+			if (position === 'inner') {
+				nodeData.parent = dropNode.data.id
 			} else {
-				return true;
+				nodeData.parent = dropNode.data.parent
 			}
-		}
-		function allowDrag(draggingNode:any) {
-			return draggingNode.data.label.indexOf('三级 3-2-2') === -1;
+
+			if (position === 'before') {
+				nodeData.sort = dropNode.data.sort - 1
+			} else if (position === 'after') {
+				nodeData.sort = dropNode.data.sort + 1
+			}
+
+			nodeData = Object.assign(nodeData, nodeData.meta);
+
+			moveMenu(nodeData).then(() => {
+				getMenuInit()
+				ElNotification({
+					type: 'success',
+					message: '移动菜单节点位置成功'
+				})
+			})
 		}
 
 		// eslint-disable-next-line no-unused-vars
@@ -333,14 +322,7 @@ export default {
 			getCurrentNode,
 			getMenuInit,
 			//
-			handleDragStart,
-			handleDragEnter,
-			handleDragLeave,
-			handleDragOver,
 			handleDragEnd,
-			handleDrop,
-			allowDrop,
-			allowDrag,
 			//
 			openContextMenu,
 			addChildrenMenu,
