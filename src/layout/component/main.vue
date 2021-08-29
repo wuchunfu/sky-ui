@@ -5,7 +5,7 @@
 			ref="layoutScrollbarRef"
 			:style="{
 				minHeight: `calc(100vh - ${headerHeight}`,
-				padding: currentRouteMeta.isLink && currentRouteMeta.isIframe ? 0 : '',
+				padding: currentRouteMeta.hyperlink && currentRouteMeta.isIframe ? 0 : '',
 				transition: 'padding 0.3s ease-in-out',
 			}"
 		>

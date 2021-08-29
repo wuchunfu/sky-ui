@@ -41,7 +41,7 @@
 import { toRefs, reactive, computed } from 'vue';
 import Account from '/@/views/login/component/account.vue';
 import Scan from '/@/views/login/component/scan.vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default {
 	name: 'login',
 	components: { Account, Scan },

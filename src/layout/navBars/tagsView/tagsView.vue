@@ -18,7 +18,7 @@
 				>
 					<i class="iconfont icon-webicon318 layout-navbars-tagsview-ul-li-iconfont font14" v-if="isActive(v)"></i>
 					<i class="layout-navbars-tagsview-ul-li-iconfont" :class="v.meta.icon" v-if="!isActive(v) && getThemeConfig.isTagsviewIcon"></i>
-					<span>{{ $t(v.meta.title) }}</span>
+					<span>{{ v.meta.title }}</span>
 					<template v-if="isActive(v)">
 						<i class="el-icon-refresh-right ml5" @click.stop="refreshCurrentTagsView($route.fullPath)"></i>
 						<i
@@ -128,7 +128,7 @@ export default {
 				// 防止：Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.
 				let findItem = state.tagsViewRoutesList.find((v: any) => v.path === isDynamicPath);
 				if (findItem.meta.isAffix) return false;
-				if (findItem.meta.isLink && !findItem.meta.isIframe) return false;
+				if (findItem.meta.hyperlink && !findItem.meta.isIframe) return false;
 				to.meta.isDynamic ? (findItem.params = to.params) : (findItem.query = to.query);
 				findItem.url = setTagsViewHighlight(findItem);
 				state.tagsViewList.push({ ...findItem });
@@ -171,7 +171,7 @@ export default {
 					if (state.tagsViewList.some((v: any) => v.path === path)) return false;
 					item = state.tagsViewRoutesList.find((v: any) => v.path === path);
 				}
-				if (item.meta.isLink && !item.meta.isIframe) return false;
+				if (item.meta.hyperlink && !item.meta.isIframe) return false;
 				if (to && to.meta.isDynamic) item.params = to?.params ? to?.params : route.params;
 				else item.query = to?.query ? to?.query : route.query;
 				item.url = setTagsViewHighlight(item);

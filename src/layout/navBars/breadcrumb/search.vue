@@ -11,7 +11,7 @@
 				@blur="onSearchBlur"
 			>
 				<template #default="{ item }">
-					<div><i :class="item.meta.icon" class="mr10"></i>{{ $t(item.meta.title) }}</div>
+					<div><i :class="item.meta.icon" class="mr10"></i>{{ item.meta.title }}</div>
 				</template>
 			</el-autocomplete>
 		</el-dialog>
@@ -73,7 +73,7 @@ export default defineComponent({
 		// 当前菜单选中时
 		const onHandleSelect = (item: any) => {
 			let { path, redirect } = item;
-			if (item.meta.isLink && !item.meta.isIframe) window.open(item.meta.isLink);
+			if (item.meta.hyperlink && !item.meta.isIframe) window.open(item.meta.hyperlink);
 			else if (redirect) router.push(redirect);
 			else router.push(path);
 			closeSearch();
