@@ -53,118 +53,121 @@
 				</el-card>
 			</el-col>
 			<el-col :span="18">
-				<el-card shadow="hover">
-					<el-alert
-						:title="alertTitle"
-						type="info"
-						show-icon>
-					</el-alert>
-					<div style='margin-top: 10px;'>
-						<el-empty v-if='ruleForm.title === undefined' :description="$t('message.router.systemMenuEmptyRemarks')"></el-empty>
-						<el-form v-else :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
-							<el-row :gutter="20">
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-									<el-form-item label="类型：" prop='type'>
-										<el-radio-group v-model="ruleForm.type" size="small">
-											<el-radio :label="1">目录</el-radio>
-											<el-radio :label="2">菜单</el-radio>
-											<el-radio :label="3">按钮</el-radio>
-										</el-radio-group>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-									<el-form-item label="展示顺序：" prop="sort">
-										<el-input-number v-model="ruleForm.sort" size='small'></el-input-number>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-									<el-form-item label="标题：" prop="title">
-										<el-input v-model="ruleForm.title" size='small' placeholder='请输入标题'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-									<el-form-item label="图标：">
-										<IconSelector v-model="ruleForm.icon" />
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="路由路径：" prop="path">
-										<el-input v-model="ruleForm.path" size='small' placeholder='请输入路由路径'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="路由名称：">
-										<el-input v-model="ruleForm.name" size='small' placeholder='请输入路由名称'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="组件路径：" prop='component'>
-										<el-input v-model="ruleForm.component" size='small' placeholder='请输入组件路径'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="跳转地址：" prop='redirect'>
-										<el-input v-model="ruleForm.redirect" size='small' placeholder='请输入跳转地址'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
-									<el-form-item label="是否超链接：" prop='redirect'>
-										<el-switch v-model="isLinkStatus"></el-switch>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='isLinkStatus && ruleForm.type === 2'>
-									<el-form-item label="超链接地址：">
-										<el-input v-model="ruleForm.hyperlink" size='small'></el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-									<el-form-item label="权限标识：">
-										<el-select
-											style='width: 100%'
-											size='small'
-											v-model="ruleForm.auth"
-											multiple
-											filterable
-											allow-create
-											default-first-option
-											placeholder='请输入权限标识'
-										>
-											<el-option
-												v-for="item in menuAuth"
-												:key="item.value"
-												:label="item.label"
-												:value="item.value">
-											</el-option>
-										</el-select>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="是否隐藏：">
-										<el-switch v-model="ruleForm.isHide"></el-switch>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
-									<el-form-item label="是否缓存：">
-										<el-switch v-model="ruleForm.isKeepAlive"></el-switch>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
-									<el-form-item label="固定标签栏：">
-										<el-switch v-model="ruleForm.isAffix"></el-switch>
-									</el-form-item>
-								</el-col>
-								<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
-									<el-form-item label="内嵌窗口：">
-										<el-switch v-model="ruleForm.isIframe"></el-switch>
-									</el-form-item>
-								</el-col>
-							</el-row>
-							<el-form-item>
-								<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small'>保 存</el-button>
-							</el-form-item>
-						</el-form>
-					</div>
-				</el-card>
+				<el-tabs type="border-card" shadow="hover">
+					<el-tab-pane label="菜单表单">
+						<el-alert
+							:title="alertTitle"
+							type="info"
+							show-icon>
+						</el-alert>
+						<div style='margin-top: 10px;'>
+							<el-empty v-if='ruleForm.title === undefined' :description="$t('message.router.systemMenuEmptyRemarks')"></el-empty>
+							<el-form v-else :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
+								<el-row :gutter="20">
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+										<el-form-item label="类型：" prop='type'>
+											<el-radio-group v-model="ruleForm.type" size="small">
+												<el-radio :label="1">目录</el-radio>
+												<el-radio :label="2">菜单</el-radio>
+												<el-radio :label="3">按钮</el-radio>
+											</el-radio-group>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+										<el-form-item label="展示顺序：" prop="sort">
+											<el-input-number v-model="ruleForm.sort" size='small'></el-input-number>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+										<el-form-item label="标题：" prop="title">
+											<el-input v-model="ruleForm.title" size='small' placeholder='请输入标题'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+										<el-form-item label="图标：">
+											<IconSelector v-model="ruleForm.icon" />
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="路由路径：" prop="path">
+											<el-input v-model="ruleForm.path" size='small' placeholder='请输入路由路径'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="路由名称：">
+											<el-input v-model="ruleForm.name" size='small' placeholder='请输入路由名称'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="组件路径：" prop='component'>
+											<el-input v-model="ruleForm.component" size='small' placeholder='请输入组件路径'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="跳转地址：" prop='redirect'>
+											<el-input v-model="ruleForm.redirect" size='small' placeholder='请输入跳转地址'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
+										<el-form-item label="是否超链接：" prop='redirect'>
+											<el-switch v-model="isLinkStatus"></el-switch>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='isLinkStatus && ruleForm.type === 2'>
+										<el-form-item label="超链接地址：">
+											<el-input v-model="ruleForm.hyperlink" size='small'></el-input>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+										<el-form-item label="权限标识：">
+											<el-select
+												style='width: 100%'
+												size='small'
+												v-model="ruleForm.auth"
+												multiple
+												filterable
+												allow-create
+												default-first-option
+												placeholder='请输入权限标识'
+											>
+												<el-option
+													v-for="item in menuAuth"
+													:key="item.value"
+													:label="item.label"
+													:value="item.value">
+												</el-option>
+											</el-select>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="是否隐藏：">
+											<el-switch v-model="ruleForm.isHide"></el-switch>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
+										<el-form-item label="是否缓存：">
+											<el-switch v-model="ruleForm.isKeepAlive"></el-switch>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
+										<el-form-item label="固定标签栏：">
+											<el-switch v-model="ruleForm.isAffix"></el-switch>
+										</el-form-item>
+									</el-col>
+									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
+										<el-form-item label="内嵌窗口：">
+											<el-switch v-model="ruleForm.isIframe"></el-switch>
+										</el-form-item>
+									</el-col>
+								</el-row>
+								<el-form-item>
+									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small'>保 存</el-button>
+								</el-form-item>
+							</el-form>
+						</div>
+					</el-tab-pane>
+					<el-tab-pane label="页面元素">页面元素</el-tab-pane>
+				</el-tabs>
 			</el-col>
 		</el-row>
 	</div>

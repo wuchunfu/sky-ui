@@ -61,7 +61,7 @@
 import { toRefs, reactive, defineComponent, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { signIn } from '/@/api/login';
