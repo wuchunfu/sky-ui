@@ -39,9 +39,11 @@
 						@node-contextmenu='rightClickCurrentNode'
 						ref='menuTreeRef'
 						:expand-on-click-node="false">
-						<template #default="{ node }">
+						<template #default="{ data, node }">
 							<div class="custom-tree-node" @contextmenu="openContextMenu">
-								{{ node.label }}
+								<span :style='data.meta.isHide ? {color:"#999"}:{}'>
+									<i :class='data.meta.icon'></i> {{ node.label }}
+								</span>
 							</div>
 						</template>
 					</el-tree>
