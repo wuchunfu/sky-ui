@@ -298,7 +298,7 @@ export default {
 
 			nodeData = Object.assign(nodeData, nodeData.meta);
 
-			moveMenu(nodeData).then(() => {
+			saveMenu(nodeData).then(() => {
 				getMenuInit()
 				ElNotification({
 					type: 'success',
