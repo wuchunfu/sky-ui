@@ -16,7 +16,7 @@
 			<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
 			<el-row>
 				<el-checkbox-group v-model="buttonList" size="mini" @change='handleCheckChange'>
-					<el-checkbox style='margin-top: 10px;' v-for='item in pageButtons[menu.id]' :key='item.id' :label="item.id">{{ item.title }}</el-checkbox>
+					<el-checkbox style='margin-top: 10px;' v-for='item in pageButtons[menu.id]' :key='item.id' :label="item">{{ item.title }}</el-checkbox>
 				</el-checkbox-group>
 			</el-row>
 		</div>
@@ -48,15 +48,8 @@ export default {
 		}
 
 		function handleCheckAllChange(val) {
-			if (val) {
-				for (var b of state.pageButtons[props.menu.id]) {
-					if (state.buttonList.indexOf(b.id) === -1) {
-						state.buttonList.push(b.id)
-					}
-				}
-			} else {
-				state.buttonList = []
-			}
+			state.buttonList = val ? state.pageButtons[props.menu.id] : [];
+			this.isIndeterminate = false;
 		}
 		return {
 			handleCheckChange,
