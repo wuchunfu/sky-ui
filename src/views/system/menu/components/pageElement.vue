@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-empty v-if='!menu.title || menu.type === 3' description="未选中菜单节点"></el-empty>
+		<el-empty v-if='!menu.title || menu.type === 3' description="未选择菜单节点"></el-empty>
 		<div v-else>
 			<el-alert
 				:title="'当前页面为《'+menu.title+'》的按钮管理页面。'"
@@ -13,12 +13,15 @@
 				<el-button size='small' type='danger' :disabled='buttonList.length === 0'><i class="el-icon-delete"></i> &nbsp;删 除</el-button>
 			</el-row>
 			<el-divider></el-divider>
-			<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-			<el-row>
-				<el-checkbox-group v-model="buttonList" size="mini" @change='handleCheckChange'>
-					<el-checkbox style='margin-top: 10px;' v-for='item in pageButtons[menu.id]' :key='item.id' :label="item">{{ item.title }}</el-checkbox>
-				</el-checkbox-group>
-			</el-row>
+			<el-empty v-if='pageButtons[menu.id] === undefined' description="暂无按钮"></el-empty>
+			<div v-else>
+				<el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+				<el-row>
+					<el-checkbox-group v-model="buttonList" size="mini" @change='handleCheckChange'>
+						<el-checkbox style='margin-top: 10px;' v-for='item in pageButtons[menu.id]' :key='item.id' :label="item">{{ item.title }}</el-checkbox>
+					</el-checkbox-group>
+				</el-row>
+			</div>
 		</div>
 	</div>
 </template>
@@ -38,7 +41,7 @@ export default {
 			checkAll: false,
 			buttonList: [],
 			pageButtons: store.state.requestRoutes.requestButtons,
-			isIndeterminate: false
+			isIndeterminate: false,
 		});
 
 		function handleCheckChange(value) {
