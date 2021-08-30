@@ -166,7 +166,9 @@
 							</el-form>
 						</div>
 					</el-tab-pane>
-					<el-tab-pane label="页面元素">页面元素</el-tab-pane>
+					<el-tab-pane label="页面按钮">
+						<PageElement :menu='ruleForm'></PageElement>
+					</el-tab-pane>
 				</el-tabs>
 			</el-col>
 		</el-row>
@@ -184,11 +186,27 @@ import {
 	deleteMenu
 } from '/@/api/menu'
 import { useStore } from '/@/store';
+
+import PageElement from './components/pageElement.vue'
+
 export default {
 	name: 'systemMenu',
-	components: { IconSelector },
-	data() {
-		return {
+	components: { IconSelector, PageElement },
+	setup: function() {
+		const store = useStore();
+		const state = reactive({
+			filterText: '',
+			menuTree: {},
+			alertTitle: '新增顶层菜单节点。',
+			currentNode: {},
+			ruleForm: {
+				id: 0,
+				type: 1,
+				auth: [],
+				sort: 1,
+				title: '',
+				meta: {},
+			},
 			isLinkStatus: false,
 			menuAuth: [],
 			defaultProps: {
@@ -209,23 +227,6 @@ export default {
 					{ required: true, message: '请输入组件路径', trigger: 'blur' },
 				]
 			}
-		}
-	},
-	setup: function() {
-		const store = useStore();
-		const state = reactive({
-			filterText: '',
-			menuTree: {},
-			alertTitle: '新增顶层菜单节点。',
-			currentNode: {},
-			ruleForm: {
-				id: 0,
-				type: 1,
-				auth: [],
-				sort: 1,
-				title: '',
-				meta: {},
-			},
 		});
 
 		function resetRuleForm() {
@@ -241,7 +242,7 @@ export default {
 
 		async function getMenuInit() {
 			await getMenus().then(res => {
-				state.menuTree = res.data;
+				state.menuTree = res.data.menu;
 			});
 		}
 

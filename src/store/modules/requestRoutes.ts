@@ -6,15 +6,17 @@ const requestRoutesModule: Module<requestRoutesState, RootStateTypes> = {
 	namespaced: true,
 	state: {
 		requestRoutes: [],
+		requestButtons: {}
 	},
 	mutations: {
-		getBackEndControlRoutes(state: any, data: object) {
-			state.requestRoutes = data;
+		getBackEndControlRoutes(state: any, data: any) {
+			state.requestRoutes = data.menu;
+			state.requestButtons = data.button;
 		},
 	},
 	actions: {
-		setBackEndControlRoutes({ commit }, routes: Array<string>) {
-			commit('getBackEndControlRoutes', routes);
+		setBackEndControlRoutes({ commit }, data: any) {
+			commit('getBackEndControlRoutes', data);
 		},
 	},
 };

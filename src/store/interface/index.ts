@@ -76,6 +76,7 @@ export interface UserInfosState {
 // 后端返回原始路由(未处理时)
 export interface requestRoutesState {
 	requestRoutes: Array<object>;
+	requestButtons: object;
 }
 
 // 主接口(顶级类型声明)
