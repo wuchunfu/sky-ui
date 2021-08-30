@@ -161,7 +161,7 @@
 									</el-col>
 								</el-row>
 								<el-form-item>
-									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small'>保 存</el-button>
+									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small'><i class='el-icon-check'></i>&nbsp; 保 存</el-button>
 								</el-form-item>
 							</el-form>
 						</div>
