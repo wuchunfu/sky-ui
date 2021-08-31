@@ -69,7 +69,6 @@
 											<el-radio-group v-model="ruleForm.type" size="small">
 												<el-radio :label="1">目录</el-radio>
 												<el-radio :label="2">菜单</el-radio>
-												<el-radio :label="3">按钮</el-radio>
 											</el-radio-group>
 										</el-form-item>
 									</el-col>
@@ -176,7 +175,7 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted } from 'vue';
+import { watch, ref, toRefs, reactive, onMounted } from 'vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import IconSelector from '/@/components/iconSelector/index.vue';
 import { inject } from 'vue';
@@ -193,6 +192,8 @@ export default {
 	name: 'systemMenu',
 	components: { IconSelector, PageElement },
 	setup: function() {
+		const menuTreeRef = ref()
+		const ruleFormRef = ref()
 		const store = useStore();
 		const state = reactive({
 			filterText: '',
@@ -317,14 +318,42 @@ export default {
 			emitContext(e, { name: 'menu-tree-context' })
 		}
 
+		function editSubmitForm() {
+			ruleFormRef.value.validate((valid:any) => {
+				if (valid) {
+					saveMenu(state.ruleForm).then(res => {
+						state.ruleForm = res.data
+						state.alertTitle = `编辑《${state.ruleForm.title}》菜单节点。`
+						getMenuInit()
+						ElNotification({
+							type: 'success',
+							message: '保存菜单数据成功'
+						})
+					})
+				}
+			});
+		}
+
+		const filterNode = (value:string, data:any) => {
+			if (!value) return true;
+			return data.title.indexOf(value) !== -1;
+		}
+
+		watch(() => state.filterText, (newValue) => {
+				menuTreeRef.value.filter(newValue)
+		})
+
 		onMounted(() => {
 			state.menuTree = store.state.requestRoutes.requestRoutes
 		})
 
 		return {
+			menuTreeRef,
+			ruleFormRef,
+			editSubmitForm,
 			resetRuleForm,
 			getCurrentNode,
-			getMenuInit,
+			filterNode,
 			//
 			handleDragEnd,
 			//
@@ -335,33 +364,6 @@ export default {
 			//
 			...toRefs(state),
 		};
-	},
-	watch: {
-		filterText(value:string) {
-			// @ts-ignore
-			this.$refs.menuTreeRef.filter(value)
-		}
-	},
-	methods: {
-		filterNode(value:string, data:any) {
-			if (!value) return true;
-			return data.title.indexOf(value) !== -1;
-		},
-		editSubmitForm() {
-			this.$refs.ruleFormRef.validate((valid:any) => {
-				if (valid) {
-					saveMenu(this.ruleForm).then(res => {
-						this.ruleForm = res.data
-						this.alertTitle = `编辑《${this.ruleForm.title}》菜单节点。`
-						this.getMenuInit()
-						ElNotification({
-							type: 'success',
-							message: '编辑菜单成功'
-						})
-					})
-				}
-			});
-		}
 	}
 };
 </script>

@@ -25,9 +25,30 @@ export function saveMenu(params:object) {
 /**
  * 删除菜单
  */
-export function deleteMenu(id:number) {
+export function deleteMenu(id:any) {
 	return request({
 		url: `${version}/system/menu/${id}`,
 		method: 'delete'
+	});
+}
+
+/**
+ * 删除菜单
+ */
+export function menuButton(id:any) {
+	return request({
+		url: `${version}/system/menu/${id}`,
+		method: 'get'
+	});
+}
+
+/**
+ * 批量删除菜单
+ */
+export function batchMenuButton(params:object) {
+	return request({
+		url: `${version}/system/menu/batch`,
+		method: 'delete',
+		data: params
 	});
 }
