@@ -5,14 +5,9 @@
 				<el-input size="small" placeholder="请输入用户名" prefix-icon="el-icon-search" style="max-width: 180px"></el-input>
 				<el-button size="small" type="primary" class="ml10">查询</el-button>
 			</div>
-			<el-table :data="tableData.data" stripe style="width: 100%">
+			<el-table :data="tableData.data" stripe style="width: 100%" size="small">
 				<el-table-column prop="num" label="ID" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="name" label="用户名" show-overflow-tooltip></el-table-column>
-				<el-table-column label="头像" show-overflow-tooltip>
-					<template #default="scope">
-						<el-image class="system-user-photo" :src="scope.row.photo" :preview-src-list="[scope.row.photo]"> </el-image>
-					</template>
-				</el-table-column>
 				<el-table-column prop="phone" label="手机" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="sex" label="性别" show-overflow-tooltip></el-table-column>
@@ -24,39 +19,30 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:pager-count="5"
-				:page-sizes="[10, 20, 30]"
-				v-model:current-page="tableData.param.pageNum"
-				background
-				v-model:page-size="tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
-			</el-pagination>
+			<Pagination v-show="tableData.total>0" :total="tableData.total" v-model:page="listQuery.page" v-model:limit="listQuery.limit" @pagination="getList" />
 		</el-card>
 	</div>
 </template>
 
 <script lang="ts">
 import { toRefs, reactive, onMounted } from 'vue';
+import Pagination from '/@/components/pagination/index.vue'
 export default {
 	name: 'systemUser',
+	components: { Pagination },
 	setup() {
 		const state: any = reactive({
 			tableData: {
 				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					pageNum: 1,
-					pageSize: 10,
-				},
+				total: 100,
 			},
+			listQuery: {
+				page: 1,
+				limit: 10
+			}
 		});
+		function getList() {}
+
 		// 初始化表格数据
 		const initTableData = () => {
 			const data: Array<object> = [];
@@ -78,22 +64,13 @@ export default {
 		const onRowDel = (row: object) => {
 			console.log(row);
 		};
-		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
-		};
-		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
-		};
 		// 页面加载时
 		onMounted(() => {
 			initTableData();
 		});
 		return {
 			onRowDel,
-			onHandleSizeChange,
-			onHandleCurrentChange,
+			getList,
 			...toRefs(state),
 		};
 	},
