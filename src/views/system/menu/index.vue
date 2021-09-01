@@ -191,7 +191,7 @@ import PageElement from './components/pageElement.vue'
 export default {
 	name: 'systemMenu',
 	components: { IconSelector, PageElement },
-	setup: function() {
+	setup() {
 		const menuTreeRef = ref()
 		const ruleFormRef = ref()
 		const store = useStore();
@@ -230,7 +230,7 @@ export default {
 			}
 		});
 
-		function resetRuleForm() {
+		const resetRuleForm = () => {
 			state.ruleForm = {
 				id: 0,
 				type: 1,
@@ -241,26 +241,26 @@ export default {
 			}
 		}
 
-		async function getMenuInit() {
+		const getMenuInit = async () => {
 			await getMenus().then(res => {
 				state.menuTree = res.data.menu;
 			});
 		}
 
-		function getCurrentNode(data: any) {
+		const getCurrentNode = (data: any) => {
 			state.ruleForm = Object.assign(data, data.meta);
 			state.alertTitle = `编辑《${state.ruleForm.title}》菜单节点。`
 		}
 
 		// 新建子菜单
-		function addChildrenMenu() {
+		const addChildrenMenu = () => {
 			resetRuleForm()
 			state.ruleForm.parent = state.currentNode.id
 			state.alertTitle = `新增《${state.currentNode.title}》菜单节点下的子菜单节点。`
 		}
 
 		// 删除子菜单
-		function deleteMenuHandle() {
+		const deleteMenuHandle = () => {
 			ElMessageBox.confirm('此操作将删除当前菜单节点?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -283,11 +283,11 @@ export default {
 			);
 		}
 
-		function rightClickCurrentNode(event:Event, data:object) {
+		const rightClickCurrentNode = (event:Event, data:object) => {
 			state.currentNode = data
 		}
 
-		function handleDragEnd(draggingNode:any, dropNode:any, position:any) {
+		const handleDragEnd = (draggingNode:any, dropNode:any, position:any) => {
 			let nodeData = draggingNode.data
 			if (position === 'inner') {
 				nodeData.parent = dropNode.data.id
@@ -314,11 +314,11 @@ export default {
 
 		// eslint-disable-next-line no-unused-vars
 		const emitContext = inject('emitContext') as (event: Event, dataId: Record<string, unknown>) => void
-		function openContextMenu (e: any) {
+		const openContextMenu = (e: any) => {
 			emitContext(e, { name: 'menu-tree-context' })
 		}
 
-		function editSubmitForm() {
+		const editSubmitForm = () => {
 			ruleFormRef.value.validate((valid:any) => {
 				if (valid) {
 					saveMenu(state.ruleForm).then(res => {

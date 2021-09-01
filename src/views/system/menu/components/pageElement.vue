@@ -96,13 +96,13 @@ export default {
 			}
 		});
 
-		function handleCheckChange(value) {
+		const handleCheckChange = (value) => {
 			let checkedCount = value.length;
 			state.checkAll = checkedCount === state.pageButtons[props.menu.id].length;
 			state.isIndeterminate = checkedCount > 0 && checkedCount < state.pageButtons[props.menu.id].length;
 		}
 
-		function resetRuleForm() {
+		const resetRuleForm = () => {
 			state.ruleForm = {
 				title: '',
 				type: 3,
@@ -110,22 +110,22 @@ export default {
 			}
 		}
 
-		function handleCheckAllChange(val) {
+		const handleCheckAllChange = (val) => {
 			state.buttonList = val ? state.pageButtons[props.menu.id] : [];
 			state.isIndeterminate = false;
 		}
 
-		function handleCreate() {
+		const handleCreate = () => {
 			resetRuleForm()
 			state.buttonDialog = true
 		}
 
-		function handleEdit() {
+		const handleEdit = () => {
 			state.ruleForm = state.buttonList[0]
 			state.buttonDialog = true
 		}
 
-		function handleDelete() {
+		const handleDelete = () => {
 			ElMessageBox.confirm('此操作将批量删除按钮标签?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
@@ -154,7 +154,7 @@ export default {
 		}
 
 		// 获取菜单下的所有按钮
-		function getMenuButton() {
+		const getMenuButton = () => {
 			menuButton(props.menu.id).then(res => {
 				state.buttonList = []
 				state.isIndeterminate = false
@@ -162,7 +162,7 @@ export default {
 			})
 		}
 
-		function handleSubmit() {
+		const handleSubmit = () => {
 			state.ruleForm.parent = props.menu.id
 			ruleFormRef.value.validate((valid) => {
 				if (valid) {

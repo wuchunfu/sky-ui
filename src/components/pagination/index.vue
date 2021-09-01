@@ -27,7 +27,7 @@ export default {
 			type: Number,
 			default: 1
 		},
-		limit: {
+		size: {
 			type: Number,
 			default: 20
 		},
@@ -55,15 +55,15 @@ export default {
 		}
 	},
 	setup(props: any, context: any) {
-		function handleSizeChange(val:number) {
-			context.emit('pagination', { page: props.currentPage, limit: val })
+		const handleSizeChange = (val:number) => {
+			context.emit('pagination', { page: props.currentPage, size: val })
 			if (props.autoScroll) {
 				scrollTo(0, 800)
 			}
 		}
 
-		function handleCurrentChange(val:number) {
-			context.emit('pagination', { page: val, limit: props.pageSize })
+		const handleCurrentChange = (val:number) => {
+			context.emit('pagination', { page: val, size: props.pageSize })
 			if (props.autoScroll) {
 				scrollTo(0, 800)
 			}
@@ -80,10 +80,10 @@ export default {
 
 		const pageSize = computed({
 			get() {
-				return props.limit
+				return props.size
 			},
 			set(val) {
-				context.emit('update:limit', val)
+				context.emit('update:size', val)
 			}
 		})
 
