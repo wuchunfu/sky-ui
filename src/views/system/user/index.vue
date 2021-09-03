@@ -35,10 +35,10 @@
 		</el-card>
 
 		<el-dialog
-			title="提示"
+			title="用户管理"
 			v-model="dialogVisible"
 			:close-on-click-modal='false'
-			width="60%">
+			width="50%">
 			<div>
 				<el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
 					<el-row :gutter="20">
@@ -76,27 +76,20 @@
 							<el-form-item label="角色：">
 								<el-select size='small' v-model="ruleForm.role" multiple placeholder="请选择角色" style='width:100%'>
 									<el-option
-										v-for="item in ['1', '2']"
-										:key="item.value"
-										:label="item.label"
-										:value="item.value">
+										v-for="item in roleList"
+										:key="item.id"
+										:label="item.name"
+										:value="item.id">
 									</el-option>
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12" class="mb20">
-							<el-form-item label="部门：">
-								<el-select size='small' v-model="ruleForm.dept" multiple placeholder="请选择部门" style='width:100%'>
-									<el-option
-										v-for="item in ['1', '2']"
-										:key="item.value"
-										:label="item.label"
-										:value="item.value">
-									</el-option>
-								</el-select>
+						<el-col :span="12" v-if='dialogStatus === "edit"'>
+							<el-form-item label="状态：">
+								<el-switch v-model="ruleForm.status"></el-switch>
 							</el-form-item>
 						</el-col>
-						<el-col :span="24">
+						<el-col :span="dialogStatus==='create'?12:24">
 							<el-form-item label="备注：">
 								<el-input size='small' placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
 							</el-form-item>
@@ -125,6 +118,7 @@ import {
 	deleteUser,
 	editUser
 } from '/@/api/system/user'
+import { roleList } from '/@/api/system/role';
 export default {
 	name: 'SystemUserIndex',
 	components: { Pagination },
@@ -142,7 +136,8 @@ export default {
 		const ruleFormRef = ref();
 		const state: any = reactive({
 			dialogVisible: false,
-			list: null,
+			roleList: [],
+			list: [],
 			total: 0,
 			listQuery: {
 				page: 1,
@@ -175,6 +170,16 @@ export default {
 			});
 		};
 
+		const getRoleList =() => {
+			roleList({
+				page: 1,
+				size: 999999
+			}).then(res => {
+				state.roleList = res.data.list;
+				console.log(state.roleList);
+			});
+		}
+
 		// 当前行删除
 		const handleDelete = (row: any) => {
 			ElMessageBox.confirm(`此操作将删除该用户《${row.nickname}》?`, '提示', {
@@ -199,7 +204,9 @@ export default {
 
 		const handleCreate = () => {
 			state.dialogStatus = 'create'
-			state.ruleForm = {}
+			state.ruleForm = {
+				status: true
+			}
 			state.dialogVisible = true;
 			nextTick(() => {
 				ruleFormRef.value.clearValidate();
@@ -244,6 +251,7 @@ export default {
 		// 页面加载时
 		onMounted(() => {
 			getList();
+			getRoleList();
 		});
 		return {
 			ruleFormRef,

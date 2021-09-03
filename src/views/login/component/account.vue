@@ -109,28 +109,31 @@ export default defineComponent({
 			}
 
 			// 获取token
-			const loginResponse = await signIn(state.ruleForm)
-			// 存储 token 到浏览器缓存
-			Session.set('token', loginResponse.data);
+			await signIn(state.ruleForm).then(async res => {
+				// 存储 token 到浏览器缓存
+				Session.set('token', res.data);
 
-			// 获取用户信息
-			const userInfoResponse = await getUserInfo()
-			const userInfos = userInfoResponse.data
-			userInfos.photo = state.ruleForm.username === 'admin'
-						? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
-						: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg'
-			userInfos.time = new Date().getTime()
-			userInfos.authPageList = defaultAuthPageList
-			userInfos.authBtnList = defaultAuthBtnList
-			// 存储用户信息到浏览器缓存
-			Session.set('userInfo', userInfos);
-			// 1、请注意执行顺序(存储用户信息到vuex)
-			store.dispatch('userInfos/setUserInfos', userInfos);
+				// 获取用户信息
+				const userInfoResponse = await getUserInfo()
+				const userInfos = userInfoResponse.data
+				userInfos.photo = state.ruleForm.username === 'admin'
+					? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
+					: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg'
+				userInfos.time = new Date().getTime()
+				userInfos.authPageList = defaultAuthPageList
+				userInfos.authBtnList = defaultAuthBtnList
+				// 存储用户信息到浏览器缓存
+				Session.set('userInfo', userInfos);
+				// 1、请注意执行顺序(存储用户信息到vuex)
+				store.dispatch('userInfos/setUserInfos', userInfos);
 
-			// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-			await initBackEndControlRoutes();
-			// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-			signInSuccess();
+				// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+				await initBackEndControlRoutes();
+				// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+				signInSuccess();
+			}).catch(() => {
+				state.loading.signIn = false;
+			})
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
