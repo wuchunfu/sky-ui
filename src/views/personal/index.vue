@@ -210,7 +210,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../../theme/mixins/mixins';
+@import '../../theme/mixins/mixins';
 .personal {
 	.personal-user {
 		height: 130px;

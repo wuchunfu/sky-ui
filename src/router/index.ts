@@ -106,7 +106,8 @@ export function setFilterHasAuthMenu(routes: any, auth: any) {
 	const menu: any = [];
 	routes.forEach((route: any) => {
 		const item = { ...route };
-		if (hasAuth(auth, item)) {
+		// 如果用户是超级管理员或者有权限，则显示菜单
+		if (store.state.userInfos.userInfos.is_admin || hasAuth(auth, item)) {
 			if (item.children) item.children = setFilterHasAuthMenu(item.children, auth);
 			menu.push(item);
 		}

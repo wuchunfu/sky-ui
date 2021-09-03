@@ -66,7 +66,7 @@
 <script>
 import { ref, reactive, toRefs } from 'vue';
 import { useStore } from '/@/store'
-import { saveMenu, menuButton, batchMenuButton } from '/@/api/menu';
+import { saveMenu, menuButton, batchMenuButton } from '/@/api/system/menu';
 import { ElNotification, ElMessageBox } from 'element-plus';
 
 export default {

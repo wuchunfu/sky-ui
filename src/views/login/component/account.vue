@@ -65,7 +65,7 @@ import { useStore } from '/@/store';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { signIn } from '/@/api/login';
-import { getUserInfo } from '/@/api/user';
+import { getUserInfo } from '/@/api/system/user';
 export default defineComponent({
 	name: 'login',
 	setup() {

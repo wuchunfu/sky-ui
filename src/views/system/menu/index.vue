@@ -175,7 +175,7 @@
 </template>
 
 <script lang="ts">
-import { watch, ref, toRefs, reactive, onMounted } from 'vue';
+import { watch, ref, toRefs, reactive, onMounted, nextTick } from 'vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import IconSelector from '/@/components/iconSelector/index.vue';
 import { inject } from 'vue';
@@ -183,13 +183,13 @@ import {
 	getMenus,
 	saveMenu,
 	deleteMenu
-} from '/@/api/menu'
+} from '/@/api/system/menu'
 import { useStore } from '/@/store';
 
 import PageElement from './components/pageElement.vue'
 
 export default {
-	name: 'systemMenu',
+	name: 'SystemMenuIndex',
 	components: { IconSelector, PageElement },
 	setup() {
 		const menuTreeRef = ref()
@@ -250,6 +250,9 @@ export default {
 		const getCurrentNode = (data: any) => {
 			state.ruleForm = Object.assign(data, data.meta);
 			state.alertTitle = `编辑《${state.ruleForm.title}》菜单节点。`
+			nextTick(() => {
+				ruleFormRef.value.clearValidate();
+			})
 		}
 
 		// 新建子菜单
@@ -257,6 +260,9 @@ export default {
 			resetRuleForm()
 			state.ruleForm.parent = state.currentNode.id
 			state.alertTitle = `新增《${state.currentNode.title}》菜单节点下的子菜单节点。`
+			nextTick(() => {
+				ruleFormRef.value.clearValidate();
+			})
 		}
 
 		// 删除子菜单
