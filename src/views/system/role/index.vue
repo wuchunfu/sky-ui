@@ -23,7 +23,7 @@
 						{{ parseTime(row.update_time) }}
 					</template>
 				</el-table-column>
-				<el-table-column prop="path" label="操作" width="120">
+				<el-table-column label="操作" width="120">
 					<template #default="scope">
 						<el-button size="mini" type="text" @click="handleEdit(scope.row)" icon='el-icon-edit'>编辑</el-button>
 						<el-button size="mini" type="text" @click="handleDelete(scope.row)" icon='el-icon-delete'>删除</el-button>
@@ -91,7 +91,7 @@ export default {
 		const ruleFormRef = ref();
 		const state: any = reactive({
 			dialogVisible: false,
-			list: null,
+			list: [],
 			total: 0,
 			listQuery: {
 				page: 1,

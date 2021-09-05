@@ -33,11 +33,11 @@ export function deleteMenu(id:any) {
 }
 
 /**
- * 删除菜单
+ * 菜单对应的按钮
  */
 export function menuButton(id:any) {
 	return request({
-		url: `${version}/system/menu/${id}`,
+		url: `${version}/system/menu/button/${id}`,
 		method: 'get'
 	});
 }
