@@ -2,7 +2,7 @@
 	<div class="system-user-container">
 		<el-tabs type="border-card" v-model='activeName' :before-leave="beforeLeave" @tab-click='handleTabClick'>
 			<template v-if='apiGroupList.length > 0'>
-				<el-tab-pane :name='item.id' v-for='item of apiGroupList' :key='item.id' :label="item.app">
+				<el-tab-pane :name='item.id' v-for='item of apiGroupList' :key='item.id' :label="item.name">
 					<div class="system-user-search mb15">
 						<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
 						<el-input size="small" v-model='listQuery.title' placeholder="请输入接口名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
@@ -11,7 +11,7 @@
 							</template>
 						</el-input>
 					</div>
-					<el-table :data="list" stripe style="width: 100%" size="small">
+					<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
 						<el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="method" label="方法" show-overflow-tooltip></el-table-column>
@@ -53,7 +53,7 @@
 								<el-input size='small' v-model="ruleForm.url" placeholder="请输入接口地址"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12" class="mb20">
+						<el-col :span="24" class="mb20">
 							<el-form-item label="方法：" prop="method">
 								<el-select style='width: 100%' size='small' v-model="ruleForm.method" placeholder="请输入接口方法">
 									<el-option label="GET" value="GET"></el-option>
@@ -65,9 +65,16 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12" class="mb20">
-							<el-form-item label="所属应用：" prop="app">
-								<el-input size='small' v-model="ruleForm.app" placeholder="请输入所属应用"></el-input>
+						<el-col :span="24" class="mb20" v-if='ruleFormStatus === "edit"'>
+							<el-form-item label="所属应用：" prop="group">
+								<el-select size='small' v-model="ruleForm.group" placeholder="请选择所属应用" style='width: 100%'>
+									<el-option
+										v-for="item in apiGroupList"
+										:key="item.id"
+										:label="item.name"
+										:value="item.id">
+									</el-option>
+								</el-select>
 							</el-form-item>
 						</el-col>
 						<el-col :span="24">
@@ -117,6 +124,7 @@ export default {
 			status: false,
 			apiGroupList: [],
 			activeName: 0,
+			loading: false,
 			list: [],
 			total: 0,
 			listQuery: {
@@ -134,16 +142,19 @@ export default {
 				method: [
 					{ required: true, message: '请输入接口方法', trigger: 'change' },
 				],
-				app: [
-					{ required: true, message: '请输入所属应用', trigger: 'blur' },
+				group: [
+					{ required: true, message: '请选择所属应用', trigger: 'blur' },
 				]
 			},
+			ruleFormStatus: 'create'
 		});
 
 		const getList = () => {
+			state.loading = true;
 			apiList(state.listQuery).then(res => {
 				state.list = res.data.list;
 				state.total = res.data.total;
+				state.loading = false;
 			});
 		};
 
@@ -200,8 +211,10 @@ export default {
 		};
 
 		const handleCreate = () => {
+			state.ruleFormStatus = 'create'
 			state.ruleForm = {
-				status: true
+				status: true,
+				group: state.activeName
 			}
 			state.dialogVisible = true;
 			nextTick(() => {
@@ -210,6 +223,7 @@ export default {
 		};
 
 		const handleEdit = (row: object) => {
+			state.ruleFormStatus = 'edit'
 			state.ruleForm = row
 			state.dialogVisible = true
 			nextTick(() => {

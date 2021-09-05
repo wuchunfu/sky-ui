@@ -9,10 +9,16 @@
 					</template>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%" size="small">
+			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
 				<el-table-column prop="key" label="标识" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="name" label="名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
+				<el-table-column label="状态" show-overflow-tooltip>
+					<template #default='{row}'>
+						<el-tag :type="row.status ? 'success' : 'danger'" size='small'>
+							{{ row.status ? '可用' : '禁用' }}
+						</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column label="创建时间" show-overflow-tooltip>
 					<template #default='{row}'>
 						{{ parseTime(row.create_time) }}
@@ -23,8 +29,9 @@
 						{{ parseTime(row.update_time) }}
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="120">
+				<el-table-column label="操作" width="180">
 					<template #default="scope">
+						<el-button size="mini" type="text" @click="handlePermission(scope.row)" icon='el-icon-bank-card'>权限</el-button>
 						<el-button size="mini" type="text" @click="handleEdit(scope.row)" icon='el-icon-edit'>编辑</el-button>
 						<el-button size="mini" type="text" @click="handleDelete(scope.row)" icon='el-icon-delete'>删除</el-button>
 					</template>
@@ -76,6 +83,7 @@
 
 <script lang="ts">
 import { ref, toRefs, reactive, onMounted, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import Pagination from '/@/components/pagination/index.vue';
 import { parseTime } from '/@/utils/formatTime';
@@ -89,8 +97,10 @@ export default {
 	components: { Pagination },
 	setup: function() {
 		const ruleFormRef = ref();
+		const router = useRouter();
 		const state: any = reactive({
 			dialogVisible: false,
+			loading: false,
 			list: [],
 			total: 0,
 			listQuery: {
@@ -110,9 +120,11 @@ export default {
 		});
 
 		const getList = () => {
+			state.loading = true
 			roleList(state.listQuery).then(res => {
 				state.list = res.data.list;
 				state.total = res.data.total;
+				state.loading = false
 			});
 		};
 
@@ -158,6 +170,10 @@ export default {
 			})
 		}
 
+		const handlePermission = (row:any) => {
+			router.push({ path: `/system/role/permission/${row.id}` })
+		}
+
 		const submitForm = () => {
 			ruleFormRef.value.validate((valid: boolean) => {
 				if (valid) {
@@ -184,6 +200,7 @@ export default {
 			getList,
 			handleCreate,
 			handleEdit,
+			handlePermission,
 			submitForm,
 			...toRefs(state),
 		};

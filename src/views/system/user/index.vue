@@ -9,11 +9,17 @@
 					</template>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%" size="small">
+			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
 				<el-table-column prop="username" label="用户名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="nickname" label="姓名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
+				<el-table-column label="状态" show-overflow-tooltip>
+					<template #default='{row}'>
+						<el-tag :type="row.status ? 'success' : 'danger'" size='small'>
+							{{ row.status ? '可用' : '禁用' }}
+						</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column label="创建时间" show-overflow-tooltip>
 					<template #default='{row}'>
 						{{ parseTime(row.create_time) }}
@@ -136,6 +142,7 @@ export default {
 		const ruleFormRef = ref();
 		const state: any = reactive({
 			dialogVisible: false,
+			loading: false,
 			roleList: [],
 			list: [],
 			total: 0,
@@ -164,9 +171,11 @@ export default {
 		});
 
 		const getList = () => {
+			state.loading = true
 			getUserList(state.listQuery).then(res => {
 				state.list = res.data.list;
 				state.total = res.data.total;
+				state.loading = false
 			});
 		};
 

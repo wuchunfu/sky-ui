@@ -158,6 +158,7 @@ export default {
 			menuButton(props.menu.id).then(res => {
 				state.buttonList = []
 				state.isIndeterminate = false
+				state.checkAll = false
 				state.pageButtons[props.menu.id] = res.data
 			})
 		}

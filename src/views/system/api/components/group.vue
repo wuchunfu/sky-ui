@@ -4,13 +4,14 @@
 			<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
 		</div>
 		<el-table
+			v-loading="loading"
 			:data="list"
 			style="width: 100%;margin-bottom: 20px;"
 			row-key="id"
 			size="small"
 			default-expand-all>
 			<el-table-column
-				prop="app"
+				prop="name"
 				label="应用">
 			</el-table-column>
 			<el-table-column label="创建时间" show-overflow-tooltip>
@@ -37,9 +38,9 @@
 			:close-on-click-modal='false'
 			width="30%">
 			<div>
-				<el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
-					<el-form-item label="应用：" prop="app">
-						<el-input v-model="ruleForm.app" size='small'></el-input>
+				<el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="80px">
+					<el-form-item label="应用：" prop="name">
+						<el-input v-model="ruleForm.name" size='small'></el-input>
 					</el-form-item>
 					<el-form-item label="备注：">
 						<el-input type='textarea' v-model="ruleForm.remark" size='small'></el-input>
@@ -75,13 +76,11 @@ export default {
 			dialogVisible: false,
 			ruleForm: {},
 			rules: {
-				app: [
+				name: [
 					{ required: true, message: '请输入应用', trigger: 'blur' }
-				],
-				group: [
-					{ required: true, message: '请输入分组', trigger: 'blur' }
 				]
 			},
+			loading: false,
 			list: [],
 			total: 0,
 			listQuery: {
@@ -91,9 +90,11 @@ export default {
 		});
 
 		const getList = () => {
+			state.loading = true
 			apiGroupList(state.listQuery).then(res => {
 				state.list = res.data.list
 				state.total = res.data.total
+				state.loading = false
 			})
 		}
 
