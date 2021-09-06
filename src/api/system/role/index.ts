@@ -32,3 +32,24 @@ export function deleteRole(id:number) {
 		method: 'delete'
 	});
 }
+
+/**
+ * 更新角色权限
+ */
+export function updateRolePermission(id:number, params:object) {
+	return request({
+		url: `${version}/system/role/permission/${id}`,
+		method: 'post',
+		data: params
+	});
+}
+
+/**
+ * 获取角色权限
+ */
+export function getRolePermission(id:number) {
+	return request({
+		url: `${version}/system/role/permission/${id}`,
+		method: 'get'
+	});
+}

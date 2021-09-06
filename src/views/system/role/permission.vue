@@ -1,7 +1,7 @@
 <template>
 	<div class="system-menu-container">
 		<el-card class="box-card" style='margin-bottom: 10px;'>
-			<el-button type="primary" size='small'><i class='el-icon-receiving'></i> &nbsp;保 存</el-button>
+			<el-button type="primary" size='small' @click='handleSubmit'><i class='el-icon-receiving'></i> &nbsp;保 存</el-button>
 		</el-card>
 		<el-row :gutter="10">
 			<el-col :span="6">
@@ -22,8 +22,8 @@
 						:props="defaultProps"
 						class="filter-tree"
 						default-expand-all
+						:default-checked-keys='rolePermissionList'
 						@current-change='getCurrentNode'
-						@check-change="handleCheckChange"
 						:filter-node-method="filterNode"
 						ref='menuTreeRef'
 						show-checkbox
@@ -54,6 +54,8 @@ import { watch, ref, toRefs, reactive, onMounted } from 'vue';
 import { useStore } from '/@/store';
 import { useRoute } from 'vue-router';
 import PageElement from './components/pageElement.vue'
+import { updateRolePermission, getRolePermission } from '/@/api/system/role'
+import { ElNotification } from 'element-plus';
 
 export default {
 	name: 'SystemMenuIndex',
@@ -69,7 +71,9 @@ export default {
 			defaultProps: {
 				children: 'children',
 				label: 'title',
-			}
+			},
+			roleMenu: [],
+			rolePermissionList: []
 		});
 
 		const filterNode = (value: string, data: any) => {
@@ -81,8 +85,31 @@ export default {
 			state.menu = Object.assign(data, data.meta);
 		}
 
-		const handleCheckChange = (data:any, checked:boolean, indeterminate:boolean) => {
-			console.log(data, checked, indeterminate, route.params.id)
+		const handleRolePermission = () => {
+			getRolePermission(parseInt(<string>route.params.id)).then(res => {
+				state.rolePermissionList = res.data.menu
+			})
+		}
+
+		const handleSubmit = () => {
+			state.roleMenu = []
+			let checkedMenuKeys = menuTreeRef.value.getCheckedKeys().concat(menuTreeRef.value.getHalfCheckedKeys());
+			let roleId:number = parseInt(<string>route.params.id)
+			for (var key of checkedMenuKeys) {
+				state.roleMenu.push({
+					role: roleId,
+					menu: key,
+					type: 1,
+				} as never)
+			}
+
+			updateRolePermission(parseInt(<string>route.params.id), state.roleMenu).then(() => {
+				handleRolePermission()
+				ElNotification({
+					type: 'success',
+					message: '更新菜单权限成功'
+				})
+			})
 		}
 
 		watch(() => state.filterText, (newValue) => {
@@ -91,13 +118,14 @@ export default {
 
 		onMounted(() => {
 			state.menuTree = store.state.requestRoutes.requestRoutes;
+			handleRolePermission()
 		});
 
 		return {
 			menuTreeRef,
 			getCurrentNode,
 			filterNode,
-			handleCheckChange,
+			handleSubmit,
 			...toRefs(state),
 		};
 	},
