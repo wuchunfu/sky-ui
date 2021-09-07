@@ -22,7 +22,7 @@
 						:props="defaultProps"
 						class="filter-tree"
 						default-expand-all
-						:default-checked-keys='rolePermissionList'
+						:default-checked-keys='roleMenus'
 						@current-change='getCurrentNode'
 						:filter-node-method="filterNode"
 						ref='menuTreeRef'
@@ -41,7 +41,7 @@
 			<el-col :span="18">
 				<el-tabs type="border-card" shadow="hover">
 					<el-tab-pane label="页面按钮">
-						<PageElement :menu='menu'></PageElement>
+						<PageElement :menu='menu' :roleButtons='roleButtons' @changeRoleButton='changeRoleButton' ref='pageElementRef'></PageElement>
 					</el-tab-pane>
 				</el-tabs>
 			</el-col>
@@ -62,6 +62,7 @@ export default {
 	components: { PageElement },
 	setup: function() {
 		const menuTreeRef = ref();
+		const pageElementRef = ref();
 		const store = useStore();
 		const route = useRoute();
 		const state = reactive({
@@ -73,7 +74,9 @@ export default {
 				label: 'title',
 			},
 			roleMenu: [],
-			rolePermissionList: []
+			roleMenus: [],
+			roleButtons: {},
+			pageElementStatus: false
 		});
 
 		const filterNode = (value: string, data: any) => {
@@ -85,10 +88,16 @@ export default {
 			state.menu = Object.assign(data, data.meta);
 		}
 
-		const handleRolePermission = () => {
+		const getRoleMenus = () => {
 			getRolePermission(parseInt(<string>route.params.id)).then(res => {
-				state.rolePermissionList = res.data.menu
+				state.roleMenus = res.data.menu;
+				state.roleButtons = res.data.button
 			})
+		}
+
+		const changeRoleButton = (menuId:number, buttonList:Array<number>) => {
+			// @ts-ignore
+			state.roleButtons[menuId] = buttonList
 		}
 
 		const handleSubmit = () => {
@@ -103,8 +112,19 @@ export default {
 				} as never)
 			}
 
+			for (var buttonKey in state.roleButtons) {
+				// @ts-ignore
+				for (var buttonValue of state.roleButtons[buttonKey]) {
+					state.roleMenu.push({
+						role: roleId,
+						menu: buttonValue,
+						type: 2,
+					} as never)
+				}
+			}
+
 			updateRolePermission(parseInt(<string>route.params.id), state.roleMenu).then(() => {
-				handleRolePermission()
+				getRoleMenus()
 				ElNotification({
 					type: 'success',
 					message: '更新菜单权限成功'
@@ -118,13 +138,15 @@ export default {
 
 		onMounted(() => {
 			state.menuTree = store.state.requestRoutes.requestRoutes;
-			handleRolePermission()
+			getRoleMenus()
 		});
 
 		return {
+			pageElementRef,
 			menuTreeRef,
 			getCurrentNode,
 			filterNode,
+			changeRoleButton,
 			handleSubmit,
 			...toRefs(state),
 		};
