@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { watch, reactive, toRefs } from 'vue';
+import { watch, reactive, toRefs, onMounted } from 'vue';
 import { ElNotification } from 'element-plus'
 import { apiList } from '/@/api/system/api'
 import { menuBindApi, menuUnBindApi, getMenuApis } from '/@/api/system/menu'
@@ -53,19 +53,22 @@ export default {
 
 		}
 
-		const getApiData = () => {
+		const getLeftData = () => {
+			apiList({
+				size: 99999
+			}).then(res => {
+				for (var api of res.data.list) {
+					state.leftData.push({
+						label: api.title,
+						key: api.id
+					})
+				}
+			});
+		}
+
+		const getRightData = () => {
 			getMenuApis(props.menu.id).then(res => {
 				state.rightData = res.data;
-				apiList({
-					size: 99999
-				}).then(res => {
-					for (var api of res.data.list) {
-						state.leftData.push({
-							label: api.title,
-							key: api.id
-						})
-					}
-				});
 			})
 		}
 
@@ -98,9 +101,14 @@ export default {
 			}
 		}
 
+		onMounted(() => {
+			getLeftData()
+		})
+
 		watch(() => props.menu.id, () => {
 			if (props.menu.id !== 0) {
-				getApiData()
+				state.rightData = []
+				getRightData()
 			}
 		})
 
