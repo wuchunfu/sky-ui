@@ -168,6 +168,9 @@
 					<el-tab-pane label="页面按钮">
 						<PageElement :menu='ruleForm'></PageElement>
 					</el-tab-pane>
+					<el-tab-pane label="API 接口">
+						<PageApi :menu='ruleForm'></PageApi>
+					</el-tab-pane>
 				</el-tabs>
 			</el-col>
 		</el-row>
@@ -187,10 +190,11 @@ import {
 import { useStore } from '/@/store';
 
 import PageElement from './components/pageElement.vue'
+import PageApi from './components/pageApi.vue'
 
 export default {
 	name: 'SystemMenuIndex',
-	components: { IconSelector, PageElement },
+	components: { IconSelector, PageElement, PageApi },
 	setup() {
 		const menuTreeRef = ref()
 		const ruleFormRef = ref()
@@ -258,7 +262,9 @@ export default {
 		// 新建子菜单
 		const addChildrenMenu = () => {
 			resetRuleForm()
+			// @ts-ignore
 			state.ruleForm.parent = state.currentNode.id
+			// @ts-ignore
 			state.alertTitle = `新增《${state.currentNode.title}》菜单节点下的子菜单节点。`
 			nextTick(() => {
 				ruleFormRef.value.clearValidate();
@@ -272,6 +278,7 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning',
 			}).then(() => {
+				// @ts-ignore
 				deleteMenu(state.currentNode.id).then(() => {
 					getMenuInit()
 					ElNotification({

@@ -52,3 +52,35 @@ export function batchMenuButton(params:object) {
 		data: params
 	});
 }
+
+/**
+ * 菜单绑定API
+ */
+export function menuBindApi(params:object) {
+	return request({
+		url: `${version}/system/menu/bind/api`,
+		method: 'post',
+		data: params
+	});
+}
+
+/**
+ * 菜单接触绑定API
+ */
+export function menuUnBindApi(params:object) {
+	return request({
+		url: `${version}/system/menu/unbind/api`,
+		method: 'delete',
+		data: params
+	});
+}
+
+/**
+ * 查询菜单绑定的API
+ */
+export function getMenuApis(id:number) {
+	return request({
+		url: `${version}/system/menu/api/${id}`,
+		method: 'get'
+	});
+}
