@@ -7,11 +7,7 @@
 				type="info"
 				show-icon>
 			</el-alert>
-			<el-row style='margin-top: 15px;'>
-				<el-button size='small' type='primary' @click='handleSave'><i class="el-icon-check"></i> &nbsp;保 存</el-button>
-			</el-row>
-			<el-divider></el-divider>
-			<div>
+			<div style='margin-top: 10px;'>
 				<el-transfer
 					class='menu-manage-api'
 					style='width: 100%'

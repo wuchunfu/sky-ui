@@ -43,6 +43,9 @@
 					<el-tab-pane label="页面按钮">
 						<PageElement :menu='menu' :roleButtons='roleButtons' @changeRoleButton='changeRoleButton' ref='pageElementRef'></PageElement>
 					</el-tab-pane>
+					<el-tab-pane label="API 接口">
+						<PageApi :menu='menu'></PageApi>
+					</el-tab-pane>
 				</el-tabs>
 			</el-col>
 		</el-row>
@@ -56,10 +59,11 @@ import { useRoute } from 'vue-router';
 import PageElement from './components/pageElement.vue'
 import { updateRolePermission, getRolePermission } from '/@/api/system/role'
 import { ElNotification } from 'element-plus';
+import PageApi from './components/pageApi.vue'
 
 export default {
 	name: 'SystemMenuIndex',
-	components: { PageElement },
+	components: { PageElement, PageApi },
 	setup: function() {
 		const menuTreeRef = ref();
 		const pageElementRef = ref();

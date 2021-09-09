@@ -84,3 +84,13 @@ export function getMenuApis(id:number) {
 		method: 'get'
 	});
 }
+
+/**
+ * 查询菜单绑定的API
+ */
+export function getMenuApiList(id:number) {
+	return request({
+		url: `${version}/system/menu/api-list/${id}`,
+		method: 'get'
+	});
+}
