@@ -62,7 +62,7 @@ import { ElNotification } from 'element-plus';
 import PageApi from './components/pageApi.vue'
 
 export default {
-	name: 'SystemMenuIndex',
+	name: 'SystemRolePermission',
 	components: { PageElement, PageApi },
 	setup: function() {
 		const menuTreeRef = ref();

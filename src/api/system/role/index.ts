@@ -53,3 +53,25 @@ export function getRolePermission(id:number) {
 		method: 'get'
 	});
 }
+
+/**
+ * 角色绑定API接口
+ */
+export function roleBindApi(id:number, params:object) {
+	return request({
+		url: `${version}/system/role/api/${id}`,
+		method: 'post',
+		data: params
+	});
+}
+
+/**
+ * 获取角色绑定的API接口
+ */
+export function getRoleApi(id:number, params:object) {
+	return request({
+		url: `${version}/system/role/api/${id}`,
+		method: 'get',
+		params: params
+	});
+}

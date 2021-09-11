@@ -7,7 +7,7 @@
 				style='width: 100%'
 				v-model="rightData"
 				filterable
-				:titles="['未绑定', '已绑定']"
+				:titles="['未授权', '已授权']"
 				:filter-method="filterMethod"
 				filter-placeholder="请输入API接口标题"
 				:data="leftData"
@@ -19,7 +19,10 @@
 
 <script>
 import { watch, reactive, toRefs } from 'vue';
+import { useRoute } from 'vue-router';
+import { ElNotification } from 'element-plus'
 import { getMenuApiList } from '/@/api/system/menu'
+import { roleBindApi, getRoleApi } from '/@/api/system/role'
 
 export default {
 	name: 'pageApi',
@@ -27,6 +30,7 @@ export default {
 		menu: Object,
 	},
 	setup(props) {
+		const route = useRoute();
 		const state = reactive({
 			leftData: [],
 			rightData: [],
@@ -42,7 +46,8 @@ export default {
 
 		const getLeftData = () => {
 			getMenuApiList(props.menu.id).then(res => {
-				for (var api of res.data) {
+				state.leftData = []
+				for (let api of res.data) {
 					state.leftData.push({
 						label: api.title,
 						key: api.id
@@ -52,7 +57,12 @@ export default {
 		}
 
 		const getRightData = () => {
-
+			state.rightData = []
+			getRoleApi(route.params.id, {
+				menu: props.menu.id,
+			}).then(res => {
+				state.rightData = res.data
+			})
 		}
 
 		const filterMethod = (query, item) => {
@@ -60,20 +70,27 @@ export default {
 		}
 
 		const updateRightData = (value, direction, moveKeys) => {
-			console.log(value, direction, moveKeys)
-			if (direction === 'right') {
-				// 绑定
-
-
-			} else if (direction === 'left') {
-				// 解绑
-
+			let roleId = route.params.id
+			let params = {
+				type: 1,
+				api: moveKeys
 			}
+			let message = "绑定成功！"
+			if (direction === 'left') {
+				// 解绑
+				params.type = 0
+				message = "解绑成功！"
+			}
+			roleBindApi(roleId, params).then(() => {
+				ElNotification({
+					type: 'success',
+					message: message,
+				});
+			})
 		}
 
 		watch(() => props.menu.id, () => {
 			if (props.menu.id) {
-				state.rightData = []
 				getLeftData()
 				getRightData()
 			}
@@ -90,10 +107,10 @@ export default {
 </script>
 
 <style lang='scss' scoped>
-	::v-deep(.el-divider--horizontal) {
-		margin: 15px 0;
-	}
-	::v-deep(.menu-manage-api .el-transfer-panel) {
-		width: 35%;
-	}
+::v-deep(.el-divider--horizontal) {
+	margin: 15px 0;
+}
+::v-deep(.menu-manage-api .el-transfer-panel) {
+	width: 35%;
+}
 </style>
