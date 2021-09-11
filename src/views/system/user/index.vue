@@ -12,7 +12,11 @@
 			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
 				<el-table-column prop="username" label="用户名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="nickname" label="姓名" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
+				<el-table-column label="邮箱" show-overflow-tooltip>
+					<template #default='{row}'>
+						{{ row.email }}
+					</template>
+				</el-table-column>
 				<el-table-column label="状态" show-overflow-tooltip>
 					<template #default='{row}'>
 						<el-tag :type="row.status ? 'success' : 'danger'" size='small'>
@@ -50,7 +54,7 @@
 					<el-row :gutter="20">
 						<el-col :span="12" class="mb20">
 							<el-form-item label="用户名：" prop="username">
-								<el-input size='small' v-model="ruleForm.username" placeholder="请输入用户名"></el-input>
+								<el-input size='small' v-model="ruleForm.username" :disabled='dialogStatus === "edit"' placeholder="请输入用户名"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
@@ -85,7 +89,7 @@
 										v-for="item in roleList"
 										:key="item.id"
 										:label="item.name"
-										:value="item.id">
+										:value="item.key">
 									</el-option>
 								</el-select>
 							</el-form-item>
@@ -122,7 +126,8 @@ import {
 	getUserList,
 	createUser,
 	deleteUser,
-	editUser
+	editUser,
+	getUserInfoById
 } from '/@/api/system/user'
 import { roleList } from '/@/api/system/role';
 export default {
@@ -221,9 +226,10 @@ export default {
 			})
 		};
 
-		const handleEdit = (row: object) => {
+		const handleEdit = async (row: any) => {
+			let res = await getUserInfoById(row.id)
 			state.dialogStatus = 'edit'
-			state.ruleForm = row
+			state.ruleForm = res.data
 			state.dialogVisible = true
 			nextTick(() => {
 				ruleFormRef.value.clearValidate();

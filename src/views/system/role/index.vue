@@ -50,7 +50,7 @@
 					<el-row :gutter="20">
 						<el-col :span="12" class="mb20">
 							<el-form-item label="标识：" prop="key">
-								<el-input size='small' v-model="ruleForm.key" placeholder="请输入角色标识"></el-input>
+								<el-input size='small' v-model="ruleForm.key" :disabled='dialogStatus==="edit"' placeholder="请输入角色标识"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">

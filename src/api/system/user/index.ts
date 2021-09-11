@@ -14,6 +14,16 @@ export function getUserInfo() {
 /**
  * 获取用户
  */
+export function getUserInfoById(id:number) {
+	return request({
+		url: `${version}/system/user/info/${id}`,
+		method: 'get'
+	});
+}
+
+/**
+ * 获取用户列表
+ */
 export function getUserList(params:object) {
 	return request({
 		url: `${version}/system/user`,
