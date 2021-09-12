@@ -28,7 +28,8 @@
 import { watch, reactive, toRefs, onMounted } from 'vue';
 import { ElNotification } from 'element-plus'
 import { apiList } from '/@/api/system/api'
-import { menuBindApi, menuUnBindApi, getMenuApis } from '/@/api/system/menu'
+import { useRoute } from 'vue-router';
+import { menuBindApi, getMenuApis } from '/@/api/system/menu'
 
 export default {
 	name: 'pageApi',
@@ -36,6 +37,7 @@ export default {
 		menu: Object,
 	},
 	setup(props) {
+		const route = useRoute();
 		const state = reactive({
 			leftData: [],
 			rightData: [],
@@ -73,28 +75,23 @@ export default {
 		}
 
 		const updateRightData = (value, direction, moveKeys) => {
+			let roleId = route.params.id
 			let params = {
-				menu: props.menu.id,
+				type: 1,
 				apis: moveKeys,
 			}
-			if (direction === 'right') {
-				// 绑定
-				menuBindApi(params).then(() => {
-					ElNotification({
-						type: 'success',
-						message: '绑定成功!',
-					});
-				})
-
-			} else if (direction === 'left') {
+			let message = "绑定成功！"
+			if (direction === 'left') {
 				// 解绑
-				menuUnBindApi(params).then(() => {
-					ElNotification({
-						type: 'success',
-						message: '解除绑定成功!',
-					});
-				})
+				params.type = 0
+				message = "解绑成功！"
 			}
+			menuBindApi(roleId, params).then(() => {
+				ElNotification({
+					type: 'success',
+					message: message,
+				});
+			})
 		}
 
 		onMounted(() => {

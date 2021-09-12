@@ -56,21 +56,10 @@ export function batchMenuButton(params:object) {
 /**
  * 菜单绑定API
  */
-export function menuBindApi(params:object) {
+export function menuBindApi(id:number, params:object) {
 	return request({
-		url: `${version}/system/menu/bind/api`,
+		url: `${version}/system/menu/bind/api/${id}`,
 		method: 'post',
-		data: params
-	});
-}
-
-/**
- * 菜单接触绑定API
- */
-export function menuUnBindApi(params:object) {
-	return request({
-		url: `${version}/system/menu/unbind/api`,
-		method: 'delete',
 		data: params
 	});
 }
