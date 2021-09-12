@@ -66,7 +66,9 @@ export default {
 
 		const getRightData = () => {
 			getMenuApis(props.menu.id).then(res => {
-				state.rightData = res.data;
+				if (res.data) {
+					state.rightData = res.data;
+				}
 			})
 		}
 
@@ -75,7 +77,7 @@ export default {
 		}
 
 		const updateRightData = (value, direction, moveKeys) => {
-			let roleId = route.params.id
+			let roleId = props.menu.id
 			let params = {
 				type: 1,
 				apis: moveKeys,
@@ -100,7 +102,6 @@ export default {
 
 		watch(() => props.menu.id, () => {
 			if (props.menu.id !== 0) {
-				state.rightData = []
 				getRightData()
 			}
 		})

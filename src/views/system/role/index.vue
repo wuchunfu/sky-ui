@@ -3,7 +3,7 @@
 		<el-card shadow="hover">
 			<div class="system-user-search mb15">
 				<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
-				<el-input size="small" v-model='listQuery.username' placeholder="请输入角色名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
+				<el-input size="small" v-model='listQuery.key' placeholder="请输入角色名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
 					<template #append>
 						<el-button icon="el-icon-search" @click='getList'></el-button>
 					</template>

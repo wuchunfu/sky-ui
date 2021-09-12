@@ -1,16 +1,25 @@
 <template>
 	<div class="layout-logo" v-if="setShowLogo" @click="onThemeConfigChange">
-		<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/logo/logo-mini.svg" class="layout-logo-medium-img" />
+		<img
+			style='margin-right: 10px;'
+			width='38'
+			height='38'
+			src="https://www.fdevops.com/wp-content/uploads/2021/09/1631455969-3a2bf4380e6e4101bec6275351004d80-1597815294-ferry_logo_white.png"
+		/>
 		<span>{{ getThemeConfig.globalTitle }}</span>
 	</div>
 	<div class="layout-logo-size" v-else @click="onThemeConfigChange">
-		<img src="https://gitee.com/lyt-top/vue-next-admin-images/raw/master/logo/logo-mini.svg" class="layout-logo-size-img" />
+		<img
+			width='38'
+			height='38'
+			src="https://www.fdevops.com/wp-content/uploads/2021/09/1631455969-3a2bf4380e6e4101bec6275351004d80-1597815294-ferry_logo_white.png"
+		/>
 	</div>
 </template>
 
 <script lang="ts">
 import { computed, getCurrentInstance } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default {
 	name: 'layoutLogo',
 	setup() {

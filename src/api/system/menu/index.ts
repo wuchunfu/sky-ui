@@ -58,7 +58,7 @@ export function batchMenuButton(params:object) {
  */
 export function menuBindApi(id:number, params:object) {
 	return request({
-		url: `${version}/system/menu/bind/api/${id}`,
+		url: `${version}/system/menu/api/${id}`,
 		method: 'post',
 		data: params
 	});

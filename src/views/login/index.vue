@@ -75,7 +75,7 @@ export default {
 .login-container {
 	width: 100%;
 	height: 100%;
-	background: url('https://gitee.com/lyt-top/vue-next-admin-images/raw/master/login/bg-login.png') no-repeat;
+	background: url('../../assets/images/bg-login.png') no-repeat;
 	background-size: 100% 100%;
 	.login-logo {
 		position: absolute;

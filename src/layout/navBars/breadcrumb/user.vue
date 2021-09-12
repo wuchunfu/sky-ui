@@ -1,48 +1,48 @@
 <template>
 	<div class="layout-navbars-breadcrumb-user" :style="{ flex: layoutUserFlexNum }">
-		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">
-			<div class="layout-navbars-breadcrumb-user-icon">
-				<i class="iconfont icon-ziti" :title="$t('message.user.title0')"></i>
-			</div>
-			<template #dropdown>
-				<el-dropdown-menu>
-					<el-dropdown-item command="" :disabled="disabledSize === ''">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
-					<el-dropdown-item command="medium" :disabled="disabledSize === 'medium'">{{ $t('message.user.dropdownMedium') }}</el-dropdown-item>
-					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>
-					<el-dropdown-item command="mini" :disabled="disabledSize === 'mini'">{{ $t('message.user.dropdownMini') }}</el-dropdown-item>
-				</el-dropdown-menu>
-			</template>
-		</el-dropdown>
-		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
-			<div class="layout-navbars-breadcrumb-user-icon">
-				<i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>
-			</div>
-			<template #dropdown>
-				<el-dropdown-menu>
-					<el-dropdown-item command="zh-cn" :disabled="disabledI18n === 'zh-cn'">简体中文</el-dropdown-item>
-					<el-dropdown-item command="en" :disabled="disabledI18n === 'en'">English</el-dropdown-item>
-					<el-dropdown-item command="zh-tw" :disabled="disabledI18n === 'zh-tw'">繁體中文</el-dropdown-item>
-				</el-dropdown-menu>
-			</template>
-		</el-dropdown>
+<!--		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onComponentSizeChange">-->
+<!--			<div class="layout-navbars-breadcrumb-user-icon">-->
+<!--				<i class="iconfont icon-ziti" :title="$t('message.user.title0')"></i>-->
+<!--			</div>-->
+<!--			<template #dropdown>-->
+<!--				<el-dropdown-menu>-->
+<!--					<el-dropdown-item command="" :disabled="disabledSize === ''">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="medium" :disabled="disabledSize === 'medium'">{{ $t('message.user.dropdownMedium') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="mini" :disabled="disabledSize === 'mini'">{{ $t('message.user.dropdownMini') }}</el-dropdown-item>-->
+<!--				</el-dropdown-menu>-->
+<!--			</template>-->
+<!--		</el-dropdown>-->
+<!--		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">-->
+<!--			<div class="layout-navbars-breadcrumb-user-icon">-->
+<!--				<i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>-->
+<!--			</div>-->
+<!--			<template #dropdown>-->
+<!--				<el-dropdown-menu>-->
+<!--					<el-dropdown-item command="zh-cn" :disabled="disabledI18n === 'zh-cn'">简体中文</el-dropdown-item>-->
+<!--					<el-dropdown-item command="en" :disabled="disabledI18n === 'en'">English</el-dropdown-item>-->
+<!--					<el-dropdown-item command="zh-tw" :disabled="disabledI18n === 'zh-tw'">繁體中文</el-dropdown-item>-->
+<!--				</el-dropdown-menu>-->
+<!--			</template>-->
+<!--		</el-dropdown>-->
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
 			<i class="el-icon-search" :title="$t('message.user.title2')"></i>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
 			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
 		</div>
-		<div class="layout-navbars-breadcrumb-user-icon">
-			<el-popover placement="bottom" trigger="click" v-model:visible="isShowUserNewsPopover" :width="300" popper-class="el-popover-pupop-user-news">
-				<template #reference>
-					<el-badge :is-dot="true" @click="isShowUserNewsPopover = !isShowUserNewsPopover">
-						<i class="el-icon-bell" :title="$t('message.user.title4')"></i>
-					</el-badge>
-				</template>
-				<transition name="el-zoom-in-top">
-					<UserNews v-show="isShowUserNewsPopover" />
-				</transition>
-			</el-popover>
-		</div>
+<!--		<div class="layout-navbars-breadcrumb-user-icon">-->
+<!--			<el-popover placement="bottom" trigger="click" v-model:visible="isShowUserNewsPopover" :width="300" popper-class="el-popover-pupop-user-news">-->
+<!--				<template #reference>-->
+<!--					<el-badge :is-dot="true" @click="isShowUserNewsPopover = !isShowUserNewsPopover">-->
+<!--						<i class="el-icon-bell" :title="$t('message.user.title4')"></i>-->
+<!--					</el-badge>-->
+<!--				</template>-->
+<!--				<transition name="el-zoom-in-top">-->
+<!--					<UserNews v-show="isShowUserNewsPopover" />-->
+<!--				</transition>-->
+<!--			</el-popover>-->
+<!--		</div>-->
 		<div class="layout-navbars-breadcrumb-user-icon mr10" @click="onScreenfullClick">
 			<i
 				class="iconfont"
@@ -51,18 +51,18 @@
 			></i>
 		</div>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
-			<span class="layout-navbars-breadcrumb-user-link">
-				<img :src="getUserInfos.photo" class="layout-navbars-breadcrumb-user-link-photo mr5" />
-				{{ getUserInfos.userName === '' ? 'test' : getUserInfos.userName }}
+			<span class="layout-navbars-breadcrumb-user-link" style='cursor: pointer;'>
+<!--				<img :src="getUserInfos.photo" class="layout-navbars-breadcrumb-user-link-photo mr5" />-->
+				{{ getUserInfos.nickname === '' ? 'test' : getUserInfos.nickname }}
 				<i class="el-icon-arrow-down el-icon--right"></i>
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
 					<el-dropdown-item command="/home">{{ $t('message.user.dropdown1') }}</el-dropdown-item>
-					<el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item>
-					<el-dropdown-item command="/personal">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
-					<el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
-					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item>
+<!--					<el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="/personal">{{ $t('message.user.dropdown2') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>-->
+<!--					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item>-->
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
@@ -77,15 +77,14 @@ import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import screenfull from 'screenfull';
 import { useI18n } from 'vue-i18n';
-import { resetRoute } from '/@/router/index';
-import { useStore } from '/@/store/index';
+import { resetRoute } from '/@/router';
+import { useStore } from '/@/store';
 import { useTitle } from '/@/utils/setWebTitle';
 import { Session, Local } from '/@/utils/storage';
-import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
 export default {
 	name: 'layoutBreadcrumbUser',
-	components: { UserNews, Search },
+	components: { Search },
 	setup() {
 		const { t } = useI18n();
 		const { proxy } = getCurrentInstance() as any;
@@ -110,7 +109,7 @@ export default {
 		// 设置分割样式
 		const layoutUserFlexNum = computed(() => {
 			let { layout, isClassicSplitMenu } = getThemeConfig.value;
-			let num = '';
+			let num: any = '';
 			if (layout === 'defaults' || (layout === 'classic' && !isClassicSplitMenu) || layout === 'columns') num = 1;
 			else num = null;
 			return num;
@@ -123,6 +122,7 @@ export default {
 			}
 			screenfull.toggle();
 			screenfull.on('change', () => {
+				// @ts-ignore
 				if (screenfull.isFullscreen) state.isScreenfull = true;
 				else state.isScreenfull = false;
 			});
@@ -167,7 +167,7 @@ export default {
 					})
 					.catch(() => {});
 			} else if (path === 'wareHouse') {
-				window.open('https://gitee.com/lyt-top/vue-next-admin');
+				window.open('https://github.com/lanyulei/sky-ui');
 			} else {
 				router.push(path);
 			}

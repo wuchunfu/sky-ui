@@ -40,14 +40,10 @@ export default {
 			}
 		});
 
-		const handleSave = () => {
-
-		}
-
 		const getLeftData = () => {
 			getMenuApiList(props.menu.id).then(res => {
 				state.leftData = []
-				for (let api of res.data) {
+				for (var api of res.data) {
 					state.leftData.push({
 						label: api.title,
 						key: api.id
@@ -61,7 +57,9 @@ export default {
 			getRoleApi(route.params.id, {
 				menu: props.menu.id,
 			}).then(res => {
-				state.rightData = res.data
+				if (res.data) {
+					state.rightData = res.data
+				}
 			})
 		}
 
@@ -98,7 +96,6 @@ export default {
 
 		return {
 			filterMethod,
-			handleSave,
 			updateRightData,
 			...toRefs(state),
 		};

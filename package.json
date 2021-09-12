@@ -1,6 +1,6 @@
 {
-	"name": "vue-next-admin",
-	"version": "1.0.16",
+	"name": "sky",
+	"version": "1.0.0",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
