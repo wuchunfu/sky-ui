@@ -23,7 +23,7 @@
 <script lang="ts">
 import { toRefs, reactive, computed, getCurrentInstance, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default {
 	name: 'layoutBreadcrumb',
 	setup() {

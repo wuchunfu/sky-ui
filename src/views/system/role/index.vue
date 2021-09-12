@@ -2,7 +2,7 @@
 	<div class="system-user-container">
 		<el-card shadow="hover">
 			<div class="system-user-search mb15">
-				<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
+				<el-button v-auths="['system:role:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
 				<el-input size="small" v-model='listQuery.key' placeholder="请输入角色名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
 					<template #append>
 						<el-button icon="el-icon-search" @click='getList'></el-button>
@@ -31,9 +31,9 @@
 				</el-table-column>
 				<el-table-column label="操作" width="180">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="handlePermission(scope.row)" icon='el-icon-bank-card'>权限</el-button>
-						<el-button size="mini" type="text" @click="handleEdit(scope.row)" icon='el-icon-edit'>编辑</el-button>
-						<el-button size="mini" type="text" @click="handleDelete(scope.row)" icon='el-icon-delete'>删除</el-button>
+						<el-button size="mini" type="text" @click="handlePermission(scope.row)" v-auths="['system:role:permission']" icon='el-icon-bank-card'>权限</el-button>
+						<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:role:edit']" icon='el-icon-edit'>编辑</el-button>
+						<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:role:delete']" icon='el-icon-delete'>删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>

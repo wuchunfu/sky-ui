@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { computed, onBeforeMount, onUnmounted, getCurrentInstance } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { Local } from '/@/utils/storage';
 import Defaults from '/@/layout/main/defaults.vue';
 import Classic from '/@/layout/main/classic.vue';

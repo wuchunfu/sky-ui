@@ -1,6 +1,6 @@
 <template>
 	<div class="system-menu-container">
-		<el-card class="box-card" style='margin-bottom: 10px;'>
+		<el-card class="box-card" style='margin-bottom: 10px;' v-auths="['system:role-permission:save']">
 			<el-button type="primary" size='small' @click='handleSubmit'><i class='el-icon-receiving'></i> &nbsp;保 存</el-button>
 		</el-card>
 		<el-row :gutter="10">
@@ -43,7 +43,7 @@
 					<el-tab-pane label="页面按钮">
 						<PageElement :menu='menu' :roleButtons='roleButtons' @changeRoleButton='changeRoleButton' ref='pageElementRef'></PageElement>
 					</el-tab-pane>
-					<el-tab-pane label="API 接口">
+					<el-tab-pane label="API 接口" v-auths="['system:role-permission-api:manager']">
 						<PageApi :menu='menu'></PageApi>
 					</el-tab-pane>
 				</el-tabs>

@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, toRefs, reactive, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default defineComponent({
 	name: 'layoutLinkView',
 	setup() {

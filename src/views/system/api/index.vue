@@ -4,7 +4,7 @@
 			<template v-if='apiGroupList.length > 0'>
 				<el-tab-pane :name='item.id' v-for='item of apiGroupList' :key='item.id' :label="item.name">
 					<div class="system-user-search mb15">
-						<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
+						<el-button v-auths="['system:api:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
 						<el-input size="small" v-model='listQuery.title' placeholder="请输入接口名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
 							<template #append>
 								<el-button icon="el-icon-search" @click='getList'></el-button>
@@ -17,8 +17,8 @@
 						<el-table-column prop="method" label="方法" show-overflow-tooltip></el-table-column>
 						<el-table-column label="操作" width="120">
 							<template #default="scope">
-								<el-button size="mini" type="text" @click="handleEdit(scope.row)" icon='el-icon-edit'>编辑</el-button>
-								<el-button size="mini" type="text" @click="handleDelete(scope.row)" icon='el-icon-delete'>删除</el-button>
+								<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:api:edit']" icon='el-icon-edit'>编辑</el-button>
+								<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:api:delete']" icon='el-icon-delete'>删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -28,7 +28,7 @@
 			<el-tab-pane label="暂无数据" v-else>
 				<el-empty description="暂无接口相关数据"></el-empty>
 			</el-tab-pane>
-			<el-tab-pane key="addButton">
+			<el-tab-pane key="addButton" v-auths="['system:api-group:list']">
 				<template #label>
 					<span style='font-size: 15px;'><i class='el-icon-setting'></i></span>
 				</template>

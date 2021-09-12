@@ -10,7 +10,7 @@
 <script lang="ts">
 import { computed, reactive, toRefs, onMounted, onUnmounted, getCurrentInstance } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import Breadcrumb from '/@/layout/navBars/breadcrumb/breadcrumb.vue';
 import User from '/@/layout/navBars/breadcrumb/user.vue';
 import Logo from '/@/layout/logo/index.vue';

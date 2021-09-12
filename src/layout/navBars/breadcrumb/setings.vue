@@ -373,7 +373,7 @@
 
 <script lang="ts">
 import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { getLightColor } from '/@/utils/theme';
 import { verifyAndSpace } from '/@/utils/toolsValidate';
 import { Local } from '/@/utils/storage';
@@ -391,6 +391,7 @@ export default defineComponent({
 		});
 		// 1、全局主题
 		const onColorPickerChange = (color: string) => {
+			// @ts-ignore
 			setPropertyFun(`--color-${color}`, getThemeConfig.value[color]);
 			setDispatchThemeConfig();
 		};
@@ -398,11 +399,13 @@ export default defineComponent({
 		const setPropertyFun = (color: string, targetVal: any) => {
 			document.documentElement.style.setProperty(color, targetVal);
 			for (let i = 1; i <= 9; i++) {
+				// @ts-ignore
 				document.documentElement.style.setProperty(`${color}-light-${i}`, getLightColor(targetVal, i / 10));
 			}
 		};
 		// 2、菜单 / 顶栏
 		const onBgColorPickerChange = (bg: string) => {
+			// @ts-ignore
 			document.documentElement.style.setProperty(`--bg-${bg}`, getThemeConfig.value[bg]);
 			onTopBarGradualChange();
 			onMenuBarGradualChange();

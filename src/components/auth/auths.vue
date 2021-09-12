@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { computed } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default {
 	name: 'auths',
 	props: {
@@ -15,13 +15,14 @@ export default {
 			default: () => [],
 		},
 	},
-	setup(props) {
+	setup(props:any) {
 		const store = useStore();
 		// 获取 vuex 中的用户权限
 		const getUserAuthBtnList = computed(() => {
 			let flag = false;
+			// @ts-ignore
 			store.state.userInfos.userInfos.authBtnList.map((val: any) => {
-				props.value.map((v) => {
+				props.value.map((v:any) => {
 					if (val === v) flag = true;
 				});
 			});

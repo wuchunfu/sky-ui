@@ -142,7 +142,9 @@ export default defineComponent({
 			// 如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
 			if (route.query?.redirect) {
 				router.push({
+					// @ts-ignore
 					path: route.query?.redirect,
+					// @ts-ignore
 					query: Object.keys(route.query?.params).length > 0 ? JSON.parse(route.query?.params) : '',
 				});
 			} else {

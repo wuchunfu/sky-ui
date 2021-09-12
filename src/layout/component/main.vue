@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, toRefs, reactive, getCurrentInstance, watch, onBeforeMount } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { useRoute } from 'vue-router';
 import LayoutParentView from '/@/layout/routerView/parent.vue';
 import Footer from '/@/layout/footer/index.vue';

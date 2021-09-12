@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="system-user-search mb15">
-			<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
+			<el-button v-auths="['system:api-group:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
 		</div>
 		<el-table
 			v-loading="loading"
@@ -26,8 +26,8 @@
 			</el-table-column>
 			<el-table-column label="操作" width="120">
 				<template #default="scope">
-					<el-button size="mini" type="text" @click="handleEdit(scope.row)" icon='el-icon-edit'>编辑</el-button>
-					<el-button size="mini" type="text" @click="handleDelete(scope.row)" icon='el-icon-delete'>删除</el-button>
+					<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:api-group:edit']" icon='el-icon-edit'>编辑</el-button>
+					<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:api-group:delete']" icon='el-icon-delete'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>

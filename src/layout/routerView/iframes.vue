@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, reactive, toRefs, onMounted, nextTick, watch, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default defineComponent({
 	name: 'layoutIfameView',
 	setup() {
@@ -19,6 +19,7 @@ export default defineComponent({
 		});
 		// 初始化页面加载 loading
 		const initIframeLoad = () => {
+			// @ts-ignore
 			state.iframeUrl = route.meta.hyperlink;
 			nextTick(() => {
 				state.iframeLoading = true;

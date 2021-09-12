@@ -10,7 +10,7 @@
 <script lang="ts">
 import { computed, ref, getCurrentInstance, onBeforeMount, onMounted, onUnmounted, nextTick, defineComponent, watch, reactive, toRefs } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { useTitle } from '/@/utils/setWebTitle';
 import { Local } from '/@/utils/storage';
 import setIntroduction from '/@/utils/setIconfont';
@@ -53,6 +53,7 @@ export default defineComponent({
 				});
 				// 设置 i18n，App.vue 中的 el-config-provider
 				proxy.mittBus.on('getI18nConfig', (locale: string) => {
+					// @ts-ignore
 					state.i18nLocale = locale;
 				});
 				// 获取缓存中的布局配置

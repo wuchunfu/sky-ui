@@ -13,7 +13,7 @@
 <script lang="ts">
 import { computed, defineComponent, toRefs, reactive, getCurrentInstance, onBeforeMount, onUnmounted, nextTick, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default defineComponent({
 	name: 'layoutParentView',
 	setup() {

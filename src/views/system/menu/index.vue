@@ -11,7 +11,7 @@
 							class="input-with-select"
 							style="margin-bottom: 10px"
 						>
-							<template #append>
+							<template #append v-auths="['system:top-menu:create']">
 								<el-tooltip class="item" effect="dark" content="新增顶层菜单节点" placement="top">
 									<el-button @click='resetRuleForm'>新增</el-button>
 								</el-tooltip>
@@ -41,10 +41,11 @@
 						</template>
 					</el-tree>
 					<context-menu name="menu-tree-context">
-						<context-menu-item :divider="true" @itemClickHandle="addChildrenMenu">
+						<context-menu-item :divider="true" @itemClickHandle="addChildrenMenu" v-auths="['system:menu:create']">
 							<i class='el-icon-plus'></i> 新 建
 						</context-menu-item>
 						<context-menu-item
+							v-auths="['system:menu:delete']"
 							:disabled='!currentNode.children || currentNode.children.length === 0 ? false : true'
 							@itemClickHandle="deleteMenuHandle">
 							<i class='el-icon-delete'></i> 删 除
@@ -160,7 +161,9 @@
 									</el-col>
 								</el-row>
 								<el-form-item>
-									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small'><i class='el-icon-check'></i>&nbsp; 保 存</el-button>
+									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small' v-auths="['system:menu-form:save']">
+										<i class='el-icon-check'></i>&nbsp; 保 存
+									</el-button>
 								</el-form-item>
 							</el-form>
 						</div>
@@ -168,7 +171,7 @@
 					<el-tab-pane label="页面按钮">
 						<PageElement :menu='ruleForm'></PageElement>
 					</el-tab-pane>
-					<el-tab-pane label="API 接口">
+					<el-tab-pane label="API 接口" v-auths="['system:menu-api:manager']">
 						<PageApi :menu='ruleForm'></PageApi>
 					</el-tab-pane>
 				</el-tabs>

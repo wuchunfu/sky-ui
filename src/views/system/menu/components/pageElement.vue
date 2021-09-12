@@ -8,9 +8,9 @@
 				show-icon>
 			</el-alert>
 			<el-row style='margin-top: 15px;'>
-				<el-button size='small' type='primary' @click='handleCreate'><i class="el-icon-plus"></i> &nbsp;新 建</el-button>
-				<el-button size='small' type='success' :disabled='buttonList.length !== 1' @click='handleEdit'><i class="el-icon-edit"></i> &nbsp;编 辑</el-button>
-				<el-button size='small' type='danger' :disabled='buttonList.length === 0' @click='handleDelete'><i class="el-icon-delete"></i> &nbsp;删 除</el-button>
+				<el-button size='small' type='primary' v-auths="['system:menu-button:create']" @click='handleCreate'><i class="el-icon-plus"></i> &nbsp;新 建</el-button>
+				<el-button size='small' type='success' v-auths="['system:menu-button:edit']" :disabled='buttonList.length !== 1' @click='handleEdit'><i class="el-icon-edit"></i> &nbsp;编 辑</el-button>
+				<el-button size='small' type='danger' v-auths="['system:menu-button:delete']" :disabled='buttonList.length === 0' @click='handleDelete'><i class="el-icon-delete"></i> &nbsp;删 除</el-button>
 			</el-row>
 			<el-divider></el-divider>
 			<el-empty v-if='pageButtons[menu.id] === undefined' description="暂无按钮"></el-empty>

@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { toRefs, reactive, computed } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default {
 	name: 'layoutCloseFull',
 	setup() {

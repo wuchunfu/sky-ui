@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { nextTick, onMounted, reactive, toRefs, ref, onUnmounted, getCurrentInstance, defineComponent } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { formatDate } from '/@/utils/formatTime';
 import { Local } from '/@/utils/storage';
 export default defineComponent({

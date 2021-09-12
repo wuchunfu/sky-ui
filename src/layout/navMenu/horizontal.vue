@@ -31,7 +31,7 @@
 <script lang="ts">
 import { toRefs, reactive, computed, defineComponent, getCurrentInstance, onMounted, nextTick } from 'vue';
 import { useRoute, onBeforeRouteUpdate } from 'vue-router';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import SubItem from '/@/layout/navMenu/subItem.vue';
 export default defineComponent({
 	name: 'navMenuHorizontal',
@@ -91,7 +91,7 @@ export default defineComponent({
 			return currentData;
 		};
 		// 设置页面当前路由高亮
-		const setCurrentRouterHighlight = (currentRoute) => {
+		const setCurrentRouterHighlight = (currentRoute:any) => {
 			const { path, meta } = currentRoute;
 			if (store.state.themeConfig.themeConfig.layout === 'classic') {
 				state.defaultActive = `/${path.split('/')[1]}`;

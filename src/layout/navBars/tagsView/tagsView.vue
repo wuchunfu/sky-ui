@@ -44,7 +44,7 @@ import { toRefs, reactive, onMounted, computed, ref, nextTick, onBeforeUpdate, o
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import Sortable from 'sortablejs';
 import { ElMessage } from 'element-plus';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 import { Session } from '/@/utils/storage';
 import { isObjectValueEqual } from '/@/utils/arrayOperation';
 import Contextmenu from '/@/layout/navBars/tagsView/contextmenu.vue';
@@ -78,7 +78,7 @@ export default {
 			return store.state.themeConfig.themeConfig;
 		});
 		// 设置 tagsView 高亮
-		const isActive = (v) => {
+		const isActive = (v:any) => {
 			if (getThemeConfig.value.isShareTagsView) {
 				return v.path === state.routePath;
 			} else {
@@ -138,7 +138,7 @@ export default {
 		// 处理单标签时，第二次的值未覆盖第一次的 tagsViewList 值（Session Storage）
 		const singleAddTagsView = (path: string, to?: any) => {
 			let isDynamicPath = to.meta.isDynamic ? to.meta.isDynamicPath : path;
-			state.tagsViewList.forEach((v) => {
+			state.tagsViewList.forEach((v:any) => {
 				if (
 					v.path === isDynamicPath &&
 					!isObjectValueEqual(
@@ -156,7 +156,7 @@ export default {
 		const addTagsView = (path: string, to?: any) => {
 			// 防止拿取不到路由信息
 			nextTick(async () => {
-				let item = '';
+				let item:any = '';
 				if (to && to.meta.isDynamic) {
 					// 动态路由（xxx/:id/:name"）：参数不同，开启多个 tagsview
 					if (!getThemeConfig.value.isShareTagsView) await solveAddTagsView(path, to);
@@ -251,6 +251,7 @@ export default {
 					v.path === path &&
 					isObjectValueEqual(
 						v.meta.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
+						// @ts-ignore
 						cParams && Object.keys(cParams ? cParams : {}).length > 0 ? cParams : null
 					)
 				) {
@@ -261,7 +262,7 @@ export default {
 			});
 		};
 		// 当前项右键菜单点击
-		const onCurrentContextmenuClick = async (item) => {
+		const onCurrentContextmenuClick = async (item:any) => {
 			const cParams = item.meta.isDynamic ? item.params : item.query;
 			if (!getCurrentRouteItem(item.path, cParams)) return ElMessage({ type: 'warning', message: '请正确输入路径及完整参数（query、params）' });
 			const { path, name, params, query, meta, url } = getCurrentRouteItem(item.path, cParams);
