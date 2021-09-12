@@ -137,7 +137,8 @@ export function setFilterRoute(chil: any) {
 		if (route.meta.auth) {
 			route.meta.auth.forEach((metaAuth: any) => {
 				store.state.userInfos.userInfos.authPageList.forEach((auth: any) => {
-					if (metaAuth === auth) filterRoute.push({ ...route });
+					// 如果是超级管理员，则直接通过
+					if (store.state.userInfos.userInfos.is_admin || metaAuth === auth) filterRoute.push({ ...route });
 				});
 			});
 		}
