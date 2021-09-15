@@ -13,7 +13,7 @@ export function authDirective(app: App) {
 	app.directive('auth', {
 		mounted(el, binding) {
 			if (!store.state.userInfos.userInfos.is_admin) {
-				if (!store.state.userInfos.userInfos.authBtnList.some((v: string) => v === binding.value)) el.parentNode.removeChild(el);
+				if (!store.state.userInfos.userInfos.button.some((v: string) => v === binding.value)) el.parentNode.removeChild(el);
 			}
 		},
 	});
@@ -22,7 +22,7 @@ export function authDirective(app: App) {
 		mounted(el, binding) {
 			let flag = store.state.userInfos.userInfos.is_admin;
 			if (!flag) {
-				store.state.userInfos.userInfos.authBtnList.map((val: string) => {
+				store.state.userInfos.userInfos.button.map((val: string) => {
 					binding.value.map((v: string) => {
 						if (val === v) flag = true;
 					});
@@ -37,7 +37,7 @@ export function authDirective(app: App) {
 		mounted(el, binding) {
 			let flag = store.state.userInfos.userInfos.is_admin;
 			if (!flag) {
-				flag = judementSameArr(binding.value, store.state.userInfos.userInfos.authBtnList);
+				flag = judementSameArr(binding.value, store.state.userInfos.userInfos.button);
 			}
 			if (!flag) el.parentNode.removeChild(el);
 		},

@@ -21,7 +21,7 @@ export default {
 		const getUserAuthBtnList = computed(() => {
 			let flag = false;
 			// @ts-ignore
-			store.state.userInfos.userInfos.authBtnList.map((val: any) => {
+			store.state.userInfos.userInfos.button.map((val: any) => {
 				props.value.map((v:any) => {
 					if (val === v) flag = true;
 				});

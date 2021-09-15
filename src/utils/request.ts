@@ -37,6 +37,8 @@ service.interceptors.response.use(
 				ElMessageBox.alert('你已被登出，请重新登录', '提示', {})
 					.then(() => {})
 					.catch(() => {});
+			} else if (res.code === 30004) {
+				Session.clear();
 			}
 			ElMessage.error(res.code + ', ' + res.message);
 			return Promise.reject(service.interceptors.response);

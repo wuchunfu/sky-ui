@@ -89,24 +89,6 @@ export default defineComponent({
 		// 登录
 		const onSignIn = async () => {
 			state.loading.signIn = true;
-			let defaultAuthPageList: Array<string> = [];
-			let defaultAuthBtnList: Array<string> = [];
-			// admin 页面权限标识，对应路由 meta.auth，用于控制路由的显示/隐藏
-			let adminAuthPageList: Array<string> = ['admin'];
-			// admin 按钮权限标识
-			let adminAuthBtnList: Array<string> = ['btn.add', 'btn.del', 'btn.edit', 'btn.link'];
-			// test 页面权限标识，对应路由 meta.auth，用于控制路由的显示/隐藏
-			let testAuthPageList: Array<string> = ['test'];
-			// test 按钮权限标识
-			let testAuthBtnList: Array<string> = ['btn.add', 'btn.link'];
-			// 不同用户模拟不同的用户权限
-			if (state.ruleForm.username === 'admin') {
-				defaultAuthPageList = adminAuthPageList;
-				defaultAuthBtnList = adminAuthBtnList;
-			} else {
-				defaultAuthPageList = testAuthPageList;
-				defaultAuthBtnList = testAuthBtnList;
-			}
 
 			// 获取token
 			await signIn(state.ruleForm).then(async res => {
@@ -116,12 +98,7 @@ export default defineComponent({
 				// 获取用户信息
 				const userInfoResponse = await getUserInfo()
 				const userInfos = userInfoResponse.data
-				userInfos.photo = state.ruleForm.username === 'admin'
-					? 'https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1813762643,1914315241&fm=26&gp=0.jpg'
-					: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=317673774,2961727727&fm=26&gp=0.jpg'
 				userInfos.time = new Date().getTime()
-				userInfos.authPageList = defaultAuthPageList
-				userInfos.authBtnList = defaultAuthBtnList
 				// 存储用户信息到浏览器缓存
 				Session.set('userInfo', userInfos);
 				// 1、请注意执行顺序(存储用户信息到vuex)

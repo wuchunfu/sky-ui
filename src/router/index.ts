@@ -79,14 +79,14 @@ export function formatTwoStageRoutes(arr: any) {
  */
 export function setCacheTagsViewRoutes() {
 	// 获取有权限的路由，否则 tagsView、菜单搜索中无权限的路由也将显示
-	let authsRoutes = setFilterHasAuthMenu(dynamicRoutes, store.state.userInfos.userInfos.authPageList);
+	let authsRoutes = setFilterHasAuthMenu(dynamicRoutes, store.state.userInfos.userInfos.page);
 	// 添加到 vuex setTagsViewRoutes 中
 	store.dispatch('tagsViewRoutes/setTagsViewRoutes', formatTwoStageRoutes(formatFlatteningRoutes(authsRoutes))[0].children);
 }
 
 /**
  * 判断路由 `meta.auth` 中是否包含当前登录用户权限字段
- * @param auths 用户权限标识，在 userInfos（用户信息）的 authPageList（登录页登录时缓存到浏览器）数组
+ * @param auths 用户权限标识，在 userInfos（用户信息）的 page（登录页登录时缓存到浏览器）数组
  * @param route 当前循环时的路由项
  * @returns 返回对比后有权限的路由项
  */
@@ -98,7 +98,7 @@ export function hasAuth(auths: any, route: any) {
 /**
  * 获取当前用户权限标识去比对路由表，设置递归过滤有权限的路由
  * @param routes 当前路由 children
- * @param auth 用户权限标识，在 userInfos（用户信息）的 authPageList（登录页登录时缓存到浏览器）数组
+ * @param auth 用户权限标识，在 userInfos（用户信息）的 page（登录页登录时缓存到浏览器）数组
  * @returns 返回有权限的路由数组 `meta.auth` 中控制
  */
 export function setFilterHasAuthMenu(routes: any, auth: any) {
@@ -120,7 +120,7 @@ export function setFilterHasAuthMenu(routes: any, auth: any) {
  * @description 用于 tagsView、菜单搜索中：未过滤隐藏的(isHide)
  */
 export function setFilterMenuAndCacheTagsViewRoutes() {
-	store.dispatch('routesList/setRoutesList', setFilterHasAuthMenu(dynamicRoutes[0].children, store.state.userInfos.userInfos.authPageList));
+	store.dispatch('routesList/setRoutesList', setFilterHasAuthMenu(dynamicRoutes[0].children, store.state.userInfos.userInfos.page));
 	setCacheTagsViewRoutes();
 }
 
@@ -136,10 +136,14 @@ export function setFilterRoute(chil: any) {
 	chil.forEach((route: any) => {
 		if (route.meta.auth) {
 			route.meta.auth.forEach((metaAuth: any) => {
-				store.state.userInfos.userInfos.authPageList.forEach((auth: any) => {
-					// 如果是超级管理员，则直接通过
-					if (store.state.userInfos.userInfos.is_admin || metaAuth === auth) filterRoute.push({ ...route });
-				});
+				if (store.state.userInfos.userInfos.is_admin) {
+					filterRoute.push({ ...route })
+				} else {
+					store.state.userInfos.userInfos.page.forEach((auth: any) => {
+						// 如果是超级管理员，则直接通过
+						if (metaAuth === auth) filterRoute.push({ ...route });
+					});
+				}
 			});
 		}
 	});

@@ -20,7 +20,7 @@ export default {
 		// 获取 vuex 中的用户权限
 		const getUserAuthBtnList = computed(() => {
 			// @ts-ignore
-			return store.state.userInfos.userInfos.authBtnList.some((v: any) => v === props.value);
+			return store.state.userInfos.userInfos.button.some((v: any) => v === props.value);
 		});
 		return {
 			getUserAuthBtnList,

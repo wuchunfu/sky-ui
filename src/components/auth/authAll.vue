@@ -21,7 +21,7 @@ export default {
 		// 获取 vuex 中的用户权限
 		const getUserAuthBtnList = computed(() => {
 			// @ts-ignore
-			return judementSameArr(props.value, store.state.userInfos.userInfos.authBtnList);
+			return judementSameArr(props.value, store.state.userInfos.userInfos.button);
 		});
 		return {
 			getUserAuthBtnList,
