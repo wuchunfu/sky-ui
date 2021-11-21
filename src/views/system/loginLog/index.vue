@@ -4,7 +4,7 @@
 			<div class="system-user-search mb15">
 				<el-input size="small" v-model='listQuery[searchField]' placeholder="请输入搜索内容" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 500px">
 					<template #prepend>
-						<el-select v-model="searchField" placeholder="请选择" @change='setSearchField' style='width: 115px;'>
+						<el-select v-model="searchField" placeholder="请选择" style='width: 115px;'>
 							<el-option label="用户名" value="username"></el-option>
 							<el-option label="状态" value="status"></el-option>
 							<el-option label="IP地址" value="ip"></el-option>
