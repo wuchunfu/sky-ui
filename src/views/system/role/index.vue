@@ -1,20 +1,20 @@
 <template>
-	<div class="system-user-container">
+	<div>
 		<el-card shadow="hover">
-			<div class="system-user-search mb15">
-				<el-button v-auths="['system:role:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
-				<el-input size="small" v-model='listQuery.key' placeholder="请输入角色名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
+			<div class="system-user-search mb10">
+				<el-button v-auths="['system:role:create']" type="primary" class="mr10" @click='handleCreate'><el-icon class='mr5'><Plus></Plus></el-icon>新建</el-button>
+				<el-input v-model='listQuery.key' placeholder="请输入角色名称" @keyup.enter.native='getList' prefix-icon="Search" style="max-width: 350px">
 					<template #append>
-						<el-button icon="el-icon-search" @click='getList'></el-button>
+						<el-button icon="Search" @click='getList'></el-button>
 					</template>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
+			<el-table :data="list" border stripe style="width: 100%" v-loading="loading" size='small'>
 				<el-table-column prop="key" label="标识" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="name" label="名称" show-overflow-tooltip></el-table-column>
 				<el-table-column label="状态" show-overflow-tooltip>
 					<template #default='{row}'>
-						<el-tag :type="row.status ? 'success' : 'danger'" size='small'>
+						<el-tag :type="row.status ? 'success' : 'danger'" size='small' >
 							{{ row.status ? '可用' : '禁用' }}
 						</el-tag>
 					</template>
@@ -31,9 +31,9 @@
 				</el-table-column>
 				<el-table-column label="操作" width="180">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="handlePermission(scope.row)" v-auths="['system:role:permission']" icon='el-icon-bank-card'>权限</el-button>
-						<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:role:edit']" icon='el-icon-edit'>编辑</el-button>
-						<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:role:delete']" icon='el-icon-delete'>删除</el-button>
+						<el-button size="small" type="text" @click="handlePermission(scope.row)" v-auths="['system:role:permission']" icon='Postcard'>权限</el-button>
+						<el-button size="small" type="text" @click="handleEdit(scope.row)" v-auths="['system:role:edit']" icon='Edit'>编辑</el-button>
+						<el-button size="small" type="text" @click="handleDelete(scope.row)" v-auths="['system:role:delete']" icon='Delete'>删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -50,12 +50,12 @@
 					<el-row :gutter="20">
 						<el-col :span="12" class="mb20">
 							<el-form-item label="标识：" prop="key">
-								<el-input size='small' v-model="ruleForm.key" :disabled='dialogStatus==="edit"' placeholder="请输入角色标识"></el-input>
+								<el-input   v-model="ruleForm.key" :disabled='dialogStatus==="edit"' placeholder="请输入角色标识"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="名称：" prop="name">
-								<el-input size='small' v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
+								<el-input   v-model="ruleForm.name" placeholder="请输入角色名称"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" v-if='dialogStatus==="edit"'>
@@ -65,7 +65,7 @@
 						</el-col>
 						<el-col :span="dialogStatus==='create'?24:12">
 							<el-form-item label="备注：">
-								<el-input size='small' placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
+								<el-input   placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -73,8 +73,8 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="dialogVisible = false" size='small'>取 消</el-button>
-					<el-button type="primary" @click="submitForm" size='small'>确 定</el-button>
+					<el-button @click="dialogVisible = false"  >取 消</el-button>
+					<el-button type="primary" @click="submitForm"  >确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, nextTick } from 'vue';
+import { ref, toRefs, reactive, onMounted, nextTick, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import Pagination from '/@/components/pagination/index.vue';
@@ -92,7 +92,7 @@ import {
 	saveRole,
 	deleteRole,
 } from '/@/api/system/role'
-export default {
+export default defineComponent({
 	name: 'SystemRoleIndex',
 	components: { Pagination },
 	setup: function() {
@@ -205,5 +205,5 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>

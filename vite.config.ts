@@ -3,6 +3,9 @@ import { resolve } from 'path';
 import type { UserConfig } from 'vite';
 import { loadEnv } from '/@/utils/viteBuild';
 
+import viteSvgIcons from 'vite-plugin-svg-icons'
+import path from 'path'
+
 const pathResolve = (dir: string): any => {
 	return resolve(__dirname, '.', dir);
 };
@@ -15,7 +18,16 @@ const alias: Record<string, string> = {
 };
 
 const viteConfig: UserConfig = {
-	plugins: [vue()],
+	plugins: [
+		vue(),
+		// @ts-ignore
+		viteSvgIcons({
+			// 指定需要缓存的图标文件夹
+			iconDirs: [path.resolve(process.cwd(), 'src/assets/icons')],
+			// 指定symbolId格式
+			symbolId: 'icon-[dir]-[name]',
+		}),
+	],
 	root: process.cwd(),
 	resolve: { alias },
 	base: process.env.NODE_ENV === 'production' ? VITE_PUBLIC_PATH : './',
@@ -31,7 +43,6 @@ const viteConfig: UserConfig = {
 				target: 'http://localhost:8000',
 				ws: true,
 				changeOrigin: true,
-				rewrite: (path) => path.replace(/^\/gitee/, ''),
 			},
 		},
 	},

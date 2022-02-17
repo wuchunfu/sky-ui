@@ -14,15 +14,11 @@
 					@blur="onIconBlur"
 				>
 					<template #prepend>
-						<i
-							:class="[
-								fontIconPrefix === '' ? prepend : fontIconPrefix,
-								{ iconfont: fontIconTabsIndex === 0 },
+						<el-icon class="font14" :class="[
 								{ ele: fontIconTabsIndex === 1 },
-								{ fa: fontIconTabsIndex === 2 },
-							]"
-							class="font14"
-						></i>
+							]">
+							<component :is="fontIconPrefix === '' ? prepend : fontIconPrefix"></component>
+						</el-icon>
 					</template>
 				</el-input>
 			</template>
@@ -52,16 +48,17 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, nextTick, computed, watch } from 'vue';
+import { ref, toRefs, reactive, onMounted, nextTick, computed, watch, defineComponent } from 'vue';
+import { Pointer } from '@element-plus/icons-vue'
 import initIconfont from '/@/utils/getStyleSheets';
-export default {
+export default defineComponent({
 	name: 'iconSelector',
 	emits: ['update:modelValue', 'get', 'clear'],
 	props: {
 		// 输入框前置内容
 		prepend: {
 			type: String,
-			default: () => 'el-icon-thumb',
+			default: () => 'Pointer',
 		},
 		// 输入框占位文本
 		placeholder: {
@@ -71,7 +68,7 @@ export default {
 		// 输入框占位文本
 		size: {
 			type: String,
-			default: () => 'small',
+			default: () => 'default',
 		},
 		// 弹窗标题
 		title: {
@@ -154,26 +151,12 @@ export default {
 		};
 		// 初始化数据
 		const initFontIconData = async () => {
-			if (props.type === 'ali') {
-				await initIconfont.ali().then((res: any) => {
-					state.fontIconTabsIndex = 0;
-					// 阿里字体图标使用 `iconfont xxx`
-					state.fontIconSheetsList = res.map((i) => `iconfont ${i}`);
-				});
-			} else if (props.type === 'ele') {
+			if (props.type === 'ele') {
 				await initIconfont.ele().then((res: any) => {
 					state.fontIconTabsIndex = 1;
 					state.fontIconSheetsList = res;
 				});
-			} else if (props.type === 'awe') {
-				await initIconfont.awe().then((res: any) => {
-					state.fontIconTabsIndex = 2;
-					// fontawesome字体图标使用 `fa xxx`
-					state.fontIconSheetsList = res.map((i) => `fa ${i}`);
-				});
 			}
-			// 初始化 input 的 placeholder
-			// 参考（单项数据流）：https://cn.vuejs.org/v2/guide/components-props.html?#%E5%8D%95%E5%90%91%E6%95%B0%E6%8D%AE%E6%B5%81
 			state.fontIconPlaceholder = props.placeholder;
 			// 初始化双向绑定回显
 			initModeValueEcho();
@@ -214,8 +197,9 @@ export default {
 			onClearFontIcon,
 			onIconFocus,
 			onIconBlur,
+			Pointer,
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>

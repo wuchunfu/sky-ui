@@ -1,15 +1,15 @@
 <template>
-	<div class="system-user-container">
+	<div>
 		<el-card shadow="hover">
-			<div class="system-user-search mb15">
-				<el-button v-auths="['system:user:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
-				<el-input size="small" v-model='listQuery.username' placeholder="请输入用户名" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
+			<div class="system-user-search mb10">
+				<el-button v-auths="['system:user:create']" type="primary" class="mr10" @click='handleCreate'><el-icon class='mr5'><Plus></Plus></el-icon>新建</el-button>
+				<el-input v-model='listQuery.username' placeholder="请输入用户名" @keyup.enter.native='getList' prefix-icon="Search" style="max-width: 350px">
 					<template #append>
-						<el-button icon="el-icon-search" @click='getList'></el-button>
+						<el-button icon="Search" @click='getList'></el-button>
 					</template>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
+			<el-table :data="list" stripe style="width: 100%" border v-loading="loading" size='small'>
 				<el-table-column prop="username" label="用户名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="nickname" label="姓名" show-overflow-tooltip></el-table-column>
 				<el-table-column label="邮箱" show-overflow-tooltip>
@@ -19,7 +19,7 @@
 				</el-table-column>
 				<el-table-column label="状态" show-overflow-tooltip>
 					<template #default='{row}'>
-						<el-tag :type="row.status ? 'success' : 'danger'" size='small'>
+						<el-tag :type="row.status ? 'success' : 'danger'" size='small' >
 							{{ row.status ? '可用' : '禁用' }}
 						</el-tag>
 					</template>
@@ -36,8 +36,8 @@
 				</el-table-column>
 				<el-table-column label="操作" width="120">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:user:edit']" icon='el-icon-edit'>编辑</el-button>
-						<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:user:delete']" icon='el-icon-delete'>删除</el-button>
+						<el-button size="small" type="text" @click="handleEdit(scope.row)" v-auths="['system:user:edit']" icon='Edit'>编辑</el-button>
+						<el-button size="small" type="text" @click="handleDelete(scope.row)" v-auths="['system:user:delete']" icon='Delete'>删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -54,37 +54,37 @@
 					<el-row :gutter="20">
 						<el-col :span="12" class="mb20">
 							<el-form-item label="用户名：" prop="username">
-								<el-input size='small' v-model="ruleForm.username" :disabled='dialogStatus === "edit"' placeholder="请输入用户名"></el-input>
+								<el-input   v-model="ruleForm.username" :disabled='dialogStatus === "edit"' placeholder="请输入用户名"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="姓名：" prop="nickname">
-								<el-input size='small' v-model="ruleForm.nickname" placeholder="请输入姓名"></el-input>
+								<el-input   v-model="ruleForm.nickname" placeholder="请输入姓名"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20" v-if='dialogStatus === "create"'>
 							<el-form-item label="密码：" prop="password">
-								<el-input size='small' type='password' v-model="ruleForm.password" placeholder="请输入密码"></el-input>
+								<el-input   type='password' v-model="ruleForm.password" placeholder="请输入密码"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20" v-if='dialogStatus === "create"'>
 							<el-form-item label="确认密码：" prop="checkPassword">
-								<el-input size='small' type='password' v-model="ruleForm.checkPassword" placeholder="请输入确认密码"></el-input>
+								<el-input   type='password' v-model="ruleForm.checkPassword" placeholder="请输入确认密码"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="手机号：">
-								<el-input size='small' v-model="ruleForm.tel" placeholder="请输入手机号"></el-input>
+								<el-input   v-model="ruleForm.tel" placeholder="请输入手机号"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="邮箱：">
-								<el-input size='small' v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
+								<el-input   v-model="ruleForm.email" placeholder="请输入邮箱"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12" class="mb20">
 							<el-form-item label="角色：">
-								<el-select size='small' v-model="ruleForm.role" multiple placeholder="请选择角色" style='width:100%'>
+								<el-select   v-model="ruleForm.role" multiple placeholder="请选择角色" style='width:100%'>
 									<el-option
 										v-for="item in roleList"
 										:key="item.id"
@@ -101,7 +101,7 @@
 						</el-col>
 						<el-col :span="dialogStatus==='create'?12:24">
 							<el-form-item label="备注：">
-								<el-input size='small' placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
+								<el-input   placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -109,8 +109,8 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="dialogVisible = false" size='small'>取 消</el-button>
-					<el-button type="primary" @click="submitForm" size='small'>确 定</el-button>
+					<el-button @click="dialogVisible = false"  >取 消</el-button>
+					<el-button type="primary" @click="submitForm"  >确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -118,7 +118,7 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, nextTick } from 'vue';
+import { ref, toRefs, reactive, onMounted, nextTick, defineComponent } from 'vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import Pagination from '/@/components/pagination/index.vue'
 import { parseTime } from '/@/utils/formatTime';
@@ -130,7 +130,7 @@ import {
 	getUserInfoById
 } from '/@/api/system/user'
 import { roleList } from '/@/api/system/role';
-export default {
+export default defineComponent({
 	name: 'SystemUserIndex',
 	components: { Pagination },
 	setup: function() {
@@ -278,5 +278,5 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>

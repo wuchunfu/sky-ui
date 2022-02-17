@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs, watch } from 'vue';
+import { ref, reactive, toRefs, watch, defineComponent } from 'vue';
 import { useStore } from '/@/store'
 
-export default {
+export default defineComponent({
 	name: 'pageElement',
 	props: {
 		menu: Object,
@@ -72,5 +72,5 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>

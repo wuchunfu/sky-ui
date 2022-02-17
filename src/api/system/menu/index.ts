@@ -1,12 +1,12 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 获取后端动态路由菜单
  */
 export function getMenus() {
 	return request({
-		url: `${version}/system/menu/tree`,
+		url: `${skyVersion}/system/menu/tree`,
 		method: 'get'
 	});
 }
@@ -16,7 +16,7 @@ export function getMenus() {
  */
 export function saveMenu(params:object) {
 	return request({
-		url: `${version}/system/menu`,
+		url: `${skyVersion}/system/menu`,
 		method: 'post',
 		data: params
 	});
@@ -27,7 +27,7 @@ export function saveMenu(params:object) {
  */
 export function deleteMenu(id:any) {
 	return request({
-		url: `${version}/system/menu/${id}`,
+		url: `${skyVersion}/system/menu/${id}`,
 		method: 'delete'
 	});
 }
@@ -37,7 +37,7 @@ export function deleteMenu(id:any) {
  */
 export function menuButton(id:any) {
 	return request({
-		url: `${version}/system/menu/button/${id}`,
+		url: `${skyVersion}/system/menu/button/${id}`,
 		method: 'get'
 	});
 }
@@ -47,7 +47,7 @@ export function menuButton(id:any) {
  */
 export function batchMenuButton(params:object) {
 	return request({
-		url: `${version}/system/menu/batch`,
+		url: `${skyVersion}/system/menu/batch`,
 		method: 'delete',
 		data: params
 	});
@@ -58,7 +58,7 @@ export function batchMenuButton(params:object) {
  */
 export function menuBindApi(id:number, params:object) {
 	return request({
-		url: `${version}/system/menu/api/${id}`,
+		url: `${skyVersion}/system/menu/api/${id}`,
 		method: 'post',
 		data: params
 	});
@@ -69,7 +69,7 @@ export function menuBindApi(id:number, params:object) {
  */
 export function getMenuApis(id:number) {
 	return request({
-		url: `${version}/system/menu/api/${id}`,
+		url: `${skyVersion}/system/menu/api/${id}`,
 		method: 'get'
 	});
 }
@@ -79,7 +79,7 @@ export function getMenuApis(id:number) {
  */
 export function getMenuApiList(id:number) {
 	return request({
-		url: `${version}/system/menu/api-list/${id}`,
+		url: `${skyVersion}/system/menu/api-list/${id}`,
 		method: 'get'
 	});
 }

@@ -121,7 +121,6 @@ export function setFilterHasAuthMenu(routes: any, auth: any) {
  */
 export function setFilterMenuAndCacheTagsViewRoutes() {
 	store.dispatch('routesList/setRoutesList', setFilterHasAuthMenu(dynamicRoutes[0].children, store.state.userInfos.userInfos.page));
-	setCacheTagsViewRoutes();
 }
 
 /**

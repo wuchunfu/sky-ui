@@ -25,19 +25,17 @@
 </template>
 
 <script>
-import { watch, reactive, toRefs, onMounted } from 'vue';
+import { watch, reactive, toRefs, onMounted, defineComponent } from 'vue';
 import { ElNotification } from 'element-plus'
 import { apiList } from '/@/api/system/api'
-import { useRoute } from 'vue-router';
 import { menuBindApi, getMenuApis } from '/@/api/system/menu'
 
-export default {
+export default defineComponent({
 	name: 'pageApi',
 	props: {
 		menu: Object,
 	},
 	setup(props) {
-		const route = useRoute();
 		const state = reactive({
 			leftData: [],
 			rightData: [],
@@ -113,7 +111,7 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>
 
 <style lang='scss' scoped>

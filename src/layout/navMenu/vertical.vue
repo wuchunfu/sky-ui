@@ -8,15 +8,19 @@
 		:collapse-transition="false"
 	>
 		<template v-for="val in menuLists">
-			<el-submenu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.path">
+			<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.path">
 				<template #title>
-					<i :class="val.meta.icon ? val.meta.icon : ''"></i>
+					<el-icon>
+						<component :is='val.meta.icon ? val.meta.icon : "Promotion"'></component>
+					</el-icon>
 					<span>{{ val.meta.title }}</span>
 				</template>
 				<SubItem :chil="val.children" />
-			</el-submenu>
+			</el-sub-menu>
 			<el-menu-item :index="val.path" :key="val.path" v-else>
-				<i :class="val.meta.icon ? val.meta.icon : ''"></i>
+				<el-icon>
+					<component :is='val.meta.icon ? val.meta.icon : "Promotion"'></component>
+				</el-icon>
 				<template #title v-if="!val.meta.hyperlink || (val.meta.hyperlink && val.meta.isIframe)">
 					<span>{{ val.meta.title }}</span>
 				</template>

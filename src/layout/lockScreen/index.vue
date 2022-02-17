@@ -20,7 +20,7 @@
 					<div class="layout-lock-screen-date-box-info">{{ time.mdq }}</div>
 				</div>
 				<div class="layout-lock-screen-date-top">
-					<i class="el-icon-top"></i>
+					<el-icon><Top></Top></el-icon>
 					<div class="layout-lock-screen-date-top-text">上滑解锁</div>
 				</div>
 			</div>
@@ -39,15 +39,15 @@
 								@keyup.enter.native.stop="onLockScreenSubmit()"
 							>
 								<template #append>
-									<el-button icon="el-icon-right" @click="onLockScreenSubmit"></el-button>
+									<el-button icon="Right" @click="onLockScreenSubmit"></el-button>
 								</template>
 							</el-input>
 						</div>
 					</div>
 					<div class="layout-lock-screen-login-icon">
-						<i class="el-icon-microphone"></i>
-						<i class="el-icon-alarm-clock"></i>
-						<i class="el-icon-switch-button"></i>
+						<el-icon><Microphone></Microphone></el-icon>
+						<el-icon><AlarmClock></AlarmClock></el-icon>
+						<el-icon><SwitchButton></SwitchButton></el-icon>
 					</div>
 				</div>
 			</transition>
@@ -335,7 +335,7 @@ export default defineComponent({
 }
 ::v-deep(.el-input-group__append) {
 	background: #ffffff;
-	padding: 0px 15px;
+	padding: 0 15px;
 }
 ::v-deep(.el-input__inner) {
 	border-right-color: #f6f6f6;

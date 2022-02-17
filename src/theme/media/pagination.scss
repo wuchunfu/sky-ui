@@ -9,7 +9,8 @@
 	}
 }
 
-// 默认居中对齐
 .el-pagination {
-	text-align: left !important;
+	position: relative;
+	justify-content: flex-end;
+	padding: 2px;
 }

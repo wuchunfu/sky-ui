@@ -1,10 +1,10 @@
 <template>
-	<div class="system-user-container">
+	<div>
 		<el-card shadow="hover">
-			<div class="system-user-search mb15">
-				<el-input size="small" v-model='listQuery[searchField]' placeholder="请输入搜索内容" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 500px">
+			<div class="system-user-search mb10">
+				<el-input v-model='listQuery[searchField]' placeholder="请输入搜索内容" @keyup.enter.native='getList' prefix-icon="Search" style="max-width: 500px">
 					<template #prepend>
-						<el-select v-model="searchField" placeholder="请选择" style='width: 115px;'>
+						<el-select v-model="searchField" placeholder="请选择" style='width: 115px;' class='input-select-search'>
 							<el-option label="用户名" value="username"></el-option>
 							<el-option label="状态" value="status"></el-option>
 							<el-option label="IP地址" value="ip"></el-option>
@@ -13,11 +13,11 @@
 						</el-select>
 					</template>
 					<template #append>
-						<el-button icon="el-icon-search" @click='getList'></el-button>
+						<el-button icon="Search" @click='getList'></el-button>
 					</template>
 				</el-input>
 			</div>
-			<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
+			<el-table :data="list" border stripe style="width: 100%" v-loading="loading" size='small'>
 				<el-table-column prop="username" label="用户名" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="status" label="状态" show-overflow-tooltip></el-table-column>
 				<el-table-column prop='ip' label="IP地址" show-overflow-tooltip></el-table-column>
@@ -30,7 +30,7 @@
 				</el-table-column>
 				<el-table-column label="操作" width="80" v-auths="['system:loginLog:delete']">
 					<template #default="scope">
-						<el-button size="mini" type="text" @click="handleDelete(scope.row.id)" icon='el-icon-delete'>删除</el-button>
+						<el-button size="small" type="text" @click="handleDelete(scope.row.id)" icon='Delete'>删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -40,14 +40,14 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent } from 'vue';
 import Pagination from '/@/components/pagination/index.vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import { parseTime } from '/@/utils/formatTime';
 import {
 	getLoginLogList, deleteLoginLog
 } from '/@/api/system/loginLog'
-export default {
+export default defineComponent({
 	name: 'SystemLoginLog',
 	components: { Pagination },
 	setup: function() {
@@ -114,7 +114,7 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>
 
 <style lang='scss' scoped>

@@ -1,6 +1,7 @@
 <template>
 	<div :class="{'hidden':hidden}" class="pagination-container">
 		<el-pagination
+			small
 			:background="background"
 			v-model:current-page="currentPage"
 			v-model:page-size="pageSize"
@@ -15,8 +16,8 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue'
-export default {
+import { computed, defineComponent } from 'vue'
+export default defineComponent({
 	name: 'Pagination',
 	props: {
 		total: {
@@ -94,7 +95,7 @@ export default {
 			pageSize
 		};
 	}
-};
+})
 </script>
 
 <style lang='scss' scoped>
@@ -105,10 +106,7 @@ export default {
 .pagination-container.hidden {
 	display: none;
 }
-::v-deep(.el-pagination.is-background .btn-next) {
-	padding-left: 10px;
-}
-::v-deep(.el-pagination.is-background .btn-prev) {
-	padding-left: 10px;
+::v-deep(.el-input__suffix) {
+	padding-right: 8px;
 }
 </style>

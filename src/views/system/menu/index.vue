@@ -24,6 +24,7 @@
 						node-key="id"
 						:props="defaultProps"
 						class="filter-tree"
+						highlight-current
 						default-expand-all
 						:filter-node-method="filterNode"
 						@current-change='getCurrentNode'
@@ -35,20 +36,20 @@
 						<template #default="{ data, node }">
 							<div class="custom-tree-node" @contextmenu="openContextMenu">
 								<span :style='data.meta.isHide ? {color:"#999"}:{}'>
-									<i :class='data.meta.icon'></i> {{ node.label }}
+									<el-icon><component :is='data.meta.icon'></component></el-icon> {{ node.label }}
 								</span>
 							</div>
 						</template>
 					</el-tree>
 					<context-menu name="menu-tree-context">
 						<context-menu-item :divider="true" @itemClickHandle="addChildrenMenu" v-auths="['system:menu:create']">
-							<i class='el-icon-plus'></i> 新 建
+							<el-icon class='mr5'><Plus></Plus></el-icon>新 建
 						</context-menu-item>
 						<context-menu-item
 							v-auths="['system:menu:delete']"
 							:disabled='!currentNode.children || currentNode.children.length === 0 ? false : true'
 							@itemClickHandle="deleteMenuHandle">
-							<i class='el-icon-delete'></i> 删 除
+							<el-icon class='mr5'><Delete></Delete></el-icon>删 除
 						</context-menu-item>
 					</context-menu>
 				</el-card>
@@ -67,7 +68,7 @@
 								<el-row :gutter="20">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="类型：" prop='type'>
-											<el-radio-group v-model="ruleForm.type" size="small">
+											<el-radio-group v-model="ruleForm.type">
 												<el-radio :label="1">目录</el-radio>
 												<el-radio :label="2">菜单</el-radio>
 											</el-radio-group>
@@ -75,37 +76,37 @@
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="展示顺序：" prop="sort">
-											<el-input-number v-model="ruleForm.sort" size='small'></el-input-number>
+											<el-input-number v-model="ruleForm.sort"  ></el-input-number>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="标题：" prop="title">
-											<el-input v-model="ruleForm.title" size='small' placeholder='请输入标题'></el-input>
+											<el-input v-model="ruleForm.title" placeholder='请输入标题'></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="图标：">
-											<IconSelector v-model="ruleForm.icon" />
+											<el-input v-model="ruleForm.icon" placeholder="请输入图标名称" />
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
 										<el-form-item label="路由路径：" prop="path">
-											<el-input v-model="ruleForm.path" size='small' placeholder='请输入路由路径'></el-input>
+											<el-input v-model="ruleForm.path" placeholder='请输入路由路径'></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
 										<el-form-item label="路由名称：">
-											<el-input v-model="ruleForm.name" size='small' placeholder='请输入路由名称'></el-input>
+											<el-input v-model="ruleForm.name" placeholder='请输入路由名称'></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
 										<el-form-item label="组件路径：" prop='component'>
-											<el-input v-model="ruleForm.component" size='small' placeholder='请输入组件路径'></el-input>
+											<el-input v-model="ruleForm.component" placeholder='请输入组件路径'></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type !== 3'>
 										<el-form-item label="跳转地址：" prop='redirect'>
-											<el-input v-model="ruleForm.redirect" size='small' placeholder='请输入跳转地址'></el-input>
+											<el-input v-model="ruleForm.redirect" placeholder='请输入跳转地址'></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='ruleForm.type === 2'>
@@ -115,14 +116,14 @@
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if='isLinkStatus && ruleForm.type === 2'>
 										<el-form-item label="超链接地址：">
-											<el-input v-model="ruleForm.hyperlink" size='small'></el-input>
+											<el-input v-model="ruleForm.hyperlink"  ></el-input>
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="权限标识：">
 											<el-select
 												style='width: 100%'
-												size='small'
+
 												v-model="ruleForm.auth"
 												multiple
 												filterable
@@ -161,8 +162,8 @@
 									</el-col>
 								</el-row>
 								<el-form-item>
-									<el-button type="primary" @click="editSubmitForm('ruleForm')" size='small' v-auths="['system:menu-form:save']">
-										<i class='el-icon-check'></i>&nbsp; 保 存
+									<el-button type="primary" @click="editSubmitForm('ruleForm')" v-auths="['system:menu-form:save']">
+										<el-icon><check /></el-icon>&nbsp; 保 存
 									</el-button>
 								</el-form-item>
 							</el-form>
@@ -181,9 +182,8 @@
 </template>
 
 <script lang="ts">
-import { watch, ref, toRefs, reactive, onMounted, nextTick } from 'vue';
+import { watch, ref, toRefs, reactive, onMounted, nextTick, defineComponent } from 'vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
-import IconSelector from '/@/components/iconSelector/index.vue';
 import { inject } from 'vue';
 import {
 	getMenus,
@@ -195,9 +195,9 @@ import { useStore } from '/@/store';
 import PageElement from './components/pageElement.vue'
 import PageApi from './components/pageApi.vue'
 
-export default {
+export default defineComponent({
 	name: 'SystemMenuIndex',
-	components: { IconSelector, PageElement, PageApi },
+	components: { PageElement, PageApi },
 	setup() {
 		const menuTreeRef = ref()
 		const ruleFormRef = ref()
@@ -381,7 +381,7 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>
 
 <style lang='scss' scoped>
@@ -393,9 +393,6 @@ export default {
 	}
 	::v-deep(.el-form-item__content .el-input-group) {
 		vertical-align: middle;
-	}
-	::v-deep(.el-alert--info.is-light) {
-		border-radius: 3px;
 	}
 	::v-deep(.v-contextmenu-item) {
 		padding: 10px 15px;

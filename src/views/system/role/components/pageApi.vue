@@ -18,13 +18,13 @@
 </template>
 
 <script>
-import { watch, reactive, toRefs } from 'vue';
+import { watch, reactive, toRefs, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { ElNotification } from 'element-plus'
 import { getMenuApiList } from '/@/api/system/menu'
 import { roleBindApi, getRoleApi } from '/@/api/system/role'
 
-export default {
+export default defineComponent({
 	name: 'pageApi',
 	props: {
 		menu: Object,
@@ -100,7 +100,7 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>
 
 <style lang='scss' scoped>

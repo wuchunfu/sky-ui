@@ -1,12 +1,12 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 角色列表
  */
 export function apiList(params:object) {
 	return request({
-		url: `${version}/system/api`,
+		url: `${skyVersion}/system/api`,
 		method: 'get',
 		params: params
 	});
@@ -17,7 +17,7 @@ export function apiList(params:object) {
  */
 export function saveApi(params:object) {
 	return request({
-		url: `${version}/system/api`,
+		url: `${skyVersion}/system/api`,
 		method: 'post',
 		data: params
 	});
@@ -28,7 +28,7 @@ export function saveApi(params:object) {
  */
 export function deleteApi(id:number) {
 	return request({
-		url: `${version}/system/api/${id}`,
+		url: `${skyVersion}/system/api/${id}`,
 		method: 'delete'
 	});
 }

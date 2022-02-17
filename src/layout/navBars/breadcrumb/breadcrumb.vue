@@ -1,18 +1,21 @@
 <template>
 	<div class="layout-navbars-breadcrumb" :style="{ display: isShowBreadcrumb }">
-		<i
-			class="layout-navbars-breadcrumb-icon"
-			:class="getThemeConfig.isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
-			@click="onThemeConfigChange"
-		></i>
+		<el-icon @click="onThemeConfigChange" class="layout-navbars-breadcrumb-icon">
+			<Fold v-if='getThemeConfig.isCollapse'></Fold>
+			<Expand v-else></Expand>
+		</el-icon>
 		<el-breadcrumb class="layout-navbars-breadcrumb-hide">
 			<transition-group name="breadcrumb" mode="out-in">
 				<el-breadcrumb-item v-for="(v, k) in breadcrumbList" :key="v.meta.title">
 					<span v-if="k === breadcrumbList.length - 1" class="layout-navbars-breadcrumb-span">
-						<i :class="v.meta.icon" class="layout-navbars-breadcrumb-iconfont" v-if="getThemeConfig.isBreadcrumbIcon"></i>{{ v.meta.title }}
+						<el-icon class="layout-navbars-breadcrumb-iconfont" v-if="getThemeConfig.isBreadcrumbIcon">
+							<component :is='v.meta.icon ? v.meta.icon : "Promotion"'></component>
+						</el-icon>{{ v.meta.title }}
 					</span>
 					<a v-else @click.prevent="onBreadcrumbClick(v)">
-						<i :class="v.meta.icon" class="layout-navbars-breadcrumb-iconfont" v-if="getThemeConfig.isBreadcrumbIcon"></i>{{ v.meta.title }}
+						<el-icon class="layout-navbars-breadcrumb-iconfont" v-if="getThemeConfig.isBreadcrumbIcon">
+							<component :is='v.meta.icon ? v.meta.icon : "Promotion"'></component>
+						</el-icon>{{ v.meta.title }}
 					</a>
 				</el-breadcrumb-item>
 			</transition-group>
@@ -24,8 +27,13 @@
 import { toRefs, reactive, computed, getCurrentInstance, onMounted } from 'vue';
 import { onBeforeRouteUpdate, useRoute, useRouter } from 'vue-router';
 import { useStore } from '/@/store';
+import { Fold, Expand } from '@element-plus/icons-vue';
+
 export default {
 	name: 'layoutBreadcrumb',
+	components: {
+		Fold, Expand
+	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const store = useStore();
