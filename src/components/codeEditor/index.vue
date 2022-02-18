@@ -101,7 +101,7 @@ export default defineComponent({
 					// 触发v-model的双向绑定
 					context.emit("update:modelValue", editor.getValue());
 				});
-				if (modelValue.value !== "") {
+				if (modelValue.value && modelValue.value !== "") {
 					editor.setValue(modelValue.value);
 				} else {
 					editor.setValue(defaultValue.value);
