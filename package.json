@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^0.2.6",
+		"ace-builds": "^1.4.14",
 		"ansi-regex": ">=5.0.1",
 		"axios": "^0.21.4",
 		"codemirror": "^5.65.1",
@@ -25,15 +26,18 @@
 		"screenfull": "^5.1.0",
 		"sortablejs": "^1.14.0",
 		"splitpanes": "^3.0.4",
+		"uuid": "^8.3.2",
 		"vite-plugin-svg-icons": "^1.1.0",
 		"vue": "^3.2.31",
 		"vue-clipboard3": "^1.0.1",
+		"vue-draggable-next": "^2.1.1",
 		"vue-grid-layout": "^3.0.0-beta1",
 		"vue-i18n": "^9.1.9",
 		"vue-router": "^4.0.12",
 		"vue-web-screen-shot": "^1.2.0",
 		"vue3-contextmenu": "^0.2.12",
 		"vuex": "^4.0.2",
+		"wangeditor": "^4.7.11",
 		"zrender": ">=5.2.1"
 	},
 	"devDependencies": {

@@ -79,32 +79,34 @@ export default defineComponent({
       }
     });
     onMounted(() => {
-      editor = CodeMirror.fromTextArea(codeEditor.value, {
-        mime: props.mime,
-        autoRefresh: true, // 自动触发刷新
-        indentWithTabs: false, // 在缩进时，是否需要把 n*tab宽度个空格替换成n个tab字符，默认为false
-        smartIndent: true, // 自动缩进，设置是否根据上下文自动缩进（和上一行相同的缩进量）。默认为true
-        lineNumbers: props.lineNumbers, // 是否在编辑器左侧显示行号
-        matchBrackets: true, // 括号匹配
-        readOnly: readOnly.value,
-        // 启用代码折叠相关功能:开始
-        foldGutter: true,
-        lineWrapping: true,
-        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
-        // 启用代码折叠相关功能:结束
-        styleActiveLine: true, // 光标行高亮
-        theme: props.theme,
-      });
-      // 监听编辑器的change事件
-      editor.on("change", () => {
-        // 触发v-model的双向绑定
-        context.emit("update:modelValue", editor.getValue());
-      });
-      if (modelValue.value !== "") {
-        editor.setValue(modelValue.value);
-      } else {
-        editor.setValue(defaultValue.value);
-      }
+			setTimeout(() => {
+				editor = CodeMirror.fromTextArea(codeEditor.value, {
+					mime: props.mime,
+					autoRefresh: true, // 自动触发刷新
+					indentWithTabs: false, // 在缩进时，是否需要把 n*tab宽度个空格替换成n个tab字符，默认为false
+					smartIndent: true, // 自动缩进，设置是否根据上下文自动缩进（和上一行相同的缩进量）。默认为true
+					lineNumbers: props.lineNumbers, // 是否在编辑器左侧显示行号
+					matchBrackets: true, // 括号匹配
+					readOnly: readOnly.value,
+					// 启用代码折叠相关功能:开始
+					foldGutter: true,
+					lineWrapping: true,
+					gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter", "CodeMirror-lint-markers"],
+					// 启用代码折叠相关功能:结束
+					styleActiveLine: true, // 光标行高亮
+					theme: props.theme,
+				});
+				// 监听编辑器的change事件
+				editor.on("change", () => {
+					// 触发v-model的双向绑定
+					context.emit("update:modelValue", editor.getValue());
+				});
+				if (modelValue.value !== "") {
+					editor.setValue(modelValue.value);
+				} else {
+					editor.setValue(defaultValue.value);
+				}
+			}, 50)
     });
     onBeforeUnmount(() => {
       if (null !== editor) {
