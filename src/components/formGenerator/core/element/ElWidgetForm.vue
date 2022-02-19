@@ -1,6 +1,8 @@
 <template>
   <div class="widget-form-container">
-    <div v-if="!widgetForm.list" class="form-empty">从左侧拖拽来添加字段</div>
+    <div v-if="!widgetForm.list || widgetForm.list.length === 0" class="form-empty">
+			<el-empty description="从左侧拖拽来添加标签"></el-empty>
+		</div>
     <el-form
       label-suffix=":"
       :size="widgetForm.config.size"
@@ -12,7 +14,6 @@
         class="widget-form-list"
         item-key="key"
         ghostClass="ghost"
-        handle=".drag-widget"
         :animation="200"
         :group="{ name: 'people' }"
         :list="widgetForm.list"
@@ -40,7 +41,6 @@
 									class="widget-col-list"
 									item-key="key"
 									ghostClass="ghost"
-									handle=".drag-widget"
 									:animation="200"
 									:group="{ name: 'people' }"
 									:no-transition-on-drag="true"
@@ -66,7 +66,7 @@
 								v-if="widgetFormSelect?.key === element.key"
 							>
 								<SvgIcon
-									name="delete"
+									name="fdelete"
 									@click.stop="handleDeleteClick(index, widgetForm.list)"
 								/>
 							</div>
@@ -75,7 +75,7 @@
 								class="widget-view-drag widget-col-drag"
 								v-if="widgetFormSelect?.key === element.key"
 							>
-								<SvgIcon name="move" className="drag-widget" />
+								<SvgIcon name="fmove" />
 							</div>
 						</el-row>
 					</template>

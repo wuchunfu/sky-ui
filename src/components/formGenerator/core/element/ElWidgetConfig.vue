@@ -1,6 +1,6 @@
 <template>
   <el-form label-position="top" v-if="data" :key="data.key">
-    <el-form-item label="字段标识" v-if="data.type !== 'grid'">
+    <el-form-item label="标签标识" v-if="data.type !== 'grid'">
       <el-input v-model="data.model" />
     </el-form-item>
 
@@ -205,7 +205,6 @@
               tag="ul"
               item-key="index"
               ghostClass="ghost"
-              handle=".drag-item"
               :group="{ name: 'options' }"
               :list="data.options.options"
             >
@@ -230,17 +229,13 @@
                         v-model="element.label"
                       />
                     </el-radio>
-                    <SvgIcon
-                      style="margin: 0 5px; cursor: move;"
-                      name="item"
-                      className="drag-item"
-                    />
                     <el-button
+											style='position: relative; top: -6px; margin-left: 8px;'
                       type="primary"
                       circle
                       @click="handleOptionsRemove(index)"
                     >
-                      <SvgIcon name="delete" />
+                      <SvgIcon name="fdelete" />
                     </el-button>
                   </div>
                 </el-space>
@@ -263,15 +258,14 @@
               tag="ul"
               item-key="index"
               ghostClass="ghost"
-              handle=".drag-item"
               :group="{ name: 'options' }"
               :list="data.options.options"
             >
 							<transition-group name="fade" tag="div" v-for="(element, index) of data.options.options" :key='index'>
-                <li>
+                <div class='fc_label_attribute_options'>
                   <el-checkbox
                     :label="element.value"
-                    style="margin-right: 0px; margin-bottom: 0;"
+                    style="margin-right: 0; margin-bottom: 0;"
                   >
                     <el-input
                       :style="{
@@ -285,19 +279,15 @@
                       :style="{ width: '90px' }"
                     />
                   </el-checkbox>
-                  <SvgIcon
-                    style="margin: 0 5px; cursor: move;"
-                    name="item"
-                    className="drag-item"
-                  />
                   <el-button
+										style='position: relative; top: -6px; margin-left: 8px;'
                     type="primary"
                     circle
                     @click="handleOptionsRemove(index)"
                   >
-                    <SvgIcon name="delete" />
+                    <SvgIcon name="fdelete" />
                   </el-button>
-                </li>
+                </div>
 							</transition-group>
             </Draggable>
           </el-checkbox-group>
@@ -409,7 +399,6 @@
           tag="ul"
           item-key="index"
           ghostClass="ghost"
-          handle=".drag-item"
           :group="{ name: 'options' }"
           :list="data.columns"
         >
@@ -428,7 +417,7 @@
                 style="margin-left: 5px;"
                 @click="handleOptionsRemove(index)"
               >
-                <SvgIcon name="delete" />
+                <SvgIcon name="fdelete" />
               </el-button>
             </li>
           </template>
@@ -500,7 +489,7 @@
           <el-input v-model:value="data.options.rules.enum" />
         </el-form-item>
 
-        <el-form-item label="字段长度">
+        <el-form-item label="标签长度">
           <el-input v-model.number="data.options.rules.len" />
         </el-form-item>
 

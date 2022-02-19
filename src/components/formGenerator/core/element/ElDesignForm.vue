@@ -6,17 +6,17 @@
           <el-aside width="250px">
             <div class="components">
               <ComponentGroup
-                title="基础字段"
+                title="基础标签"
                 :fields="basicFields"
                 :list="element.basicComponents"
               />
               <ComponentGroup
-                title="高级字段"
+                title="高级标签"
                 :fields="advanceFields"
                 :list="element.advanceComponents"
               />
               <ComponentGroup
-                title="布局字段"
+                title="布局标签"
                 :fields="layoutFields"
                 :list="element.layoutComponents"
               />
@@ -49,7 +49,7 @@
                   :class="{ active: configTab === 'widget' }"
                   @click="configTab = 'widget'"
                 >
-                  字段属性
+                  标签属性
                 </div>
                 <div
                   class="config-tab"
@@ -61,9 +61,13 @@
               </el-header>
               <el-main class="config-content">
                 <ElWidgetConfig
+									v-if='widgetFormSelect'
                   v-show="configTab === 'widget'"
                   v-model:select="widgetFormSelect"
                 />
+								<div v-else style='text-align: center; margin-top: 100px; color: #909399'>
+									暂未选中标签
+								</div>
                 <ElFormConfig
                   v-show="configTab === 'form'"
                   v-model:config="widgetForm.config"
@@ -76,7 +80,7 @@
 
       <el-dialog v-model="uploadJsonVisible" title="导入JSON" width="60%">
 				<el-alert title="JSON格式如下，直接复制生成的json覆盖此处代码点击确定即可" type="info" show-icon class='mb10' />
-				<codeEditor v-model:modelValue='jsonEg' theme='ambiance-mobile'></codeEditor>
+				<codeEditor v-if='uploadJsonVisible' v-model:modelValue='jsonEg' theme='ambiance-mobile'></codeEditor>
         <template #footer>
           <el-button size="medium" @click="() => (uploadJsonVisible = false)"
             >取消</el-button
@@ -95,13 +99,11 @@
         />
         <template #footer>
           <el-button size="medium" @click="handleReset">重置</el-button>
-          <el-button type="primary" size="medium" @click="handleGetData"
-            >获取数据</el-button
-          >
+          <el-button type="primary" size="medium" @click="handleGetData">获取数据</el-button>
         </template>
 
         <el-dialog v-model="dataJsonVisible" title="获取数据" width="60%">
-          <CodeEditor :value="dataJsonTemplate" language="json" readonly />
+          <CodeEditor v-if='dataJsonVisible' :modelValue="dataJsonTemplate" language="json" readonly />
 
           <template #footer>
             <el-button size="medium" @click="() => (dataJsonVisible = false)"
@@ -118,7 +120,7 @@
       </el-dialog>
 
       <el-dialog v-model="generateJsonVisible" title="生成JSON" width="60%">
-				<codeEditor :modelValue='generateJsonTemplate' theme='ambiance-mobile' readOnly></codeEditor>
+				<codeEditor v-if='generateJsonVisible' :modelValue='generateJsonTemplate' theme='ambiance-mobile' readOnly></codeEditor>
 
         <template #footer>
           <el-button size="medium" @click="() => (generateJsonVisible = false)"
@@ -134,7 +136,7 @@
       </el-dialog>
 
       <el-dialog v-model="dataCodeVisible" title="生产代码" width="60%">
-				<codeEditor :modelValue='dataCodeTemplate' theme='ambiance-mobile' readOnly></codeEditor>
+				<codeEditor v-if='dataCodeVisible' :modelValue='dataCodeTemplate' theme='ambiance-mobile' readOnly></codeEditor>
 
         <template #footer>
           <el-button size="medium" @click="() => (dataCodeVisible = false)"

@@ -17,7 +17,6 @@
   }
 
   .el-radio-group {
-    margin-top: 10px;
     vertical-align: super;
   }
 
@@ -26,6 +25,15 @@
   }
 
   .el-rate {
-    margin-top: 6px;
+    margin-top: 8px;
+  }
+
+  .el-slider {
+    padding-left: 10px;
+  }
+
+  .el-checkbox__input {
+    position: relative;
+    top: 3px;
   }
 }

@@ -244,12 +244,12 @@
       </template>
     </el-form-item>
     <div class="widget-view-action" v-if="selectWidget?.key === element.key">
-      <SvgIcon name="copy" @click.stop="$emit('copy')" />
-      <SvgIcon name="delete" @click.stop="$emit('delete')" />
+      <SvgIcon class='svg-icon' name="fcopy" @click.stop="$emit('copy')" />
+      <SvgIcon class='svg-icon' name="fdelete" @click.stop="$emit('delete')" />
     </div>
 
     <div class="widget-view-drag" v-if="selectWidget?.key === element.key">
-      <SvgIcon name="move" className="drag-widget" />
+      <SvgIcon name="fmove" className="drag-widget svg-icon" />
     </div>
   </div>
 </template>
