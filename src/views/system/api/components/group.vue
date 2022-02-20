@@ -1,14 +1,15 @@
 <template>
 	<div>
-		<div class="system-user-search mb15">
-			<el-button v-auths="['system:api-group:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
+		<div class="system-user-search mb10">
+			<el-button v-auths="['system:api-group:create']" type="primary" class="mr10" @click='handleCreate'><el-icon class='mr5'><Plus></Plus></el-icon>新建</el-button>
 		</div>
 		<el-table
 			v-loading="loading"
 			:data="list"
 			style="width: 100%;margin-bottom: 20px;"
 			row-key="id"
-			size="small"
+			border
+			size='small'
 			default-expand-all>
 			<el-table-column
 				prop="name"
@@ -26,8 +27,8 @@
 			</el-table-column>
 			<el-table-column label="操作" width="120">
 				<template #default="scope">
-					<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:api-group:edit']" icon='el-icon-edit'>编辑</el-button>
-					<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:api-group:delete']" icon='el-icon-delete'>删除</el-button>
+					<el-button size="small" type="text" @click="handleEdit(scope.row)" v-auths="['system:api-group:edit']" icon='Edit'>编辑</el-button>
+					<el-button size="small" type="text" @click="handleDelete(scope.row)" v-auths="['system:api-group:delete']" icon='Delete'>删除</el-button>
 				</template>
 			</el-table-column>
 		</el-table>
@@ -40,17 +41,17 @@
 			<div>
 				<el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="80px">
 					<el-form-item label="应用：" prop="name">
-						<el-input v-model="ruleForm.name" size='small'></el-input>
+						<el-input v-model="ruleForm.name"  ></el-input>
 					</el-form-item>
 					<el-form-item label="备注：">
-						<el-input type='textarea' v-model="ruleForm.remark" size='small'></el-input>
+						<el-input type='textarea' v-model="ruleForm.remark"  ></el-input>
 					</el-form-item>
 				</el-form>
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="dialogVisible = false" size='small'>取 消</el-button>
-					<el-button type="primary" @click="submitForm" size='small'>确 定</el-button>
+					<el-button @click="dialogVisible = false"  >取 消</el-button>
+					<el-button type="primary" @click="submitForm"  >确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -59,7 +60,7 @@
 
 <script>
 import { ElNotification, ElMessageBox } from 'element-plus'
-import { ref, reactive, toRefs, onMounted, nextTick } from 'vue';
+import { ref, reactive, toRefs, onMounted, nextTick, defineComponent } from 'vue';
 import Pagination from '/@/components/pagination/index.vue'
 import { parseTime } from '/@/utils/formatTime';
 import {
@@ -67,7 +68,7 @@ import {
 	saveApiGroup,
 	deleteApiGroup
 } from '/@/api/system/apiGroup'
-export default {
+export default defineComponent({
 	name: 'SystemApiGroup',
 	components: { Pagination },
 	setup(props, context) {
@@ -167,7 +168,7 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>
 
 <style scoped>

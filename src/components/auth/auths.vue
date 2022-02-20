@@ -5,9 +5,9 @@
 </template>
 
 <script lang="ts">
-import { computed } from 'vue';
+import { computed, defineComponent } from 'vue';
 import { useStore } from '/@/store';
-export default {
+export default defineComponent({
 	name: 'auths',
 	props: {
 		value: {
@@ -32,5 +32,5 @@ export default {
 			getUserAuthBtnList,
 		};
 	},
-};
+})
 </script>

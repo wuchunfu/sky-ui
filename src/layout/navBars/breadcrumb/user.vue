@@ -26,9 +26,9 @@
 <!--			</template>-->
 <!--		</el-dropdown>-->
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onSearchClick">
-			<i class="el-icon-search" :title="$t('message.user.title2')"></i>
+			<el-icon :title="$t('message.user.title2')"><Search></Search></el-icon>
 		</div>
-		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSetingClick">
+		<div class="layout-navbars-breadcrumb-user-icon" @click="onLayoutSettingClick">
 			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
 		</div>
 <!--		<div class="layout-navbars-breadcrumb-user-icon">-->
@@ -54,7 +54,7 @@
 			<span class="layout-navbars-breadcrumb-user-link" style='cursor: pointer;'>
 <!--				<img :src="getUserInfos.photo" class="layout-navbars-breadcrumb-user-link-photo mr5" />-->
 				{{ getUserInfos.nickname === '' ? 'test' : getUserInfos.nickname }}
-				<i class="el-icon-arrow-down el-icon--right"></i>
+				<el-icon class="el-icon--right"><ArrowDown></ArrowDown></el-icon>
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
@@ -67,7 +67,7 @@
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>
-		<Search ref="searchRef" />
+		<MenuSearch ref="searchRef" />
 	</div>
 </template>
 
@@ -81,10 +81,10 @@ import { resetRoute } from '/@/router';
 import { useStore } from '/@/store';
 import { useTitle } from '/@/utils/setWebTitle';
 import { Session, Local } from '/@/utils/storage';
-import Search from '/@/layout/navBars/breadcrumb/search.vue';
+import MenuSearch from '/@/layout/navBars/breadcrumb/search.vue';
 export default {
 	name: 'layoutBreadcrumbUser',
-	components: { Search },
+	components: { MenuSearch },
 	setup() {
 		const { t } = useI18n();
 		const { proxy } = getCurrentInstance() as any;
@@ -123,12 +123,11 @@ export default {
 			screenfull.toggle();
 			screenfull.on('change', () => {
 				// @ts-ignore
-				if (screenfull.isFullscreen) state.isScreenfull = true;
-				else state.isScreenfull = false;
+				state.isScreenfull = screenfull.isFullscreen;
 			});
 		};
 		// 布局配置 icon 点击时
-		const onLayoutSetingClick = () => {
+		const onLayoutSettingClick = () => {
 			proxy.mittBus.emit('openSetingsDrawer');
 		};
 		// 下拉菜单点击时
@@ -241,7 +240,7 @@ export default {
 		});
 		return {
 			getUserInfos,
-			onLayoutSetingClick,
+			onLayoutSettingClick,
 			onHandleCommandClick,
 			onScreenfullClick,
 			onSearchClick,

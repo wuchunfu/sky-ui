@@ -1,7 +1,6 @@
 <template>
 	<div class="layout-navbars-container">
 		<BreadcrumbIndex />
-		<TagsView v-if="setShowTagsView" />
 	</div>
 </template>
 
@@ -9,10 +8,9 @@
 import { computed } from 'vue';
 import { useStore } from '/@/store';
 import BreadcrumbIndex from '/@/layout/navBars/breadcrumb/index.vue';
-import TagsView from '/@/layout/navBars/tagsView/tagsView.vue';
 export default {
 	name: 'layoutNavBars',
-	components: { BreadcrumbIndex, TagsView },
+	components: { BreadcrumbIndex },
 	setup() {
 		const store = useStore();
 		// 是否显示 tagsView

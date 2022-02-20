@@ -15,7 +15,9 @@
 					:title="v.meta.title"
 				>
 					<div :class="setColumnsAsidelayout" v-if="!v.meta.hyperlink || (v.meta.hyperlink && v.meta.isIframe)">
-						<i :class="v.meta.icon"></i>
+						<el-icon>
+							<component :is='v.meta.icon ? v.meta.icon : "Promotion"'></component>
+						</el-icon>
 						<div class="columns-vertical-title font12">
 							{{
 								v.meta.title && v.meta.title.length >= 4
@@ -26,7 +28,9 @@
 					</div>
 					<div :class="setColumnsAsidelayout" v-else>
 						<a :href="v.meta.hyperlink" target="_blank">
-							<i :class="v.meta.icon"></i>
+							<el-icon>
+								<component :is='v.meta.icon ? v.meta.icon : "Promotion"'></component>
+							</el-icon>
 							<div class="columns-vertical-title font12">
 								{{
 									v.meta.title && v.meta.title.length >= 4

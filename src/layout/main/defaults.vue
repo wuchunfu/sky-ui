@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { computed, getCurrentInstance, watch } from 'vue';
+import { computed, getCurrentInstance, watch, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from '/@/store';
 import Aside from '/@/layout/component/aside.vue';
@@ -33,7 +33,7 @@ export default {
 		watch(
 			() => route.path,
 			() => {
-				proxy.$refs.layoutDefaultsScrollbarRef.wrap.scrollTop = 0;
+				proxy.$refs.layoutDefaultsScrollbarRef.wrap$.scrollTop = 0;
 			}
 		);
 		return {

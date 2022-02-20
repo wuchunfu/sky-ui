@@ -47,14 +47,19 @@ service.interceptors.response.use(
 		}
 	},
 	(error) => {
-		// 对响应错误做点什么
-		if (error.message.indexOf('timeout') != -1) {
-			ElMessage.error('网络超时');
-		} else if (error.message == 'Network Error') {
-			ElMessage.error('网络连接错误');
+		let errResponse = error.response.data
+		if (errResponse.code && errResponse.code !== 20000) {
+			ElMessage.error(errResponse.code + ', ' + errResponse.message);
 		} else {
-			if (error.response.data) ElMessage.error(error.response.statusText);
-			else ElMessage.error('接口路径找不到');
+			// 对响应错误做点什么
+			if (error.message.indexOf('timeout') != -1) {
+				ElMessage.error('网络超时');
+			} else if (error.message == 'Network Error') {
+				ElMessage.error('网络连接错误');
+			} else {
+				if (error.response.data) ElMessage.error(error.response.statusText);
+				else ElMessage.error('接口路径找不到');
+			}
 		}
 		return Promise.reject(error);
 	}

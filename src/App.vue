@@ -34,7 +34,7 @@ export default defineComponent({
 			return store.state.themeConfig.themeConfig;
 		});
 		// 布局配置弹窗打开
-		const openSetingsDrawer = () => {
+		const openSettingsDrawer = () => {
 			setingsRef.value.openDrawer();
 		};
 		// 设置初始化，防止刷新时恢复默认
@@ -48,8 +48,8 @@ export default defineComponent({
 		onMounted(() => {
 			nextTick(() => {
 				// 监听布局配置弹窗点击打开
-				proxy.mittBus.on('openSetingsDrawer', () => {
-					openSetingsDrawer();
+				proxy.mittBus.on('openSettingsDrawer', () => {
+					openSettingsDrawer();
 				});
 				// 设置 i18n，App.vue 中的 el-config-provider
 				proxy.mittBus.on('getI18nConfig', (locale: string) => {
@@ -65,7 +65,7 @@ export default defineComponent({
 		});
 		// 页面销毁时，关闭监听布局配置/i18n监听
 		onUnmounted(() => {
-			proxy.mittBus.off('openSetingsDrawer', () => {});
+			proxy.mittBus.off('openSettingsDrawer', () => {});
 			proxy.mittBus.off('getI18nConfig', () => {});
 		});
 		// 监听路由的变化，设置网站标题

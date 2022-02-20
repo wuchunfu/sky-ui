@@ -23,8 +23,8 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="small">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="small">更 换</el-button>
+					<el-button @click="onCancel">取 消</el-button>
+					<el-button type="primary" @click="onSubmit">更 换</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -32,10 +32,10 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, nextTick } from 'vue';
+import { reactive, toRefs, nextTick, defineComponent } from 'vue';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
-export default {
+export default defineComponent({
 	name: 'cropperIndex',
 	setup() {
 		const state = reactive({
@@ -87,7 +87,7 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>
 
 <style scoped lang="scss">

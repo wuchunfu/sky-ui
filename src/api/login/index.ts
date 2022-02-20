@@ -1,5 +1,5 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 用户登录
@@ -8,7 +8,7 @@ import { version } from '/@/api/version'
  */
 export function signIn(params: object) {
 	return request({
-		url: `${version}/login`,
+		url: `${skyVersion}/login`,
 		method: 'post',
 		data: params,
 	});

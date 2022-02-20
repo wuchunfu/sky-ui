@@ -4,7 +4,7 @@
 			<el-input
 				type="text"
 				:placeholder="$t('message.account.accountPlaceholder1')"
-				prefix-icon="el-icon-user"
+				:prefix-icon="User"
 				v-model="ruleForm.username"
 				clearable
 				autocomplete="off"
@@ -15,7 +15,7 @@
 			<el-input
 				:type="isShowPassword ? 'text' : 'password'"
 				:placeholder="$t('message.account.accountPlaceholder2')"
-				prefix-icon="el-icon-lock"
+				:prefix-icon="Lock"
 				v-model="ruleForm.password"
 				autocomplete="off"
 			>
@@ -36,7 +36,7 @@
 <!--						type="text"-->
 <!--						maxlength="4"-->
 <!--						:placeholder="$t('message.account.accountPlaceholder3')"-->
-<!--						prefix-icon="el-icon-position"-->
+<!--						:prefix-icon="Position"-->
 <!--						v-model="ruleForm.code"-->
 <!--						clearable-->
 <!--						autocomplete="off"-->

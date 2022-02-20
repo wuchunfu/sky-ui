@@ -26,3 +26,141 @@
 #optionPanel {
 	height: 37px !important;
 }
+
+div.el-table__header-wrapper > table > thead > tr > th.is-leaf {
+	background-color: #f5f7fa;
+}
+
+.el-pagination__total {
+	position: absolute;
+	left: 2px;
+}
+
+.dangerCircle{
+	width: 10px;
+	height: 10px;
+	background-color: $--color-danger;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.warningCircle{
+	width: 10px;
+	height: 10px;
+	background-color: $--color-warning;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.successCircle{
+	width: 10px;
+	height: 10px;
+	background-color: $--color-success;
+	border-radius: 50%;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.router-link-class {
+	cursor: pointer;
+	color: #409eff;
+}
+
+// div 超出省略号
+.content-exceeded {
+	overflow:hidden; //超出的文本隐藏
+	text-overflow:ellipsis; //溢出用省略号显示
+	white-space:nowrap; //溢出不换行
+}
+
+.content-exceeded-2-row {
+	overflow:hidden; //超出的文本隐藏
+	text-overflow:ellipsis; //溢出用省略号显示
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.namespace-message-box {
+	width: 500px;
+}
+
+.namespace-message-box .el-input__inner {
+	height: 32px;
+	line-height: 32px;
+	padding: 0 11px;
+}
+
+.namespace-message-box .el-message-box__content {
+	padding: 10px 15px 0 15px;
+}
+
+.el-table--small .el-table__cell {
+	padding: 8px 0;
+}
+
+.input-select-search .el-input--suffix .el-input__inner{
+	padding-left: 10px;
+}
+
+.input-select-search .el-input--suffix .el-input__suffix-inner{
+	margin-top: 6px;
+}
+
+.el-pagination__sizes .el-input .el-input__inner {
+	padding-top: 2px;
+}
+
+.status-circular-error {
+	width: 9px;
+	height: 9px;
+	float: left;
+	margin-top: 6px;
+	border-radius: 6px;
+}
+
+.status-circular {
+	width: 9px;
+	height: 9px;
+	float: left;
+	margin-top: 6px;
+	border-radius: 6px;
+}
+
+.status-circular-success {
+	background-color: #67c23a;
+	box-shadow: 0 0 5px #67c23a;
+}
+
+.status-circular-info {
+	background-color: #909399;
+	box-shadow: 0 0 5px #909399;
+}
+
+.status-circular-primary {
+	background-color: #409eff;
+	box-shadow: 0 0 5px #409eff;
+}
+
+.status-circular-danger {
+	background-color: #f56c6c;
+	box-shadow: 0 0 5px #f56c6c;
+}
+
+.status-circular-warning {
+	background-color: #e6a23c;
+	box-shadow: 0 0 5px #e6a23c;
+	animation: orangePulse 1.5s linear infinite;
+}
+
+@-webkit-keyframes orangePulse {
+	from { background-color: #e6a23c; -webkit-box-shadow: 0 0 9px #d98600; }
+	50% { background-color: #fdeedf; -webkit-box-shadow: 0 0 13px #fdeedf; }
+	to { background-color: #e6a23c; -webkit-box-shadow: 0 0 9px #d98600; }
+}
+a {
+	text-decoration:none;
+	color: #409eff;
+}

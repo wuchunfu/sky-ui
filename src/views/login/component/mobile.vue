@@ -18,7 +18,7 @@
 						type="text"
 						maxlength="4"
 						:placeholder="$t('message.mobile.placeholder2')"
-						prefix-icon="el-icon-position"
+						prefix-icon="Position"
 						v-model="ruleForm.code"
 						clearable
 						autocomplete="off"

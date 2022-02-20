@@ -1,12 +1,12 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 角色列表
  */
 export function roleList(params:object) {
 	return request({
-		url: `${version}/system/role`,
+		url: `${skyVersion}/system/role`,
 		method: 'get',
 		params: params
 	});
@@ -17,7 +17,7 @@ export function roleList(params:object) {
  */
 export function saveRole(params:object) {
 	return request({
-		url: `${version}/system/role`,
+		url: `${skyVersion}/system/role`,
 		method: 'post',
 		data: params
 	});
@@ -28,7 +28,7 @@ export function saveRole(params:object) {
  */
 export function deleteRole(id:number) {
 	return request({
-		url: `${version}/system/role/${id}`,
+		url: `${skyVersion}/system/role/${id}`,
 		method: 'delete'
 	});
 }
@@ -38,7 +38,7 @@ export function deleteRole(id:number) {
  */
 export function updateRolePermission(id:number, params:object) {
 	return request({
-		url: `${version}/system/role/permission/${id}`,
+		url: `${skyVersion}/system/role/permission/${id}`,
 		method: 'post',
 		data: params
 	});
@@ -49,7 +49,7 @@ export function updateRolePermission(id:number, params:object) {
  */
 export function getRolePermission(id:number) {
 	return request({
-		url: `${version}/system/role/permission/${id}`,
+		url: `${skyVersion}/system/role/permission/${id}`,
 		method: 'get'
 	});
 }
@@ -59,7 +59,7 @@ export function getRolePermission(id:number) {
  */
 export function roleBindApi(id:number, params:object) {
 	return request({
-		url: `${version}/system/role/api/${id}`,
+		url: `${skyVersion}/system/role/api/${id}`,
 		method: 'post',
 		data: params
 	});
@@ -70,7 +70,7 @@ export function roleBindApi(id:number, params:object) {
  */
 export function getRoleApi(id:number, params:object) {
 	return request({
-		url: `${version}/system/role/api/${id}`,
+		url: `${skyVersion}/system/role/api/${id}`,
 		method: 'get',
 		params: params
 	});

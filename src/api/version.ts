@@ -1,1 +1,1 @@
-export const version : string = "/api/v1"
+export const skyVersion : string = "/api/v1"

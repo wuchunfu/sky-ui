@@ -1,24 +1,24 @@
 <template>
-	<div class="system-user-container">
+	<div>
 		<el-tabs type="border-card" v-model='activeName' :before-leave="beforeLeave" @tab-click='handleTabClick'>
 			<template v-if='apiGroupList.length > 0'>
 				<el-tab-pane :name='item.id' v-for='item of apiGroupList' :key='item.id' :label="item.name">
-					<div class="system-user-search mb15">
-						<el-button v-auths="['system:api:create']" size="small" type="primary" class="mr10" @click='handleCreate'><i class='el-icon-plus'></i> 新建</el-button>
-						<el-input size="small" v-model='listQuery.title' placeholder="请输入接口名称" @keyup.enter.native='getList' prefix-icon="el-icon-search" style="max-width: 350px">
+					<div class="system-user-search mb10">
+						<el-button v-auths="['system:api:create']" type="primary" class="mr10" @click='handleCreate'><el-icon class='mr5'><Plus></Plus></el-icon>新建</el-button>
+						<el-input v-model='listQuery.title' placeholder="请输入接口名称" @keyup.enter.native='getList' prefix-icon="Search" style="max-width: 350px">
 							<template #append>
-								<el-button icon="el-icon-search" @click='getList'></el-button>
+								<el-button icon="Search" @click='getList'></el-button>
 							</template>
 						</el-input>
 					</div>
-					<el-table :data="list" stripe style="width: 100%" size="small" v-loading="loading">
+					<el-table :data="list" stripe style="width: 100%" border v-loading="loading" size='small'>
 						<el-table-column prop="title" label="标题" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="url" label="地址" show-overflow-tooltip></el-table-column>
 						<el-table-column prop="method" label="方法" show-overflow-tooltip></el-table-column>
 						<el-table-column label="操作" width="120">
 							<template #default="scope">
-								<el-button size="mini" type="text" @click="handleEdit(scope.row)" v-auths="['system:api:edit']" icon='el-icon-edit'>编辑</el-button>
-								<el-button size="mini" type="text" @click="handleDelete(scope.row)" v-auths="['system:api:delete']" icon='el-icon-delete'>删除</el-button>
+								<el-button size="small" type="text" @click="handleEdit(scope.row)" v-auths="['system:api:edit']" icon='Edit'>编辑</el-button>
+								<el-button size="small" type="text" @click="handleDelete(scope.row)" v-auths="['system:api:delete']" icon='Delete'>删除</el-button>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -30,7 +30,7 @@
 			</el-tab-pane>
 			<el-tab-pane key="addButton" v-auths="['system:api-group:list']">
 				<template #label>
-					<span style='font-size: 15px;'><i class='el-icon-setting'></i></span>
+					<span style='font-size: 15px;'><el-icon><Setting></Setting></el-icon></span>
 				</template>
 			</el-tab-pane>
 		</el-tabs>
@@ -45,17 +45,17 @@
 					<el-row :gutter="20">
 						<el-col :span="24" class="mb20">
 							<el-form-item label="标题：" prop="title">
-								<el-input size='small' v-model="ruleForm.title" placeholder="请输入接口标题"></el-input>
+								<el-input   v-model="ruleForm.title" placeholder="请输入接口标题"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="24" class="mb20">
 							<el-form-item label="地址：" prop="url">
-								<el-input size='small' v-model="ruleForm.url" placeholder="请输入接口地址"></el-input>
+								<el-input   v-model="ruleForm.url" placeholder="请输入接口地址"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="24" class="mb20">
 							<el-form-item label="方法：" prop="method">
-								<el-select style='width: 100%' size='small' v-model="ruleForm.method" placeholder="请输入接口方法">
+								<el-select style='width: 100%'   v-model="ruleForm.method" placeholder="请输入接口方法">
 									<el-option label="GET" value="GET"></el-option>
 									<el-option label="POST" value="POST"></el-option>
 									<el-option label="PUT" value="PUT"></el-option>
@@ -67,7 +67,7 @@
 						</el-col>
 						<el-col :span="24" class="mb20" v-if='ruleFormStatus === "edit"'>
 							<el-form-item label="所属应用：" prop="group">
-								<el-select size='small' v-model="ruleForm.group" placeholder="请选择所属应用" style='width: 100%'>
+								<el-select   v-model="ruleForm.group" placeholder="请选择所属应用" style='width: 100%'>
 									<el-option
 										v-for="item in apiGroupList"
 										:key="item.id"
@@ -79,7 +79,7 @@
 						</el-col>
 						<el-col :span="24">
 							<el-form-item label="备注：">
-								<el-input size='small' placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
+								<el-input   placeholder="请输入备注" type='textarea' v-model="ruleForm.remark"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -87,8 +87,8 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="dialogVisible = false" size='small'>取 消</el-button>
-					<el-button type="primary" @click="submitForm" size='small'>确 定</el-button>
+					<el-button @click="dialogVisible = false"  >取 消</el-button>
+					<el-button type="primary" @click="submitForm"  >确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -106,14 +106,13 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, nextTick, watch } from 'vue';
+import { ref, toRefs, reactive, onMounted, nextTick, watch, defineComponent } from 'vue';
 import { ElNotification, ElMessageBox } from 'element-plus';
 import Pagination from '/@/components/pagination/index.vue';
-import { parseTime } from '/@/utils/formatTime';
 import ApiGroup from './components/group.vue'
 import { apiList, saveApi, deleteApi } from '/@/api/system/api'
 import { apiGroupList } from '/@/api/system/apiGroup'
-export default {
+export default defineComponent({
 	name: 'SystemApiIndex',
 	components: { Pagination, ApiGroup },
 	setup: function() {
@@ -257,7 +256,6 @@ export default {
 		});
 		return {
 			ruleFormRef,
-			parseTime,
 			handleDelete,
 			getList,
 			getApiGroupList,
@@ -269,5 +267,5 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>

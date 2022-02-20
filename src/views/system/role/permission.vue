@@ -1,7 +1,7 @@
 <template>
 	<div class="system-menu-container">
 		<el-card class="box-card" style='margin-bottom: 10px;' v-auths="['system:role-permission:save']">
-			<el-button type="primary" size='small' @click='handleSubmit'><i class='el-icon-receiving'></i> &nbsp;保 存</el-button>
+			<el-button type="primary" @click='handleSubmit' icon='message-box'>保 存</el-button>
 		</el-card>
 		<el-row :gutter="10">
 			<el-col :span="6">
@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { watch, ref, toRefs, reactive, onMounted } from 'vue';
+import { watch, ref, toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { useStore } from '/@/store';
 import { useRoute } from 'vue-router';
 import PageElement from './components/pageElement.vue'
@@ -61,7 +61,7 @@ import { updateRolePermission, getRolePermission } from '/@/api/system/role'
 import { ElNotification } from 'element-plus';
 import PageApi from './components/pageApi.vue'
 
-export default {
+export default defineComponent({
 	name: 'SystemRolePermission',
 	components: { PageElement, PageApi },
 	setup: function() {
@@ -155,7 +155,7 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>
 
 <style lang='scss' scoped>
@@ -167,8 +167,5 @@ export default {
 }
 ::v-deep(.el-form-item__content .el-input-group) {
 	vertical-align: middle;
-}
-::v-deep(.el-alert--info.is-light) {
-	border-radius: 3px;
 }
 </style>

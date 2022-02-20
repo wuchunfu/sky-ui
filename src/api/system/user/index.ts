@@ -1,12 +1,12 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 获取用户
  */
 export function getUserInfo() {
 	return request({
-		url: `${version}/system/user/info`,
+		url: `${skyVersion}/system/user/info`,
 		method: 'get'
 	});
 }
@@ -16,7 +16,7 @@ export function getUserInfo() {
  */
 export function getUserInfoById(id:number) {
 	return request({
-		url: `${version}/system/user/info/${id}`,
+		url: `${skyVersion}/system/user/info/${id}`,
 		method: 'get'
 	});
 }
@@ -26,7 +26,7 @@ export function getUserInfoById(id:number) {
  */
 export function getUserList(params:object) {
 	return request({
-		url: `${version}/system/user`,
+		url: `${skyVersion}/system/user`,
 		method: 'get',
 		params: params,
 	});
@@ -37,7 +37,7 @@ export function getUserList(params:object) {
  */
 export function createUser(params:object) {
 	return request({
-		url: `${version}/system/user`,
+		url: `${skyVersion}/system/user`,
 		method: 'post',
 		data: params,
 	});
@@ -48,7 +48,7 @@ export function createUser(params:object) {
  */
 export function deleteUser(id:number) {
 	return request({
-		url: `${version}/system/user/${id}`,
+		url: `${skyVersion}/system/user/${id}`,
 		method: 'delete'
 	});
 }
@@ -58,7 +58,7 @@ export function deleteUser(id:number) {
  */
 export function editUser(id:number, params:object) {
 	return request({
-		url: `${version}/system/user/${id}`,
+		url: `${skyVersion}/system/user/${id}`,
 		method: 'put',
 		data: params
 	});

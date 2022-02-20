@@ -20,8 +20,8 @@
 <!--						</el-tab-pane>-->
 					</el-tabs>
 <!--					<div class="mt10">-->
-<!--						<el-button type="text" size="small">{{ $t('message.link.one3') }}</el-button>-->
-<!--						<el-button type="text" size="small">{{ $t('message.link.two4') }}</el-button>-->
+<!--						<el-button type="text">{{ $t('message.link.one3') }}</el-button>-->
+<!--						<el-button type="text">{{ $t('message.link.two4') }}</el-button>-->
 <!--					</div>-->
 				</div>
 				<Scan v-else />
@@ -38,11 +38,12 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed } from 'vue';
+import { toRefs, reactive, computed, defineComponent } from 'vue';
 import Account from '/@/views/login/component/account.vue';
 import Scan from '/@/views/login/component/scan.vue';
 import { useStore } from '/@/store';
-export default {
+
+export default defineComponent({
 	name: 'login',
 	components: { Account, Scan },
 	setup() {
@@ -68,7 +69,7 @@ export default {
 			...toRefs(state),
 		};
 	},
-};
+})
 </script>
 
 <style scoped lang="scss">

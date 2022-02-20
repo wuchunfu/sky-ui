@@ -1,20 +1,26 @@
 <template>
 	<template v-for="val in chils">
-		<el-submenu :index="val.path" :key="val.path" v-if="val.children && val.children.length > 0">
+		<el-sub-menu :index="val.path" :key="val.path" v-if="val.children && val.children.length > 0">
 			<template #title>
-				<i :class="val.meta.icon"></i>
+				<el-icon>
+					<component :is='val.meta.icon ? val.meta.icon : "Promotion"'></component>
+				</el-icon>
 				<span>{{ val.meta.title }}</span>
 			</template>
 			<sub-item :chil="val.children" />
-		</el-submenu>
+		</el-sub-menu>
 		<el-menu-item :index="val.path" :key="val.path" v-else>
 			<template v-if="!val.meta.hyperlink || (val.meta.hyperlink && val.meta.isIframe)">
-				<i :class="val.meta.icon ? val.meta.icon : ''"></i>
+				<el-icon>
+					<component :is='val.meta.icon ? val.meta.icon : "Promotion"'></component>
+				</el-icon>
 				<span>{{ val.meta.title }}</span>
 			</template>
 			<template v-else>
 				<a :href="val.meta.hyperlink" target="_blank" rel="opener">
-					<i :class="val.meta.icon ? val.meta.icon : ''"></i>
+					<el-icon>
+						<component :is='val.meta.icon ? val.meta.icon : "Promotion"'></component>
+					</el-icon>
 					{{ val.meta.title }}
 				</a>
 			</template>

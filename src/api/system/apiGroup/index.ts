@@ -1,12 +1,12 @@
 import request from '/@/utils/request';
-import { version } from '/@/api/version'
+import { skyVersion } from '/@/api/version'
 
 /**
  * 获取 API 接口分组列表
  */
 export function apiGroupList(params:object) {
 	return request({
-		url: `${version}/system/api-group`,
+		url: `${skyVersion}/system/api-group`,
 		method: 'get',
 		params
 	});
@@ -17,7 +17,7 @@ export function apiGroupList(params:object) {
  */
 export function saveApiGroup(params:object) {
 	return request({
-		url: `${version}/system/api-group`,
+		url: `${skyVersion}/system/api-group`,
 		method: 'post',
 		data: params
 	});
@@ -28,7 +28,7 @@ export function saveApiGroup(params:object) {
  */
 export function deleteApiGroup(id:number) {
 	return request({
-		url: `${version}/system/api-group/${id}`,
+		url: `${skyVersion}/system/api-group/${id}`,
 		method: 'delete'
 	});
 }

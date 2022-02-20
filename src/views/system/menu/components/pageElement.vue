@@ -8,9 +8,9 @@
 				show-icon>
 			</el-alert>
 			<el-row style='margin-top: 15px;'>
-				<el-button size='small' type='primary' v-auths="['system:menu-button:create']" @click='handleCreate'><i class="el-icon-plus"></i> &nbsp;新 建</el-button>
-				<el-button size='small' type='success' v-auths="['system:menu-button:edit']" :disabled='buttonList.length !== 1' @click='handleEdit'><i class="el-icon-edit"></i> &nbsp;编 辑</el-button>
-				<el-button size='small' type='danger' v-auths="['system:menu-button:delete']" :disabled='buttonList.length === 0' @click='handleDelete'><i class="el-icon-delete"></i> &nbsp;删 除</el-button>
+				<el-button   type='primary' v-auths="['system:menu-button:create']" @click='handleCreate' icon='Plus'>新 建</el-button>
+				<el-button   type='success' v-auths="['system:menu-button:edit']" :disabled='buttonList.length !== 1' @click='handleEdit' icon='Edit'>编 辑</el-button>
+				<el-button   type='danger' v-auths="['system:menu-button:delete']" :disabled='buttonList.length === 0' @click='handleDelete' icon='Delete'>删 除</el-button>
 			</el-row>
 			<el-divider></el-divider>
 			<el-empty v-if='pageButtons[menu.id] === undefined' description="暂无按钮"></el-empty>
@@ -30,12 +30,12 @@
 			<div>
 				<el-form :model="ruleForm" :rules="rules" ref="ruleFormRef" label-width="100px">
 					<el-form-item label="标题：" prop="title">
-						<el-input v-model="ruleForm.title" size='small' placeholder='请输入标题'></el-input>
+						<el-input v-model="ruleForm.title"   placeholder='请输入标题'></el-input>
 					</el-form-item>
 					<el-form-item label="权限标识：">
 						<el-select
 							style='width: 100%'
-							size='small'
+
 							v-model="ruleForm.auth"
 							multiple
 							filterable
@@ -55,8 +55,8 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="buttonDialog = false" size='small'>取 消</el-button>
-					<el-button type="primary" @click="handleSubmit" size='small'>确 定</el-button>
+					<el-button @click="buttonDialog = false"  >取 消</el-button>
+					<el-button type="primary" @click="handleSubmit"  >确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -64,12 +64,12 @@
 </template>
 
 <script>
-import { ref, reactive, toRefs } from 'vue';
+import { ref, reactive, toRefs, defineComponent } from 'vue';
 import { useStore } from '/@/store'
 import { saveMenu, menuButton, batchMenuButton } from '/@/api/system/menu';
 import { ElNotification, ElMessageBox } from 'element-plus';
 
-export default {
+export default defineComponent({
 	name: 'pageElement',
 	props: {
 		menu: Object,
@@ -190,7 +190,7 @@ export default {
 			...toRefs(state),
 		};
 	}
-};
+})
 </script>
 
 <style lang='scss' scoped>

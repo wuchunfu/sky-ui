@@ -4,7 +4,6 @@
 		<el-container class="layout-mian-height-50">
 			<Aside />
 			<div class="flex-center layout-backtop">
-				<TagsView v-if="getThemeConfig.isTagsview" />
 				<Main />
 			</div>
 		</el-container>
@@ -18,10 +17,9 @@ import { useStore } from '/@/store';
 import Aside from '/@/layout/component/aside.vue';
 import Header from '/@/layout/component/header.vue';
 import Main from '/@/layout/component/main.vue';
-import TagsView from '/@/layout/navBars/tagsView/tagsView.vue';
 export default {
 	name: 'layoutClassic',
-	components: { Aside, Header, Main, TagsView },
+	components: { Aside, Header, Main },
 	setup() {
 		const store = useStore();
 		// 获取布局配置信息
