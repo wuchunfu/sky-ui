@@ -465,7 +465,7 @@ html, body {
     text-align: center;
     width: 300px;
     font-size: 20px;
-    top: 100px;
+    top: 200px;
     left: 50%;
     margin-left: -150px;
     color: #ccc;
@@ -479,6 +479,12 @@ html, body {
     .el-input__inner {
       position: relative;
       top: 2px;
+    }
+  }
+
+  .tag-attribute-list-item {
+    .el-form-item__content {
+      display: inline;
     }
   }
 }

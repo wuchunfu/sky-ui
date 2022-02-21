@@ -294,9 +294,7 @@
         </template>
 
         <div style="margin-top: 5px;">
-          <el-button type="text" @click="handleInsertOption"
-            >添加选项</el-button
-          >
+          <el-button type="text" @click="handleInsertOption">添加选项</el-button>
         </div>
       </template>
     </el-form-item>
@@ -394,40 +392,40 @@
         <el-input-number v-model.number="data.options.gutter" :min="0" />
       </el-form-item>
 
-      <el-form-item label="列配置项">
-        <Draggable
-          tag="ul"
-          item-key="index"
-          ghostClass="ghost"
-          :group="{ name: 'options' }"
-          :list="data.columns"
-        >
-          <template >
-            <li style="margin-bottom: 5px;" >
-              <SvgIcon name="item" className="drag-item" />
-              <el-input-number
-                placeholder="栅格值"
-                v-model.number="element.span"
-                :min="0"
-                :max="24"
-              />
-              <el-button
-                type="primary"
-                circle
-                style="margin-left: 5px;"
-                @click="handleOptionsRemove(index)"
-              >
-                <SvgIcon name="fdelete" />
-              </el-button>
-            </li>
-          </template>
-        </Draggable>
-
-        <div>
-          <el-button type="text" @click="handleInsertColumn">
-            添加列
-          </el-button>
-        </div>
+      <el-form-item label="列配置项" class='tag-attribute-list-item'>
+				<div>
+					<Draggable
+						tag="ul"
+						item-key="index"
+						ghostClass="ghost"
+						:group="{ name: 'options' }"
+						:list="data.columns"
+					>
+						<transition-group name="fade" tag="div" v-for="(element, index) of data.columns" :key='index'>
+							<li style="margin-bottom: 5px;" >
+								<el-input-number
+									placeholder="栅格值"
+									v-model.number="element.span"
+									:min="0"
+									:max="24"
+								/>
+								<el-button
+									type="primary"
+									circle
+									style="margin-left: 8px;"
+									@click="handleOptionsRemove(index)"
+								>
+									<SvgIcon name="fdelete" />
+								</el-button>
+							</li>
+						</transition-group>
+					</Draggable>
+				</div>
+				<div>
+					<el-button type="text" @click="handleInsertColumn" size="medium">
+						添加列
+					</el-button>
+				</div>
       </el-form-item>
 
       <el-form-item label="垂直对齐方式">
@@ -478,7 +476,7 @@
       <template v-if="hasKey('rules')">
         <h4>验证规则</h4>
 
-        <el-form-item label="触发时机">
+        <el-form-item label="触发时机" class='mt10'>
           <el-radio-group v-model="data.options.rules.trigger">
             <el-radio-button label="blur">Blur</el-radio-button>
             <el-radio-button label="change">Change</el-radio-button>
@@ -511,21 +509,7 @@
 
         <el-form-item label="校验类型">
           <el-select v-model="data.options.rules.type">
-            <el-option value="string">字符串</el-option>
-            <el-option value="number">数字</el-option>
-            <el-option value="boolean">布尔值</el-option>
-            <el-option value="method">方法</el-option>
-            <el-option value="regexp">正则表达式</el-option>
-            <el-option value="integer">整数</el-option>
-            <el-option value="float">浮点数</el-option>
-            <el-option value="array">数组</el-option>
-            <el-option value="object">对象</el-option>
-            <el-option value="enum">枚举</el-option>
-            <el-option value="date">日期</el-option>
-            <el-option value="url">URL地址</el-option>
-            <el-option value="hex">十六进制</el-option>
-            <el-option value="email">邮箱地址</el-option>
-            <el-option value="any">任意类型</el-option>
+            <el-option v-for='item in checkOptions' :key='item.value' :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
       </template>
@@ -534,7 +518,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, reactive, ref, toRefs, watch } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next'
 import SvgIcon from '/@/components/svgIcon/index.vue';
 
@@ -551,7 +535,26 @@ export default defineComponent({
   },
   emits: ['update:select'],
   setup(props, context) {
-    const data = ref<any>(props.select)
+    const data = ref<any>(props.select);
+		const state = reactive({
+			checkOptions: [
+				{value: 'string', label: '字符串'},
+				{value: 'number', label: '数字'},
+				{value: 'boolean', label: '布尔值'},
+				{value: 'method', label: '方法'},
+				{value: 'regexp', label: '正则表达式'},
+				{value: 'integer', label: '整数'},
+				{value: 'float', label: '浮点数'},
+				{value: 'array', label: '数组'},
+				{value: 'object', label: '对象'},
+				{value: 'enum', label: '枚举'},
+				{value: 'date', label: '日期'},
+				{value: 'url', label: 'URL地址'},
+				{value: 'hex', label: '十六进制'},
+				{value: 'email', label: '邮箱地址'},
+				{value: 'any', label: '任意类型'},
+			]
+		})
 
     watch(
       () => props.select,
@@ -619,7 +622,8 @@ export default defineComponent({
       handleInsertOption,
       handleOptionsRemove,
       handleSliderModeChange,
-      handleSelectModeChange
+      handleSelectModeChange,
+			...toRefs(state)
     }
   }
 })

@@ -1,7 +1,7 @@
 <template>
   <div class="widget-form-container">
-    <div v-if="!widgetForm.list || widgetForm.list.length === 0" class="form-empty">
-			<el-empty description="从左侧拖拽来添加标签"></el-empty>
+		<div v-if="!widgetForm.list || widgetForm.list.length === 0" class="form-empty">
+			从左侧拖拽来添加标签
 		</div>
     <el-form
       label-suffix=":"

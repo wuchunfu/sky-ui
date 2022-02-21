@@ -37,7 +37,7 @@ export const widgetForm: WidgetForm = {
   config: {
     size: 'default',
     hideRequiredAsterisk: false,
-    labelWidth: 100,
+    labelWidth: 120,
     labelPosition: 'right'
   }
 }

@@ -60,13 +60,14 @@
                 </div>
               </el-header>
               <el-main class="config-content">
-                <ElWidgetConfig
-									v-if='widgetFormSelect'
-                  v-show="configTab === 'widget'"
-                  v-model:select="widgetFormSelect"
-                />
-								<div v-else style='text-align: center; margin-top: 100px; color: #909399'>
-									暂未选中标签
+								<div v-show="configTab === 'widget'">
+									<ElWidgetConfig
+										v-if='widgetFormSelect'
+										v-model:select="widgetFormSelect"
+									/>
+									<div v-else style='text-align: center; margin-top: 100px; color: #909399'>
+										暂未选中标签
+									</div>
 								</div>
                 <ElFormConfig
                   v-show="configTab === 'form'"

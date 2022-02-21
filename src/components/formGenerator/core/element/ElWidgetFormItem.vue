@@ -19,7 +19,7 @@
           :disabled="element.options.disabled"
         >
           <template #prefix v-if="element.options.prefix">
-            {{ element.options.prefix }}
+            <div>{{ element.options.prefix }}</div>
           </template>
           <template #suffix v-if="element.options.suffix">
             {{ element.options.suffix }}
