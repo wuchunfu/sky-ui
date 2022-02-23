@@ -5,7 +5,8 @@
       v-if="element"
       :key="element.key"
       :class="{ active: selectWidget?.key === element.key }"
-      :label="element.label"
+      :label="element.options.hideLabel ? '' : element.label"
+			:label-width="element.options.hideLabel ? '0' : element.options.labelWidth"
       :rules="element.options.rules"
     >
       <template v-if="element.type === 'input'">

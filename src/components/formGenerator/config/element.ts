@@ -28,7 +28,7 @@ const rules: Rules = {
   message: '',
   min: undefined,
   pattern: '',
-  required: false,
+  required: true,
   type: 'any'
 }
 
@@ -48,6 +48,8 @@ export const basicComponents = [
     type: 'input',
     options: {
       width: '100%',
+      labelWidth: '120px',
+      hideLabel: false,
       defaultValue: '',
       placeholder: '',
       maxlength: null,

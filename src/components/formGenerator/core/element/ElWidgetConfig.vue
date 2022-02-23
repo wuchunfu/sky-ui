@@ -12,6 +12,14 @@
       <el-input v-model="data.options.width" />
     </el-form-item>
 
+		<el-form-item label="标签宽度" v-if="hasKey('labelWidth')">
+			<el-input v-model="data.options.labelWidth" />
+		</el-form-item>
+
+		<el-form-item label="隐藏标签" v-if="hasKey('hideLabel')">
+			<el-switch v-model="data.options.hideLabel" />
+		</el-form-item>
+
     <el-form-item label="占位内容" v-if="hasKey('placeholder')">
       <el-input v-model="data.options.placeholder" />
     </el-form-item>

@@ -1,7 +1,7 @@
 <template>
   <div class="fc-style">
     <el-form
-      ref="generateForm"
+      ref="generateFormRef"
       label-suffix=":"
       :model="model"
       :rules="rules"
@@ -50,7 +50,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, toRefs, watch } from 'vue'
+import { defineComponent, onMounted, reactive, toRefs, watch, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import ElGenerateFormItem from './ElGenerateFormItem.vue'
 import { element } from '/@/components/formGenerator/config'
@@ -74,8 +74,8 @@ export default defineComponent({
     }
   },
   setup(props) {
+		const generateFormRef = ref();
     const state = reactive({
-      generateForm: null as any,
       model: {} as any,
       rules: {} as any,
       widgetForm:
@@ -97,7 +97,6 @@ export default defineComponent({
           } else {
             state.model[model] = list[index].options.defaultValue
           }
-
           state.rules[model] = list[index].options.rules
         }
       }
@@ -109,17 +108,15 @@ export default defineComponent({
           item.columns.forEach((col: any) => generateOptions(col.list))
         } else {
           if (item.options.remote && item.options.remoteFunc) {
-            fetch(item.options.remoteFunc)
-              .then(resp => resp.json())
-              .then(json => {
-                if (json instanceof Array) {
-                  item.options.remoteOptions = json.map(data => ({
-                    label: data[item.options.props.label],
-                    value: data[item.options.props.value],
-                    children: data[item.options.props.children]
-                  }))
-                }
-              })
+            fetch(item.options.remoteFunc).then(resp => resp.json()).then(json => {
+							if (json instanceof Array) {
+								item.options.remoteOptions = json.map(data => ({
+									label: data[item.options.props.label],
+									value: data[item.options.props.value],
+									children: data[item.options.props.children]
+								}))
+							}
+						})
           }
         }
       })
@@ -138,36 +135,34 @@ export default defineComponent({
       { deep: true, immediate: true }
     )
 
-    onMounted(() => {
+    onMounted( () => {
       generateModel(state.widgetForm?.list ?? [])
       generateOptions(state.widgetForm?.list ?? [])
     })
 
     const getData = () => {
       return new Promise((resolve, reject) => {
-        state.generateForm
-          .validate()
-          .then((validate: boolean) => {
-            if (validate) {
-              resolve(state.model)
-            } else {
-              ElMessage.error('验证失败')
-            }
-          })
-          .catch((error: Error) => {
-            reject(error)
-          })
+				generateFormRef.value.validate().then((validate: boolean) => {
+					if (validate) {
+						resolve(state.model)
+					} else {
+						ElMessage.error('验证失败')
+					}
+				}).catch((error: Error) => {
+					reject(error)
+				})
       })
     }
 
     const reset = () => {
-      state.generateForm.resetFields()
+			generateFormRef.value.resetFields()
     }
 
     return {
-      ...toRefs(state),
+			generateFormRef,
       getData,
-      reset
+      reset,
+			...toRefs(state),
     }
   }
 })

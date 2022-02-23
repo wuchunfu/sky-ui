@@ -92,30 +92,28 @@
         </template>
       </el-dialog>
 
-      <el-dialog v-model="previewVisible" title="预览" width="60%">
+      <el-dialog v-model="previewVisible" title="预览" fullscreen>
         <ElGenerateForm
           ref="generateFormRef"
           v-if="previewVisible"
           :data="widgetForm"
         />
         <template #footer>
-          <el-button size="medium" @click="handleReset">重置</el-button>
-          <el-button type="primary" size="medium" @click="handleGetData">获取数据</el-button>
+					<div style='text-align: center'>
+						<el-button size="medium" @click="handleReset">重置</el-button>
+						<el-button type="primary" size="medium" @click="handleGetData">获取数据</el-button>
+					</div>
         </template>
 
         <el-dialog v-model="dataJsonVisible" title="获取数据" width="60%">
           <CodeEditor v-if='dataJsonVisible' :modelValue="dataJsonTemplate" language="json" readonly />
 
           <template #footer>
-            <el-button size="medium" @click="() => (dataJsonVisible = false)"
-              >取消</el-button
-            >
+            <el-button size="medium" @click="() => (dataJsonVisible = false)">取消</el-button>
             <el-button
               type="primary"
               size="medium"
-              @click="handleCopyClick(dataJsonTemplate)"
-              >Copy</el-button
-            >
+              @click="handleCopyClick(dataJsonTemplate)">复制</el-button>
           </template>
         </el-dialog>
       </el-dialog>
@@ -156,7 +154,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, PropType, toRefs, watchEffect } from 'vue';
+import { defineComponent, reactive, PropType, toRefs, watchEffect, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import CodeEditor from '/@/components/codeEditor/index.vue'
 import { defaultsDeep } from 'lodash'
@@ -232,12 +230,12 @@ export default defineComponent({
     }
   },
   setup() {
+		const generateFormRef = ref()
     const state = reactive({
       element,
       codeType: CodeType,
       widgetForm: JSON.parse(JSON.stringify(element.widgetForm)),
       widgetFormSelect: undefined,
-      generateFormRef: null as any,
       configTab: 'widget',
       previewVisible: false,
       uploadJsonVisible: false,
@@ -274,7 +272,7 @@ export default defineComponent({
     }
 
     const handleGetData = () => {
-      state.generateFormRef.getData().then((res: any) => {
+			generateFormRef.value.getData().then((res: any) => {
         state.dataJsonTemplate = JSON.stringify(res, null, 2)
         state.dataJsonVisible = true
       })
@@ -311,7 +309,7 @@ export default defineComponent({
       state.widgetFormSelect = undefined
     }
 
-    const handleReset = () => state.generateFormRef.reset()
+    const handleReset = () => generateFormRef.value.reset()
 
     const getJson = () => state.widgetForm
 
@@ -340,6 +338,7 @@ export default defineComponent({
       setJson,
       getTemplate,
       clear,
+			generateFormRef,
 			...toRefs(state),
     }
   }

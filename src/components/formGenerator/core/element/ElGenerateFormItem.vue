@@ -1,5 +1,11 @@
 <template>
-  <el-form-item v-if="element" :key="element.key" :label="element.label" :prop="element.model">
+  <el-form-item
+		v-if="element"
+		:key="element.key"
+		:label="element.label"
+		:label-width="element.options.labelWidth"
+		:prop="element.model"
+	>
     <template v-if="element.type === 'input'">
       <el-input
         v-model="data"
