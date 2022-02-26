@@ -1,13 +1,13 @@
 export interface Rules {
   trigger: string
-  enum: string
+  enum?: string
   len?: number
   max?: number
   message: string
   min?: number
-  pattern: string
+  pattern?: string
   required: boolean
-  type: string
+  type?: string
 }
 
 export interface WidgetForm {
@@ -22,14 +22,14 @@ export interface WidgetForm {
 
 const rules: Rules = {
   trigger: 'blur',
-  enum: '',
+  enum: undefined,
   len: undefined,
   max: undefined,
   message: '',
   min: undefined,
-  pattern: '',
+  pattern: undefined,
   required: true,
-  type: 'any'
+  type: undefined
 }
 
 export const widgetForm: WidgetForm = {
