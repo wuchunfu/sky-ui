@@ -16,12 +16,14 @@
     padding: 10px 15px;
   }
 
-  .el-radio-group {
-    vertical-align: super;
+  .form-design-dialog-preview > .el-dialog__footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
   }
 
-  .el-radio {
-    margin-bottom: 10px;
+  .el-radio-group {
+    vertical-align: super;
   }
 
   .el-rate {
@@ -31,9 +33,17 @@
   .el-slider {
     padding-left: 10px;
   }
+  .widget-form-list {
+    .el-checkbox__input {
+      position: relative;
+      top: 3px;
+    }
+  }
 
-  .el-checkbox__input {
-    position: relative;
-    top: 3px;
+  .fc_label_attribute_options {
+    .el-checkbox__inner {
+      position: relative;
+      top: 1px;
+    }
   }
 }

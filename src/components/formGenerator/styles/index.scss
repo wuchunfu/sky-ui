@@ -475,17 +475,14 @@ html, body {
     background-position: 50%;
   }
 
-  .fc_label_attribute_options {
-    .el-input__inner {
-      position: relative;
-      top: 2px;
-    }
-  }
-
   .tag-attribute-list-item {
     .el-form-item__content {
       display: inline;
     }
+  }
+
+  .custom-select-box-options {
+    padding-bottom: 0;
   }
 }
 

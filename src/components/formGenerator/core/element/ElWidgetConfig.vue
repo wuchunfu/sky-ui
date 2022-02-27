@@ -13,7 +13,7 @@
     </el-form-item>
 
 		<el-form-item label="标签宽度" v-if="hasKey('labelWidth')">
-			<el-input v-model="data.options.labelWidth" />
+			<el-input-number v-model.number="data.options.labelWidth" />
 		</el-form-item>
 
 		<el-form-item label="隐藏标签" v-if="hasKey('hideLabel')">
@@ -21,7 +21,7 @@
 		</el-form-item>
 
     <el-form-item label="占位内容" v-if="hasKey('placeholder')">
-      <el-input v-model="data.options.placeholder" />
+      <el-input v-model="data.options.placeholder" :type="data.type === 'textarea' ? 'textarea': ''" />
     </el-form-item>
 
     <el-form-item
@@ -94,13 +94,28 @@
       <el-input-number v-model.number="data.options.step" :min="0" />
     </el-form-item>
 
-    <el-form-item label="前缀" v-if="hasKey('prefix')">
-      <el-input v-model="data.options.prefix" />
+    <el-form-item label="精度" v-if="hasKey('precision')">
+      <el-input-number v-model.number="data.options.precision" :min="0" />
     </el-form-item>
 
-    <el-form-item label="后缀" v-if="hasKey('suffix')">
-      <el-input v-model="data.options.suffix" />
-    </el-form-item>
+		<el-form-item label="是否使用控制按钮" v-if="hasKey('controls')">
+			<el-switch v-model="data.options.controls" />
+		</el-form-item>
+
+		<el-form-item label="控制按钮位置" v-if="data.options.controls && hasKey('controlsPosition')">
+			<el-radio-group v-model="data.options.controlsPosition">
+				<el-radio-button label="default">默认</el-radio-button>
+				<el-radio-button label="right">右侧</el-radio-button>
+			</el-radio-group>
+		</el-form-item>
+
+		<!--    <el-form-item label="前缀" v-if="hasKey('prefix')">-->
+		<!--      <el-input v-model="data.options.prefix" />-->
+		<!--    </el-form-item>-->
+
+		<!--    <el-form-item label="后缀" v-if="hasKey('suffix')">-->
+		<!--      <el-input v-model="data.options.suffix" />-->
+		<!--    </el-form-item>-->
 
     <el-form-item label="前置标签" v-if="hasKey('prepend')">
       <el-input v-model="data.options.prepend" />
@@ -133,9 +148,9 @@
       <el-switch v-model="data.options.showPassword" />
     </el-form-item>
 
-    <el-form-item label="是否显示字数" v-if="hasKey('showWordLimit')">
-      <el-switch v-model="data.options.showWordLimit" />
-    </el-form-item>
+		<!--    <el-form-item label="是否显示字数" v-if="hasKey('showWordLimit')">-->
+		<!--      <el-switch v-model="data.options.showWordLimit" />-->
+		<!--    </el-form-item>-->
 
     <el-form-item label="是否自适应内容高度" v-if="hasKey('autosize')">
       <el-switch v-model="data.options.autosize" />
@@ -167,144 +182,145 @@
       <el-switch v-model="data.options.filterable" />
     </el-form-item>
 
-    <el-form-item label="是否显示标签" v-if="hasKey('showLabel')">
-      <el-switch v-model="data.options.showLabel" />
-    </el-form-item>
-
     <el-form-item label="选项" v-if="hasKey('options')">
-      <el-radio-group v-model="data.options.remote">
-        <el-radio-button :label="false">静态数据</el-radio-button>
-        <el-radio-button :label="true">远端数据</el-radio-button>
-      </el-radio-group>
-      <el-space
-        v-if="data.options.remote"
-        alignment="start"
-        direction="vertical"
-        style="margin-top: 10px;"
-      >
-        <el-input v-model="data.options.remoteFunc">
-          <template #prepend>
-            远端方法
-          </template>
-        </el-input>
-        <el-input v-model="data.options.props.label">
-          <template #prepend>
-            标签
-          </template>
-        </el-input>
-        <el-input v-model="data.options.props.value">
-          <template #prepend>
-            值
-          </template>
-        </el-input>
-      </el-space>
-      <template v-else>
-        <template
-          v-if="
+			<div>
+				<el-radio-group v-model="data.options.remote">
+					<el-radio-button :label="false">静态数据</el-radio-button>
+					<el-radio-button :label="true">远端数据</el-radio-button>
+				</el-radio-group>
+			</div>
+      <div>
+				<el-space
+					v-if="data.options.remote"
+					alignment="start"
+					direction="vertical"
+					style="margin-top: 10px;"
+				>
+					<el-input v-model="data.options.remoteFunc">
+						<template #prepend>
+							远端方法
+						</template>
+					</el-input>
+					<el-input v-model="data.options.props.label">
+						<template #prepend>
+							标签
+						</template>
+					</el-input>
+					<el-input v-model="data.options.props.value">
+						<template #prepend>
+							值
+						</template>
+					</el-input>
+				</el-space>
+				<template v-else>
+					<div style="margin-top: 6px" v-if="hasKey('showLabel')">
+						<el-checkbox v-model="data.options.showLabel" label="是否显示标签"></el-checkbox>
+					</div>
+					<template
+						v-if="
             data.type === 'radio' ||
               (data.type === 'select' && !data.options.multiple)
           "
-        >
-          <el-radio-group
-            v-model="data.options.defaultValue"
-            style="margin-top: 8px;"
-          >
-            <Draggable
-              tag="ul"
-              item-key="index"
-              ghostClass="ghost"
-              :group="{ name: 'options' }"
-              :list="data.options.options"
-            >
-							<transition-group name="fade" tag="div" v-for="(element, index) of data.options.options" :key='index'>
-                <el-space direction="vertical" size="mini">
-                  <div>
-                    <el-radio
-                      :label="element.value"
-                      style="margin-right: 0px; margin-bottom: 0;"
-                    >
-                      <el-input
-                        :style="{
+					>
+						<el-radio-group
+							v-model="data.options.defaultValue"
+						>
+							<Draggable
+								tag="ul"
+								item-key="index"
+								ghostClass="ghost"
+								:group="{ name: 'options' }"
+								:list="data.options.options"
+							>
+								<transition-group name="fade" tag="div" v-for="(element, index) of data.options.options" :key='index'>
+									<el-space direction="vertical" style='height: 40px;'>
+										<div>
+											<el-radio
+												:label="element.value"
+												style="margin-right: 0; margin-bottom: 0;"
+											>
+												<el-input
+													:style="{
                           width: data.options.showLabel ? '90px' : '180px'
                         }"
-                        v-model="element.value"
-                      />
-                      <el-input
-                        v-if="data.options.showLabel"
-                        :style="{
+													v-model="element.value"
+												/>
+												<el-input
+													v-if="data.options.showLabel"
+													:style="{
                           width: '90px'
                         }"
-                        v-model="element.label"
-                      />
-                    </el-radio>
-                    <el-button
-											style='position: relative; top: -6px; margin-left: 8px;'
-                      type="primary"
-                      circle
-                      @click="handleOptionsRemove(index)"
-                    >
-                      <SvgIcon name="fdelete" />
-                    </el-button>
-                  </div>
-                </el-space>
-							</transition-group>
-            </Draggable>
-          </el-radio-group>
-        </template>
+													v-model="element.label"
+												/>
+											</el-radio>
+											<el-button
+												style='position: relative; top: -6px; margin-left: 8px;'
+												type="primary"
+												circle
+												@click="handleOptionsRemove(index)"
+											>
+												<SvgIcon name="fdelete" />
+											</el-button>
+										</div>
+									</el-space>
+								</transition-group>
+							</Draggable>
+						</el-radio-group>
+					</template>
 
-        <template
-          v-if="
+					<template
+						v-if="
             data.type === 'checkbox' ||
               (data.type === 'select' && data.options.multiple)
           "
-        >
-          <el-checkbox-group
-            v-model="data.options.defaultValue"
-            style="margin-top: 8px;"
-          >
-            <Draggable
-              tag="ul"
-              item-key="index"
-              ghostClass="ghost"
-              :group="{ name: 'options' }"
-              :list="data.options.options"
-            >
-							<transition-group name="fade" tag="div" v-for="(element, index) of data.options.options" :key='index'>
-                <div class='fc_label_attribute_options'>
-                  <el-checkbox
-                    :label="element.value"
-                    style="margin-right: 0; margin-bottom: 0;"
-                  >
-                    <el-input
-                      :style="{
+					>
+						<el-checkbox-group
+							v-model="data.options.defaultValue"
+						>
+							<Draggable
+								tag="ul"
+								item-key="index"
+								ghostClass="ghost"
+								:group="{ name: 'options' }"
+								:list="data.options.options"
+							>
+								<transition-group name="fade" tag="div" v-for="(element, index) of data.options.options" :key='index'>
+									<div class='fc_label_attribute_options'>
+										<el-checkbox
+											:label="element.value"
+											style="margin-right: 0; margin-bottom: 0;"
+										>
+											<el-input
+												:style="{
                         width: data.options.showLabel ? '90px' : '180px'
                       }"
-                      v-model="element.value"
-                    />
-                    <el-input
-                      v-if="data.options.showLabel"
-                      v-model="element.label"
-                      :style="{ width: '90px' }"
-                    />
-                  </el-checkbox>
-                  <el-button
-										style='position: relative; top: -6px; margin-left: 8px;'
-                    type="primary"
-                    circle
-                    @click="handleOptionsRemove(index)"
-                  >
-                    <SvgIcon name="fdelete" />
-                  </el-button>
-                </div>
-							</transition-group>
-            </Draggable>
-          </el-checkbox-group>
-        </template>
+												v-model="element.value"
+											/>
+											<el-input
+												v-if="data.options.showLabel"
+												v-model="element.label"
+												:style="{ width: '90px' }"
+											/>
+										</el-checkbox>
+										<el-button
+											style='position: relative; top: -6px; margin-left: 8px;'
+											type="primary"
+											circle
+											@click="handleOptionsRemove(index)"
+										>
+											<SvgIcon name="fdelete" />
+										</el-button>
+									</div>
+								</transition-group>
+							</Draggable>
+						</el-checkbox-group>
+					</template>
 
-        <div style="margin-top: 5px;">
-          <el-button type="text" @click="handleInsertOption">添加选项</el-button>
-        </div>
-      </template>
+					<div>
+						<el-button type="text" icon='Plus' @click="handleInsertOption">添加选项</el-button>
+					</div>
+				</template>
+			</div>
     </el-form-item>
 
     <template v-if="data.type === 'time'">
@@ -457,28 +473,22 @@
 
     <template v-if="data.type !== 'grid'">
       <el-form-item
+				class='fc_label_attribute_operation'
         label="操作属性"
         v-if="
           hasKey('rules') ||
-            hasKey('readonly') ||
-            hasKey('disabled') ||
-            hasKey('allowClear')
+					hasKey('readonly') ||
+					hasKey('disabled') ||
+					hasKey('allowClear')
         "
       >
         <el-checkbox
           v-if="hasKey('rules')"
-          v-model="data.options.rules.required"
-          >必填</el-checkbox
+          v-model="data.options.rules.required">必填</el-checkbox
         >
-        <el-checkbox v-if="hasKey('readonly')" v-model="data.options.readonly"
-          >只读</el-checkbox
-        >
-        <el-checkbox v-if="hasKey('disabled')" v-model="data.options.disabled"
-          >禁用</el-checkbox
-        >
-        <el-checkbox v-if="hasKey('clearable')" v-model="data.options.clearable"
-          >清除</el-checkbox
-        >
+        <el-checkbox v-if="hasKey('readonly')" v-model="data.options.readonly">只读</el-checkbox>
+        <el-checkbox v-if="hasKey('disabled')" v-model="data.options.disabled">禁用</el-checkbox>
+        <el-checkbox v-if="hasKey('clearable')" v-model="data.options.clearable">清除</el-checkbox>
       </el-form-item>
 
       <template v-if="hasKey('rules')">
@@ -491,28 +501,24 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="枚举类型">
-          <el-input v-model:value="data.options.rules.enum" />
-        </el-form-item>
+				<!--        <el-form-item label="枚举类型">-->
+				<!--          <el-input v-model:value="data.options.rules.enum" />-->
+				<!--        </el-form-item>-->
 
         <el-form-item label="标签长度">
-          <el-input v-model.number="data.options.rules.len" />
+          <el-input-number v-model.number="data.options.rules.len" />
         </el-form-item>
 
         <el-form-item label="最大长度">
-          <el-input v-model.number="data.options.rules.max" />
+          <el-input-number v-model.number="data.options.rules.max" />
         </el-form-item>
 
         <el-form-item label="最小长度">
-          <el-input v-model.number="data.options.rules.min" />
+          <el-input-number v-model.number="data.options.rules.min" />
         </el-form-item>
 
-        <el-form-item label="校验文案">
+        <el-form-item label="提示内容">
           <el-input v-model="data.options.rules.message" />
-        </el-form-item>
-
-        <el-form-item label="正则表达式">
-          <el-input v-model="data.options.rules.pattern" />
         </el-form-item>
 
         <el-form-item label="校验类型">
@@ -520,6 +526,10 @@
             <el-option v-for='item in checkOptions' :key='item.value' :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
+
+				<el-form-item label="正则表达式" v-if='data.options.rules.type === "regexp"'>
+					<el-input v-model="data.options.rules.pattern" />
+				</el-form-item>
       </template>
     </template>
   </el-form>

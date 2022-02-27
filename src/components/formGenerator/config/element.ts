@@ -28,7 +28,7 @@ const rules: Rules = {
   message: '',
   min: undefined,
   pattern: undefined,
-  required: true,
+  required: false,
   type: undefined
 }
 
@@ -48,7 +48,7 @@ export const basicComponents = [
     type: 'input',
     options: {
       width: '100%',
-      labelWidth: '120px',
+      labelWidth: 120,
       hideLabel: false,
       defaultValue: '',
       placeholder: '',
@@ -68,6 +68,8 @@ export const basicComponents = [
     type: 'password',
     options: {
       width: '100%',
+      labelWidth: 120,
+      hideLabel: false,
       defaultValue: '',
       placeholder: '',
       maxlength: null,
@@ -87,14 +89,15 @@ export const basicComponents = [
     type: 'textarea',
     options: {
       width: '100%',
+      labelWidth: 120,
+      hideLabel: false,
       defaultValue: '',
       placeholder: '',
       maxlength: null,
-      rows: 4,
+      rows: 3,
       autosize: false,
       showWordLimit: false,
       disabled: false,
-      clearable: false,
       readonly: false,
       rules
     }
@@ -104,10 +107,15 @@ export const basicComponents = [
     type: 'number',
     options: {
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       defaultValue: 0,
       min: 0,
       max: 100,
       step: 1,
+      precision: 0,
+      controls: true,
+      controlsPosition: 'default',
       disabled: false,
       rules
     }
@@ -117,6 +125,8 @@ export const basicComponents = [
     type: 'radio',
     options: {
       defaultValue: '',
+      labelWidth: 120,
+      hideLabel: false,
       width: '',
       inline: true,
       remote: false,
@@ -152,6 +162,8 @@ export const basicComponents = [
     options: {
       defaultValue: [],
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       inline: true,
       remote: false,
       showLabel: false,
@@ -186,6 +198,8 @@ export const basicComponents = [
     options: {
       defaultValue: '',
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       placeholder: '请选择时间',
       format: 'HH:mm:ss',
       valueFormat: 'HH:mm:ss',
@@ -202,6 +216,8 @@ export const basicComponents = [
     options: {
       defaultValue: '',
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       placeholder: '请选择时间',
       format: 'YYYY-MM-DD',
       readonly: false,
@@ -216,6 +232,8 @@ export const basicComponents = [
     type: 'rate',
     options: {
       defaultValue: 0,
+      labelWidth: 120,
+      hideLabel: false,
       max: 5,
       allowHalf: false,
       disabled: false,
@@ -228,6 +246,8 @@ export const basicComponents = [
     options: {
       defaultValue: '',
       width: '200px',
+      labelWidth: 120,
+      hideLabel: false,
       multiple: false,
       placeholder: '',
       remote: false,
@@ -264,6 +284,8 @@ export const basicComponents = [
     type: 'switch',
     options: {
       defaultValue: false,
+      labelWidth: 120,
+      hideLabel: false,
       disabled: false,
       activeText: '',
       inactiveText: '',
@@ -276,6 +298,8 @@ export const basicComponents = [
     options: {
       defaultValue: 0,
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       min: 0,
       max: 100,
       step: 1,
@@ -288,7 +312,9 @@ export const basicComponents = [
     label: '文字',
     type: 'text',
     options: {
-      defaultValue: 'This is a text'
+      defaultValue: 'This is a text',
+      labelWidth: 120,
+      hideLabel: false,
     }
   }
 ]
@@ -299,6 +325,8 @@ export const advanceComponents = [
     type: 'img-upload',
     options: {
       defaultValue: [],
+      labelWidth: 120,
+      hideLabel: false,
       name: 'file',
       action: 'http://example.com/upload',
       method: 'post',
@@ -316,6 +344,8 @@ export const advanceComponents = [
     options: {
       defaultValue: '',
       width: '',
+      labelWidth: 120,
+      hideLabel: false,
       disabled: false
     }
   },
@@ -325,6 +355,8 @@ export const advanceComponents = [
     options: {
       defaultValue: [],
       width: '200px',
+      labelWidth: 120,
+      hideLabel: false,
       placeholder: '',
       disabled: false,
       clearable: false,

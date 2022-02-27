@@ -92,14 +92,14 @@
         </template>
       </el-dialog>
 
-      <el-dialog v-model="previewVisible" title="预览" fullscreen>
+      <el-dialog v-model="previewVisible" title="预览" fullscreen custom-class='form-design-dialog-preview'>
         <ElGenerateForm
           ref="generateFormRef"
           v-if="previewVisible"
           :data="widgetForm"
         />
         <template #footer>
-					<div style='text-align: center'>
+					<div style='text-align: center;'>
 						<el-button size="medium" @click="handleReset">重置</el-button>
 						<el-button type="primary" size="medium" @click="handleGetData">获取数据</el-button>
 					</div>
@@ -268,7 +268,7 @@ export default defineComponent({
 
     const handleCopyClick = (text: string) => {
       copy(text)
-      ElMessage.success('Copy成功')
+      ElMessage.success('复制成功')
     }
 
     const handleGetData = () => {

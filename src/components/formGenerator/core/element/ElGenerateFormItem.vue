@@ -2,8 +2,8 @@
   <el-form-item
 		v-if="element"
 		:key="element.key"
-		:label="element.label"
-		:label-width="element.options.labelWidth"
+		:label="element.options.hideLabel ? '' : element.label"
+		:label-width="element.options.hideLabel ? '0' : element.options.labelWidth + 'px'"
 		:prop="element.model"
 	>
     <template v-if="element.type === 'input'">
@@ -52,7 +52,6 @@
         :maxlength="parseInt(element.options.maxlength)"
         :show-word-limit="element.options.showWordLimit"
         :autosize="element.options.autosize"
-        :clearable="element.options.clearable"
         :readonly="element.options.readonly"
         :disabled="disabled || element.options.disabled"
       />
@@ -64,6 +63,10 @@
         :style="{ width: element.options.width }"
         :max="element.options.max"
         :min="element.options.min"
+				:step="element.options.step"
+				:precision="element.options.precision"
+				:controls="element.options.controls"
+				:controls-position="element.options.controlsPosition"
         :disabled="disabled || element.options.disabled"
       />
     </template>
@@ -73,6 +76,7 @@
         v-model="data"
         :style="{ width: element.options.width }"
         :disabled="disabled || element.options.disabled"
+				:class='element.options.inline ? "" : "select-box"'
       >
         <el-radio
           v-for="item of element.options.remote
@@ -80,9 +84,7 @@
           : element.options.options"
           :key="item.value"
           :label="item.value"
-          :style="{
-            display: element.options.inline ? 'inline-block' : 'block'
-          }"
+					:style="{marginRight: element.options.inline ? '' : '32px'}"
         >{{ element.options.showLabel ? item.label : item.value }}</el-radio>
       </el-radio-group>
     </template>
@@ -286,3 +288,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang='scss' scoped>
+.select-box {
+	flex-direction: column;
+}
+</style>

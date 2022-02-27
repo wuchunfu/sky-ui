@@ -6,7 +6,7 @@
       :key="element.key"
       :class="{ active: selectWidget?.key === element.key }"
       :label="element.options.hideLabel ? '' : element.label"
-			:label-width="element.options.hideLabel ? '0' : element.options.labelWidth"
+			:label-width="element.options.hideLabel ? '0' : element.options.labelWidth + 'px'"
       :rules="element.options.rules"
     >
       <template v-if="element.type === 'input'">
@@ -19,18 +19,10 @@
           :clearable="element.options.clearable"
           :disabled="element.options.disabled"
         >
-          <template #prefix v-if="element.options.prefix">
-            <div>{{ element.options.prefix }}</div>
-          </template>
-          <template #suffix v-if="element.options.suffix">
-            {{ element.options.suffix }}
-          </template>
-          <template #prepend v-if="element.options.prepend">
-            {{ element.options.prepend }}
-          </template>
-          <template #append v-if="element.options.append">
-            {{ element.options.append }}
-          </template>
+          <template #prefix v-if="element.options.prefix">{{ element.options.prefix }}</template>
+          <template #suffix v-if="element.options.suffix">{{ element.options.suffix }}</template>
+          <template #prepend v-if="element.options.prepend">{{ element.options.prepend }}</template>
+          <template #append v-if="element.options.append">{{ element.options.append }}</template>
         </el-input>
       </template>
 
@@ -72,7 +64,6 @@
           :maxlength="parseInt(element.options.maxlength)"
           :show-word-limit="element.options.showWordLimit"
           :autosize="element.options.autosize"
-          :clearable="element.options.clearable"
           :disabled="element.options.disabled"
         />
       </template>
@@ -83,6 +74,10 @@
           :style="{ width: element.options.width }"
           :max="element.options.max"
           :min="element.options.min"
+					:step="element.options.step"
+          :precision="element.options.precision"
+          :controls="element.options.controls"
+          :controls-position="element.options.controlsPosition"
           :disabled="element.options.disabled"
         />
       </template>
@@ -90,18 +85,19 @@
       <template v-if="element.type === 'radio'">
         <el-radio-group
           :modelValue="element.options.defaultValue"
-          :style="{ width: element.options.width }"
+          :style="{ width: element.options.width}"
           :disabled="element.options.disabled"
+					:class='element.options.inline ? "" : "select-box"'
+					class=''
         >
           <el-radio
             v-for="item of element.options.options"
             :key="item.value"
             :label="item.value"
-            :style="{
-              display: element.options.inline ? 'inline-block' : 'block'
-            }"
-            >{{ element.options.showLabel ? item.label : item.value }}</el-radio
-          >
+						:style="{marginRight: element.options.inline ? '' : '32px'}"
+					>
+						{{ element.options.showLabel ? item.label : item.value }}
+					</el-radio>
         </el-radio-group>
       </template>
 
@@ -198,7 +194,7 @@
         />
       </template>
 
-      <template v-if="element.type == 'text'">
+      <template v-if="element.type === 'text'">
         <span>{{ element.options.defaultValue }}</span>
       </template>
 
@@ -283,3 +279,9 @@ export default defineComponent({
   emits: ['copy', 'delete']
 })
 </script>
+
+<style lang='scss' scoped>
+	.select-box {
+		flex-direction: column;
+	}
+</style>
