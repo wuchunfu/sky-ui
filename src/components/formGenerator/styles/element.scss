@@ -40,6 +40,13 @@
     }
   }
 
+  .previewCheckbox {
+    .el-checkbox__input {
+      position: relative;
+      top: 3px;
+    }
+  }
+
   .fc_label_attribute_options {
     .el-checkbox__inner {
       position: relative;

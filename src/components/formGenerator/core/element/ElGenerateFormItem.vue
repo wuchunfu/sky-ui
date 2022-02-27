@@ -94,6 +94,7 @@
         v-model="data"
         :style="{ width: element.options.width }"
         :disabled="disabled || element.options.disabled"
+				class='previewCheckbox'
       >
         <el-checkbox
           v-for="item of element.options.remote
@@ -105,9 +106,7 @@
             display: element.options.inline ? 'inline-block' : 'block'
           }"
         >
-          {{
-            element.options.showLabel ? item.label : item.value
-          }}
+          {{ element.options.showLabel ? item.label : item.value }}
         </el-checkbox>
       </el-checkbox-group>
     </template>
@@ -116,7 +115,9 @@
       <el-date-picker
         v-model="data"
 				:type="element.options.type"
-        :placeholder="element.options.placeholder"
+				:placeholder="element.options.placeholder"
+				:start-placeholder="element.options.startPlaceholder"
+				:end-placeholder="element.options.endPlaceholder"
         :readonly="element.options.readonly"
         :editable="element.options.editable"
         :clearable="element.options.clearable"
@@ -177,7 +178,7 @@
       />
     </template>
 
-    <template v-if="element.type == 'text'">
+    <template v-if="element.type === 'text'">
       <span>{{ element.options.defaultValue }}</span>
     </template>
 
