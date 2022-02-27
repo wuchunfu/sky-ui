@@ -112,22 +112,10 @@
       </el-checkbox-group>
     </template>
 
-    <template v-if="element.type === 'time'">
-      <el-time-picker
-        v-model="data"
-        :placeholder="element.options.placeholder"
-        :readonly="element.options.readonly"
-        :editable="element.options.editable"
-        :clearable="element.options.clearable"
-        :format="element.options.format"
-        :disabled="disabled || element.options.disabled"
-        :style="{ width: element.options.width }"
-      />
-    </template>
-
     <template v-if="element.type === 'date'">
       <el-date-picker
         v-model="data"
+				:type="element.options.type"
         :placeholder="element.options.placeholder"
         :readonly="element.options.readonly"
         :editable="element.options.editable"

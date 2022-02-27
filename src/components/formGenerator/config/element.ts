@@ -194,32 +194,17 @@ export const basicComponents = [
   },
   {
     label: '时间选择器',
-    type: 'time',
-    options: {
-      defaultValue: '',
-      width: '',
-      labelWidth: 120,
-      hideLabel: false,
-      placeholder: '请选择时间',
-      format: 'HH:mm:ss',
-      valueFormat: 'HH:mm:ss',
-      readonly: false,
-      editable: true,
-      clearable: true,
-      disabled: false,
-      rules
-    }
-  },
-  {
-    label: '日期选择器',
     type: 'date',
     options: {
+      type: 'datetime',
       defaultValue: '',
       width: '',
       labelWidth: 120,
       hideLabel: false,
       placeholder: '请选择时间',
-      format: 'YYYY-MM-DD',
+      startPlaceholder: '请选择开始时间',
+      endPlaceholder: '请选择结束时间',
+      format: 'YYYY-MM-DD HH:mm:ss',
       readonly: false,
       editable: true,
       clearable: true,

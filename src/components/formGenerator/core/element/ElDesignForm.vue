@@ -211,7 +211,6 @@ export default defineComponent({
         'number',
         'radio',
         'checkbox',
-        'time',
         'date',
         'rate',
         'select',

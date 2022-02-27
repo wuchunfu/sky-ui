@@ -137,11 +137,15 @@
       <el-switch v-model="data.options.editable" />
     </el-form-item>
 
-    <el-form-item label="范围选择" v-if="hasKey('range')">
-      <el-switch
-        v-model="data.options.range"
-        @change="handleSliderModeChange"
-      />
+    <el-form-item label="时间类型" v-if="data.type === 'date'">
+			<el-select v-model="data.options.type" class="m-2" @change='handleSliderModeChange'>
+				<el-option label="年" value="year"></el-option>
+				<el-option label="月" value="month"></el-option>
+				<el-option label="日期时间" value="datetime"></el-option>
+				<el-option label="日期" value="date"></el-option>
+				<el-option label="日期时间范围" value="datetimerange"></el-option>
+				<el-option label="日期范围" value="daterange"></el-option>
+			</el-select>
     </el-form-item>
 
     <el-form-item label="是否显示切换按钮" v-if="hasKey('showPassword')">
@@ -323,17 +327,6 @@
 			</div>
     </el-form-item>
 
-    <template v-if="data.type === 'time'">
-      <el-form-item label="默认值">
-        <el-time-picker
-          style="width: 100%;"
-          v-model="data.options.defaultValue"
-          :format="data.options.format"
-          :placeholder="data.options.placeholder"
-        />
-      </el-form-item>
-    </template>
-
     <template v-if="data.type === 'date'">
       <el-form-item label="默认值">
         <el-date-picker
@@ -341,11 +334,12 @@
           v-model="data.options.defaultValue"
           :format="data.options.format"
           :placeholder="data.options.placeholder"
+          :type="data.options.type"
         />
       </el-form-item>
     </template>
 
-    <template v-if="data.type === 'time' || data.type === 'date'">
+    <template v-if="data.type === 'date'">
       <el-form-item label="格式">
         <el-input v-model="data.options.format" />
       </el-form-item>
@@ -566,7 +560,7 @@ export default defineComponent({
 				{value: 'array', label: '数组'},
 				{value: 'object', label: '对象'},
 				{value: 'enum', label: '枚举'},
-				{value: 'date', label: '日期'},
+				{value: 'date', label: '时间'},
 				{value: 'url', label: 'URL地址'},
 				{value: 'hex', label: '十六进制'},
 				{value: 'email', label: '邮箱地址'},
@@ -607,10 +601,16 @@ export default defineComponent({
       }
     }
 
-    const handleSliderModeChange = (checked: boolean) => {
-      checked
-        ? (data.value.options.defaultValue = [10, 90])
-        : (data.value.options.defaultValue = 0)
+    const handleSliderModeChange = () => {
+      if (data.value.options.type === 'year') {
+				data.value.options.format = 'YYYY'
+			} else if (data.value.options.type === 'month') {
+				data.value.options.format = 'MM'
+			} else if (['date', 'daterange'].indexOf(data.value.options.type) !== -1) {
+				data.value.options.format = 'YYYY-MM-DD'
+			} else if (['datetime', 'datetimerange'].indexOf(data.value.options.type) !== -1) {
+				data.value.options.format = 'YYYY-MM-DD HH:mm:ss'
+			}
     }
 
     const handleSelectModeChange = (val: boolean) => {
