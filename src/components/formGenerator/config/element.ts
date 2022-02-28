@@ -193,39 +193,6 @@ export const basicComponents = [
     }
   },
   {
-    label: '时间选择器',
-    type: 'date',
-    options: {
-      type: 'datetime',
-      defaultValue: '',
-      width: '',
-      labelWidth: 120,
-      hideLabel: false,
-      placeholder: '请选择时间',
-      startPlaceholder: '请选择开始时间',
-      endPlaceholder: '请选择结束时间',
-      format: 'YYYY-MM-DD HH:mm:ss',
-      readonly: false,
-      editable: true,
-      clearable: true,
-      disabled: false,
-      rules
-    }
-  },
-  {
-    label: '评分',
-    type: 'rate',
-    options: {
-      defaultValue: 0,
-      labelWidth: 120,
-      hideLabel: false,
-      max: 5,
-      allowHalf: false,
-      disabled: false,
-      rules
-    }
-  },
-  {
     label: '下拉选择框',
     type: 'select',
     options: {
@@ -261,6 +228,39 @@ export const basicComponents = [
       remoteOptions: [],
       remoteFunc:
         'https://raw.githubusercontent.com/fuchengwei/vue-form-create/master/mock/mock.json',
+      rules
+    }
+  },
+  {
+    label: '时间选择器',
+    type: 'date',
+    options: {
+      type: 'datetime',
+      defaultValue: '',
+      width: '',
+      labelWidth: 120,
+      hideLabel: false,
+      placeholder: '请选择时间',
+      startPlaceholder: '请选择开始时间',
+      endPlaceholder: '请选择结束时间',
+      format: 'YYYY-MM-DD HH:mm:ss',
+      readonly: false,
+      editable: true,
+      clearable: true,
+      disabled: false,
+      rules
+    }
+  },
+  {
+    label: '评分',
+    type: 'rate',
+    options: {
+      defaultValue: 0,
+      labelWidth: 120,
+      hideLabel: false,
+      max: 5,
+      allowHalf: false,
+      disabled: false,
       rules
     }
   },

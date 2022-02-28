@@ -131,7 +131,7 @@
       <el-rate
         v-model="data"
         :max="element.options.max"
-        :allowHalf="element.options.allowHalf"
+        :allow-half="element.options.allowHalf"
         :disabled="disabled || element.options.disabled"
       />
     </template>
@@ -218,14 +218,12 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue'
 import SvgIcon from '/@/components/svgIcon/index.vue';
-import RichTextEditor from '/@/components/formGenerator/components/RichTextEditor.vue'
 import { WidgetForm } from '/@/components/formGenerator/config/element'
 
 export default defineComponent({
   name: 'ElGenerateFormItem',
   components: {
     SvgIcon,
-    RichTextEditor
   },
   props: {
     config: {

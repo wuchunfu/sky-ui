@@ -20,9 +20,17 @@
 			<el-switch v-model="data.options.hideLabel" />
 		</el-form-item>
 
-    <el-form-item label="占位内容" v-if="hasKey('placeholder')">
+    <el-form-item label="占位内容" v-if="hasKey('placeholder') && ['datetimerange', 'daterange'].indexOf(data.options.type) === -1">
       <el-input v-model="data.options.placeholder" :type="data.type === 'textarea' ? 'textarea': ''" />
     </el-form-item>
+
+		<el-form-item label="开始占位内容" v-if="hasKey('startPlaceholder') && ['datetimerange', 'daterange'].indexOf(data.options.type) !== -1">
+			<el-input v-model="data.options.startPlaceholder" :type="data.type === 'textarea' ? 'textarea': ''" />
+		</el-form-item>
+
+		<el-form-item label="结束占位内容" v-if="hasKey('endPlaceholder') && ['datetimerange', 'daterange'].indexOf(data.options.type) !== -1">
+			<el-input v-model="data.options.endPlaceholder" :type="data.type === 'textarea' ? 'textarea': ''" />
+		</el-form-item>
 
     <el-form-item
       label="默认内容"

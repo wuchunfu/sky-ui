@@ -236,14 +236,12 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import SvgIcon from '/@/components/svgIcon/index.vue';
-import RichTextEditor from '/@/components/formGenerator/components/RichTextEditor.vue'
 import { WidgetForm } from '/@/components/formGenerator/config/element'
 
 export default defineComponent({
   name: 'ElWidgetFormItem',
   components: {
     SvgIcon,
-    RichTextEditor
   },
   props: {
     config: {
