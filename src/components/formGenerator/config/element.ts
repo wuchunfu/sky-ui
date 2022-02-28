@@ -265,6 +265,19 @@ export const basicComponents = [
     }
   },
   {
+    label: '颜色选择器',
+    type: 'color',
+    options: {
+      defaultValue: '',
+      labelWidth: 120,
+      hideLabel: false,
+      size: 'default',
+      showAlpha	: false,
+      disabled: false,
+      rules
+    }
+  },
+  {
     label: '开关',
     type: 'switch',
     options: {

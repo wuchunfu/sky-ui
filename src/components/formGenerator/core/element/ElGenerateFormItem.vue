@@ -136,6 +136,18 @@
       />
     </template>
 
+		<template v-if="element.type === 'color'">
+			<el-color-picker
+				:v-model="data"
+				:size="element.options.size"
+				:showAlpha="element.options.showAlpha"
+				:colorFormat="element.options.colorFormat"
+				:popperClass="element.options.popperClass"
+				:predefine="element.options.predefine"
+				:disabled="disabled || element.options.disabled"
+			/>
+		</template>
+
     <template v-if="element.type === 'select'">
       <el-select
         v-model="data"

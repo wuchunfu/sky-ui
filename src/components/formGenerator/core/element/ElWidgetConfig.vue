@@ -20,6 +20,10 @@
 			<el-switch v-model="data.options.hideLabel" />
 		</el-form-item>
 
+		<el-form-item label="支持透明度选择" v-if="hasKey('showAlpha')">
+			<el-switch v-model="data.options.showAlpha" />
+		</el-form-item>
+
     <el-form-item label="占位内容" v-if="hasKey('placeholder') && ['datetimerange', 'daterange'].indexOf(data.options.type) === -1">
       <el-input v-model="data.options.placeholder" :type="data.type === 'textarea' ? 'textarea': ''" />
     </el-form-item>
@@ -346,6 +350,16 @@
         />
       </el-form-item>
     </template>
+
+		<template v-if="data.type === 'color'">
+			<el-form-item label="默认值">
+				<el-color-picker
+					v-model="data.options.defaultValue"
+					:showAlpha="data.options.showAlpha"
+					:colorFormat="data.options.colorFormat"
+				/>
+			</el-form-item>
+		</template>
 
     <template v-if="data.type === 'date'">
       <el-form-item label="格式">

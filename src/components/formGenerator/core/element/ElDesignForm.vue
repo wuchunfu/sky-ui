@@ -213,6 +213,7 @@ export default defineComponent({
         'checkbox',
         'date',
         'rate',
+        'color',
         'select',
         'switch',
         'slider',
