@@ -37,7 +37,6 @@
 		"vue-web-screen-shot": "^1.2.0",
 		"vue3-contextmenu": "^0.2.12",
 		"vuex": "^4.0.2",
-		"wangeditor": "^4.7.11",
 		"zrender": ">=5.2.1"
 	},
 	"devDependencies": {

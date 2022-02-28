@@ -324,17 +324,6 @@ export const advanceComponents = [
     }
   },
   {
-    label: '富文本编辑器',
-    type: 'richtext-editor',
-    options: {
-      defaultValue: '',
-      width: '',
-      labelWidth: 120,
-      hideLabel: false,
-      disabled: false
-    }
-  },
-  {
     label: '级联选择器',
     type: 'cascader',
     options: {

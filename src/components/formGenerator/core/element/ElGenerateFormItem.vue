@@ -201,14 +201,6 @@
       </el-upload>
     </template>
 
-    <template v-if="element.type === 'richtext-editor'">
-      <RichTextEditor
-        v-model:value="data"
-        :disable="disabled || element.options.disabled"
-        :style="{ width: element.options.width }"
-      />
-    </template>
-
     <template v-if="element.type === 'cascader'">
       <el-cascader
         v-model="data"
