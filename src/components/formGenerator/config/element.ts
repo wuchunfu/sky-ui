@@ -117,7 +117,6 @@ export const basicComponents = [
       controls: true,
       controlsPosition: 'default',
       disabled: false,
-      rules
     }
   },
   {
@@ -153,7 +152,6 @@ export const basicComponents = [
         label: 'label'
       },
       disabled: false,
-      rules
     }
   },
   {
@@ -189,7 +187,6 @@ export const basicComponents = [
         label: 'label'
       },
       disabled: false,
-      rules
     }
   },
   {
@@ -228,7 +225,6 @@ export const basicComponents = [
       remoteOptions: [],
       remoteFunc:
         'https://raw.githubusercontent.com/fuchengwei/vue-form-create/master/mock/mock.json',
-      rules
     }
   },
   {
@@ -248,7 +244,6 @@ export const basicComponents = [
       editable: true,
       clearable: true,
       disabled: false,
-      rules
     }
   },
   {
@@ -261,7 +256,6 @@ export const basicComponents = [
       max: 5,
       allowHalf: false,
       disabled: false,
-      rules
     }
   },
   {
@@ -274,7 +268,6 @@ export const basicComponents = [
       size: 'default',
       showAlpha	: false,
       disabled: false,
-      rules
     }
   },
   {
@@ -287,7 +280,6 @@ export const basicComponents = [
       disabled: false,
       activeText: '',
       inactiveText: '',
-      rules
     }
   },
   {
@@ -303,7 +295,6 @@ export const basicComponents = [
       step: 1,
       disabled: false,
       range: false,
-      rules
     }
   },
   {
@@ -344,7 +335,6 @@ export const advanceComponents = [
       limit: 3,
       multiple: false,
       disabled: false,
-      rules
     }
   },
   {
@@ -368,7 +358,6 @@ export const advanceComponents = [
       },
       remoteFunc:
         'https://raw.githubusercontent.com/fuchengwei/vue-form-create/master/mock/mock.json',
-      rules
     }
   }
 ]
