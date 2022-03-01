@@ -361,6 +361,16 @@
 			</el-form-item>
 		</template>
 
+		<template v-if="data.type === 'html'">
+			<el-form-item label="默认值">
+				<CodeEditor
+					v-model:modelValue='data.options.defaultValue'
+					mime='text/html'
+					theme='ambiance-mobile'
+				></CodeEditor>
+			</el-form-item>
+		</template>
+
     <template v-if="data.type === 'date'">
       <el-form-item label="格式">
         <el-input v-model="data.options.format" />
@@ -521,7 +531,7 @@
 				<!--          <el-input v-model:value="data.options.rules.enum" />-->
 				<!--        </el-form-item>-->
 
-        <el-form-item label="标签长度">
+        <el-form-item label="内容长度">
           <el-input-number v-model.number="data.options.rules.len" />
         </el-form-item>
 
@@ -537,8 +547,8 @@
           <el-input v-model="data.options.rules.message" />
         </el-form-item>
 
-        <el-form-item label="校验类型">
-          <el-select v-model="data.options.rules.type">
+        <el-form-item label="校验类型" v-if='["input", "radio", "checkbox", "select"].indexOf(data.type) !== -1'>
+          <el-select v-model="data.options.rules.type" style='width: 100%'>
             <el-option v-for='item in checkOptions' :key='item.value' :value="item.value" :label="item.label"></el-option>
           </el-select>
         </el-form-item>
@@ -555,12 +565,14 @@
 import { defineComponent, reactive, ref, toRefs, watch } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next'
 import SvgIcon from '/@/components/svgIcon/index.vue';
+import CodeEditor from '/@/components/codeEditor/index.vue'
 
 export default defineComponent({
   name: 'ElWidgetConfig',
   components: {
     Draggable: VueDraggableNext,
-    SvgIcon
+    SvgIcon,
+		CodeEditor
   },
   props: {
     select: {
@@ -668,3 +680,10 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang='scss' scoped>
+::v-deep(.CodeMirror) {
+	width: 100%;
+	min-height: 100px;
+}
+</style>

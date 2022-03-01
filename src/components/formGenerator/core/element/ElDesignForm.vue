@@ -217,7 +217,8 @@ export default defineComponent({
         'select',
         'switch',
         'slider',
-        'text'
+        'text',
+				'html'
       ]
     },
     advanceFields: {
@@ -272,6 +273,7 @@ export default defineComponent({
     }
 
     const handleGetData = () => {
+			console.log(generateFormRef.value.rules)
 			generateFormRef.value.getData().then((res: any) => {
         state.dataJsonTemplate = JSON.stringify(res, null, 2)
         state.dataJsonVisible = true

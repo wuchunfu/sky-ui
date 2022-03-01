@@ -200,6 +200,10 @@
         <span>{{ element.options.defaultValue }}</span>
       </template>
 
+			<template v-if="element.type === 'html'">
+				<span v-html='element.options.defaultValue'></span>
+			</template>
+
       <template v-if="element.type === 'img-upload'">
         <el-upload
           :name="element.options.file"

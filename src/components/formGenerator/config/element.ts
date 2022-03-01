@@ -25,7 +25,7 @@ const rules: Rules = {
   enum: undefined,
   len: undefined,
   max: undefined,
-  message: '',
+  message: '必填',
   min: undefined,
   pattern: undefined,
   required: false,
@@ -311,6 +311,17 @@ export const basicComponents = [
     type: 'text',
     options: {
       defaultValue: 'This is a text',
+      labelWidth: 120,
+      hideLabel: false,
+    }
+  },
+  {
+    label: 'HTML',
+    type: 'html',
+    options: {
+      defaultValue: '<b style="color: red;">\n' +
+        '\tThis is a HTML5\n' +
+        '</b>',
       labelWidth: 120,
       hideLabel: false,
     }
