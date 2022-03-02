@@ -4,7 +4,7 @@
 			class="widget-view"
 			v-if="element"
 			:key="element.key"
-			:class="{ active: selectWidget?.key === element.key }"
+			:class="{ active: selectWidget?.key === element.key, 'widget-view-alert': element.type === 'alert' }"
 			:label="element.options.hideLabel ? '' : element.label"
 			:label-width="element.options.hideLabel ? '0' : element.options.labelWidth + 'px'"
 			:rules="element.options.rules"
@@ -266,6 +266,18 @@
 				/>
 			</template>
 
+			<template v-if="element.type === 'alert'">
+				<el-alert
+					:title="element.options.title"
+					:type="element.options.type"
+					:closable="element.options.closable"
+					:center="element.options.center"
+					:close-text="element.options.closeText"
+					:show-icon="element.options.showIcon"
+					:effect='element.options.effect'
+				/>
+			</template>
+
 			<template v-if="element.type === 'divider'">
 				<el-divider
 					:direction="element.options.direction"
@@ -318,5 +330,11 @@ export default defineComponent({
 <style lang='scss' scoped>
 .select-box {
 	flex-direction: column;
+}
+
+.widget-view-alert {
+	::v-deep(.el-form-item__content) {
+		line-height: 0;
+	}
 }
 </style>

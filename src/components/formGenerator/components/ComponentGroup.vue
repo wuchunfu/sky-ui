@@ -16,8 +16,8 @@
 					:class="{ 'no-put': element.tpye === 'divider' }"
 				>
 					<a>
-						<SvgIcon class='mr6 ml8' :name="element.type" />
-						<span>{{ element.label }}</span>
+						<SvgIcon class='mr6 ml8' :name="element.icon ? element.icon : element.type" />
+						<span>{{ element.title ? element.title : element.label }}</span>
 					</a>
 				</li>
 			</div>

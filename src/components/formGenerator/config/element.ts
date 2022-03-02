@@ -348,6 +348,31 @@ export const basicComponents = [
       target: false,
       disabled: false,
     }
+  },
+  {
+    title: '提示信息',
+    type: 'alert',
+    options: {
+      title: '这是一条提示信息',
+      type: 'info',
+      closable: true,
+      center: false,
+      closeText: '',
+      showIcon: false,
+      effect: 'light'
+    }
+  },
+  {
+    label: '分割线',
+    type: 'divider',
+    options: {
+      defaultValue: '分割线',
+      labelWidth: 120,
+      hideLabel: true,
+      direction: 'horizontal',
+      borderStyle: 'solid',
+      contentPosition: 'center'
+    }
   }
 ]
 
@@ -390,18 +415,6 @@ export const advanceComponents = [
       },
       remoteFunc:
         'https://raw.githubusercontent.com/fuchengwei/vue-form-create/master/mock/mock.json',
-    }
-  },
-  {
-    label: '分割线',
-    type: 'divider',
-    options: {
-      defaultValue: '分割线',
-      labelWidth: 120,
-      hideLabel: true,
-      direction: 'horizontal',
-      borderStyle: 'solid',
-      contentPosition: 'center'
     }
   }
 ]

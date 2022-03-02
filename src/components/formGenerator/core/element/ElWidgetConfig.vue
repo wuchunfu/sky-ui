@@ -4,12 +4,39 @@
       <el-input v-model="data.model" />
     </el-form-item>
 
-    <el-form-item label="标题" v-if="data.type !== 'grid'">
+    <el-form-item label="标题" v-if="data.type !== 'grid' && hasDataKey('label')">
       <el-input v-model="data.label" />
     </el-form-item>
 
 		<el-form-item label="名称" v-if="['button', 'link'].indexOf(data.type) !== -1 && hasKey('name')">
 			<el-input v-model="data.options.name" />
+		</el-form-item>
+
+		<el-form-item label="提示信息" v-if="hasKey('title')">
+			<el-input v-model="data.options.title" />
+		</el-form-item>
+
+		<el-form-item label="是否可关闭" v-if="hasKey('closable')">
+			<el-switch v-model="data.options.closable" />
+		</el-form-item>
+
+		<el-form-item label="是否居中" v-if="hasKey('center')">
+			<el-switch v-model="data.options.center" />
+		</el-form-item>
+
+		<el-form-item label="关闭自定义文本" v-if="hasKey('closeText')">
+			<el-input v-model="data.options.closeText" />
+		</el-form-item>
+
+		<el-form-item label="是否显示图标" v-if="hasKey('showIcon')">
+			<el-switch v-model="data.options.showIcon" />
+		</el-form-item>
+
+		<el-form-item label="主题" v-if="hasKey('effect')">
+			<el-radio-group v-model="data.options.effect">
+				<el-radio-button label="light">Light</el-radio-button>
+				<el-radio-button label="dark">Dark</el-radio-button>
+			</el-radio-group>
 		</el-form-item>
 
 		<template v-if="data.type === 'divider'">
@@ -51,7 +78,7 @@
 		</el-form-item>
 
 		<el-form-item label="按钮类型" v-if="['button', 'link'].indexOf(data.type) !== -1 && hasKey('type')">
-			<el-select v-model="data.options.type" class="m-2">
+			<el-select v-model="data.options.type" class="m-2" style='width: 100%;'>
 				<el-option label="Default" value="default"></el-option>
 				<el-option label="Primary" value="primary"></el-option>
 				<el-option label="Success" value="success"></el-option>
@@ -59,6 +86,15 @@
 				<el-option label="Danger" value="danger"></el-option>
 				<el-option label="Info" value="info"></el-option>
 				<el-option label="Text" value="text"></el-option>
+			</el-select>
+		</el-form-item>
+
+		<el-form-item label="提示类型" v-if="['alert'].indexOf(data.type) !== -1 && hasKey('type')">
+			<el-select v-model="data.options.type" class="m-2" style='width: 100%;'>
+				<el-option label="Success" value="success"></el-option>
+				<el-option label="Warning" value="warning"></el-option>
+				<el-option label="Info" value="info"></el-option>
+				<el-option label="Error" value="error"></el-option>
 			</el-select>
 		</el-form-item>
 
@@ -700,6 +736,9 @@ export default defineComponent({
     const hasKey = (key: string) =>
       Object.keys(data.value.options).includes(key)
 
+		const hasDataKey = (key: string) =>
+			Object.keys(data.value).includes(key)
+
     const handleInsertColumn = () => {
       data.value.columns.push({
         span: 0,
@@ -758,6 +797,7 @@ export default defineComponent({
     return {
       data,
       hasKey,
+			hasDataKey,
       handleInsertColumn,
       handleInsertOption,
       handleOptionsRemove,

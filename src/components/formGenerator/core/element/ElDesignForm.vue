@@ -221,11 +221,13 @@ export default defineComponent({
 				'html',
 				'button',
 				'link',
+				'divider',
+				'alert'
       ]
     },
     advanceFields: {
       type: Array as PropType<Array<string>>,
-      default: () => ['img-upload', 'cascader', 'divider']
+      default: () => ['img-upload', 'cascader']
     },
     layoutFields: {
       type: Array as PropType<Array<string>>,

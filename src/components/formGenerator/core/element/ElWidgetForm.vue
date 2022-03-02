@@ -79,6 +79,13 @@
 							</div>
 						</el-row>
 					</template>
+					<template v-else-if='element.type === "table"'>
+						<el-table :data="[]" border style="width: 100%">
+							<el-table-column prop="date" label="Date" width="180" />
+							<el-table-column prop="name" label="Name" width="180" />
+							<el-table-column prop="address" label="Address" />
+						</el-table>
+					</template>
 					<template v-else>
 						<ElWidgetFormItem
 							v-if="element.key"
