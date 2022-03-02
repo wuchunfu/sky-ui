@@ -438,5 +438,11 @@ export const layoutComponents = [
       justify: 'start',
       align: 'top'
     }
+  },
+  {
+    label: '表格布局',
+    type: 'table',
+    options: {
+    }
   }
 ]

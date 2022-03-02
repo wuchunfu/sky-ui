@@ -231,7 +231,7 @@ export default defineComponent({
     },
     layoutFields: {
       type: Array as PropType<Array<string>>,
-      default: () => ['grid']
+      default: () => ['grid', 'table']
     }
   },
   setup() {

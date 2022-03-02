@@ -80,11 +80,47 @@
 						</el-row>
 					</template>
 					<template v-else-if='element.type === "table"'>
-						<el-table :data="[]" border style="width: 100%">
-							<el-table-column prop="date" label="Date" width="180" />
-							<el-table-column prop="name" label="Name" width="180" />
-							<el-table-column prop="address" label="Address" />
-						</el-table>
+						<div
+							class="widget-col widget-view-table widget-view"
+							:class="{ active: widgetFormSelect?.key === element.key }"
+							@click="handleItemClick(element)"
+						>
+							<table style='width: 100%'>
+								<tr>
+									<td>
+										<Draggable
+											class="widget-col-list"
+											item-key="key"
+											ghostClass="ghost"
+											:animation="200"
+											:group="{ name: 'people' }"
+											:no-transition-on-drag="true"
+											:list="[]"
+											@add="handleColMoveAdd($event, element, colIndex)"
+										>
+											<transition-group name="fade" tag="div" v-for="(element, index) of []" :key='index'>
+												<ElWidgetFormItem
+													v-if="element.key"
+													:key="element.key"
+													:element="element"
+													:config="widgetForm.config"
+													:selectWidget="widgetFormSelect"
+													@click.stop="handleItemClick(element)"
+													@copy="handleCopyClick(index, col.list)"
+													@delete="handleDeleteClick(index, col.list)"
+												/>
+											</transition-group>
+										</Draggable>
+									</td>
+								</tr>
+							</table>
+							<div class="widget-view-action widget-col-action" v-if="widgetFormSelect?.key === element.key">
+								<SvgIcon name="fdelete" @click.stop="handleDeleteClick(index, widgetForm.list)" />
+							</div>
+							<div class="widget-view-drag widget-col-drag" v-if="widgetFormSelect?.key === element.key">
+								<SvgIcon name="fmove" />
+							</div>
+						</div>
 					</template>
 					<template v-else>
 						<ElWidgetFormItem
@@ -314,3 +350,19 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang='scss' scoped>
+.widget-view-table {
+	table, th, td {
+		border: 1px solid #999999;
+		border-collapse: collapse;
+	}
+	table {
+		width: 100%;
+	}
+
+	td {
+		padding: 3px;
+	}
+}
+</style>
