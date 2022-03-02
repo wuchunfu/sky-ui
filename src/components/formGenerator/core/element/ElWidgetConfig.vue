@@ -12,6 +12,12 @@
 			<el-input v-model="data.options.name" />
 		</el-form-item>
 
+		<template v-if="data.type === 'divider'">
+			<el-form-item label="文案内容">
+				<el-input v-model="data.options.defaultValue"></el-input>
+			</el-form-item>
+		</template>
+
 		<el-form-item label="图标" v-if="hasKey('icon')">
 			<el-input v-model="data.options.icon" />
 		</el-form-item>
@@ -251,6 +257,34 @@
     <el-form-item label="是否可搜索" v-if="hasKey('filterable')">
       <el-switch v-model="data.options.filterable" />
     </el-form-item>
+
+		<el-form-item label="分割线方向" v-if="hasKey('direction')">
+			<el-radio-group v-model="data.options.direction">
+				<el-radio label="horizontal">水平</el-radio>
+				<el-radio label="vertical">垂直</el-radio>
+			</el-radio-group>
+		</el-form-item>
+
+		<el-form-item label="分隔线样式" v-if="hasKey('borderStyle')">
+			<el-select v-model="data.options.borderStyle" class="m-2" style='width: 100%'>
+				<el-option label="实线" value="solid"></el-option>
+				<el-option label="双实线" value="double"></el-option>
+				<el-option label="虚线" value="dotted"></el-option>
+				<el-option label="方形虚线" value="dashed"></el-option>
+				<el-option label="雕刻边框" value="groove"></el-option>
+				<el-option label="浮雕边框" value="ridge"></el-option>
+				<el-option label="陷入边框" value="inset"></el-option>
+				<el-option label="突出边框" value="outset"></el-option>
+			</el-select>
+		</el-form-item>
+
+		<el-form-item label="分割线文案的位置" v-if="hasKey('contentPosition')">
+			<el-radio-group v-model="data.options.contentPosition">
+				<el-radio label="left">左</el-radio>
+				<el-radio label="right">右</el-radio>
+				<el-radio label="center">居中</el-radio>
+			</el-radio-group>
+		</el-form-item>
 
     <el-form-item label="选项" v-if="hasKey('options')">
 			<div>

@@ -259,42 +259,42 @@ export default defineComponent({
       row: any,
       index: string | number | symbol
     ) => {
-			const { newIndex, oldIndex, item } = event
-			const list = JSON.parse(JSON.stringify(props.widgetForm.list))
+      const { newIndex, oldIndex, item } = event
+      const list = JSON.parse(JSON.stringify(props.widgetForm.list))
 
-			if (item.className.includes('data-grid')) {
-				item.tagName === 'DIV' &&
-				list.splice(oldIndex, 0, row.columns[index].list[newIndex])
-				row.columns[index].list.splice(newIndex, 1)
-				return false
-			}
+      if (item.className.includes('data-grid')) {
+        item.tagName === 'DIV' &&
+          list.splice(oldIndex, 0, row.columns[index].list[newIndex])
+        row.columns[index].list.splice(newIndex, 1)
+        return false
+      }
 
-			const key = v4().replaceAll('-', '').substr(0,20)
+      const key = v4().replaceAll('-', '').substr(0,20)
 
-			row.columns[index].list[newIndex] = {
-				...row.columns[index].list[newIndex],
-				key,
-				model: `${row.columns[index].list[newIndex].type}_${key}`,
-				rules: []
-			}
+      row.columns[index].list[newIndex] = {
+        ...row.columns[index].list[newIndex],
+        key,
+        model: `${row.columns[index].list[newIndex].type}_${key}`,
+        rules: []
+      }
 
-			if (
-				row.columns[index].list[newIndex].type === 'radio' ||
-				row.columns[index].list[newIndex].type === 'checkbox' ||
-				row.columns[index].list[newIndex].type === 'select'
-			) {
-				row.columns[index].list[newIndex] = {
-					...row.columns[index].list[newIndex],
-					options: {
-						...row.columns[index].list[newIndex].options,
-						options: row.columns[index].list[
-							newIndex
-							].options.options.map((item: any) => ({ ...item }))
-					}
-				}
-			}
+      if (
+        row.columns[index].list[newIndex].type === 'radio' ||
+        row.columns[index].list[newIndex].type === 'checkbox' ||
+        row.columns[index].list[newIndex].type === 'select'
+      ) {
+        row.columns[index].list[newIndex] = {
+          ...row.columns[index].list[newIndex],
+          options: {
+            ...row.columns[index].list[newIndex].options,
+            options: row.columns[index].list[
+              newIndex
+            ].options.options.map((item: any) => ({ ...item }))
+          }
+        }
+      }
 
-			context.emit('update:widgetFormSelect', row.columns[index].list[newIndex])
+      context.emit('update:widgetFormSelect', row.columns[index].list[newIndex])
     }
 
     return {

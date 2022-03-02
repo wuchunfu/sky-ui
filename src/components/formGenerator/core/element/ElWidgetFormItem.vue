@@ -265,7 +265,18 @@
 					:style="{ width: element.options.width }"
 				/>
 			</template>
+
+			<template v-if="element.type === 'divider'">
+				<el-divider
+					:direction="element.options.direction"
+					:border-style="element.options.borderStyle"
+					:content-position="element.options.contentPosition"
+				>
+					{{ element.options.defaultValue }}
+				</el-divider>
+			</template>
 		</el-form-item>
+
 		<div class="widget-view-action" v-if="selectWidget?.key === element.key">
 			<SvgIcon class='svg-icon' name="fcopy" @click.stop="$emit('copy')" />
 			<SvgIcon class='svg-icon' name="fdelete" @click.stop="$emit('delete')" />

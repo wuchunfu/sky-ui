@@ -256,6 +256,16 @@
         :style="{ width: element.options.width }"
       />
     </template>
+
+		<template v-if="element.type === 'divider'">
+			<el-divider
+				:direction="element.options.direction"
+				:border-style="element.options.borderStyle"
+				:content-position="element.options.contentPosition"
+			>
+				{{ element.options.defaultValue }}
+			</el-divider>
+		</template>
   </el-form-item>
 </template>
 
