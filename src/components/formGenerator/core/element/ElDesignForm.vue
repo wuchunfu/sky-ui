@@ -218,7 +218,9 @@ export default defineComponent({
         'switch',
         'slider',
         'text',
-				'html'
+				'html',
+				'button',
+				'link',
       ]
     },
     advanceFields: {

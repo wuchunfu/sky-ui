@@ -8,6 +8,14 @@
       <el-input v-model="data.label" />
     </el-form-item>
 
+		<el-form-item label="名称" v-if="['button', 'link'].indexOf(data.type) !== -1 && hasKey('name')">
+			<el-input v-model="data.options.name" />
+		</el-form-item>
+
+		<el-form-item label="图标" v-if="hasKey('icon')">
+			<el-input v-model="data.options.icon" />
+		</el-form-item>
+
     <el-form-item label="宽度" v-if="hasKey('width')">
       <el-input v-model="data.options.width" />
     </el-form-item>
@@ -35,6 +43,52 @@
 		<el-form-item label="结束占位内容" v-if="hasKey('endPlaceholder') && ['datetimerange', 'daterange'].indexOf(data.options.type) !== -1">
 			<el-input v-model="data.options.endPlaceholder" :type="data.type === 'textarea' ? 'textarea': ''" />
 		</el-form-item>
+
+		<el-form-item label="按钮类型" v-if="['button', 'link'].indexOf(data.type) !== -1 && hasKey('type')">
+			<el-select v-model="data.options.type" class="m-2">
+				<el-option label="Default" value="default"></el-option>
+				<el-option label="Primary" value="primary"></el-option>
+				<el-option label="Success" value="success"></el-option>
+				<el-option label="Warning" value="warning"></el-option>
+				<el-option label="Danger" value="danger"></el-option>
+				<el-option label="Info" value="info"></el-option>
+				<el-option label="Text" value="text"></el-option>
+			</el-select>
+		</el-form-item>
+
+		<el-form-item label="跳转地址" v-if="hasKey('href')">
+			<el-input v-model="data.options.href" />
+		</el-form-item>
+
+		<el-form-item label="是否下划线" v-if="hasKey('underline')">
+			<el-switch v-model="data.options.underline" />
+		</el-form-item>
+
+		<el-form-item label="是否新窗口打开" v-if="hasKey('target')">
+			<el-switch v-model="data.options.target" />
+		</el-form-item>
+
+		<template v-if="data.type === 'button'">
+			<el-form-item label="尺寸" v-if="hasKey('size')">
+				<el-radio-group v-model="data.options.size">
+					<el-radio-button label="large">Large</el-radio-button>
+					<el-radio-button label="default">Default</el-radio-button>
+					<el-radio-button label="small">Small</el-radio-button>
+				</el-radio-group>
+			</el-form-item>
+
+			<el-form-item label="是否朴素按钮" v-if="hasKey('plain')">
+				<el-switch v-model="data.options.plain" />
+			</el-form-item>
+
+			<el-form-item label="是否圆角按钮" v-if="hasKey('round')">
+				<el-switch v-model="data.options.round" />
+			</el-form-item>
+
+			<el-form-item label="是否圆形按钮" v-if="hasKey('circle')">
+				<el-switch v-model="data.options.circle" />
+			</el-form-item>
+		</template>
 
     <el-form-item
       label="默认内容"

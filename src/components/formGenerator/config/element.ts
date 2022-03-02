@@ -316,6 +316,38 @@ export const basicComponents = [
       labelWidth: 120,
       hideLabel: false,
     }
+  },
+  {
+    label: '按钮',
+    type: 'button',
+    options: {
+      name: 'Button',
+      labelWidth: 120,
+      hideLabel: true,
+      size: 'default',
+      type: 'default',
+      plain: false,
+      round: false,
+      circle: false,
+      icon: '',
+      autoInsertSpace: false,
+      disabled: false,
+    }
+  },
+  {
+    label: '链接',
+    type: 'link',
+    options: {
+      name: '跳转',
+      labelWidth: 120,
+      hideLabel: false,
+      type: 'default',
+      underline: false,
+      href: '',
+      icon: '',
+      target: false,
+      disabled: false,
+    }
   }
 ]
 

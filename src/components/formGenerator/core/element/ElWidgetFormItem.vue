@@ -204,6 +204,34 @@
 				<span v-html='element.options.defaultValue'></span>
 			</template>
 
+			<template v-if="element.type === 'button'">
+				<el-button
+					:size='element.options.size'
+					:type='element.options.type'
+					:plain='element.options.plain'
+					:round='element.options.round'
+					:circle='element.options.circle'
+					:icon='element.options.icon'
+					:autoInsertSpace='element.options.autoInsertSpace'
+					:disabled='element.options.disabled'
+				>
+					{{ element.options.name }}
+				</el-button>
+			</template>
+
+			<template v-if="element.type === 'link'">
+				<el-link
+					:type='element.options.type'
+					:underline='element.options.underline'
+					:href='element.options.href'
+					:icon='element.options.icon'
+					:disabled='element.options.disabled'
+					:target='element.options.target ? "_blank": undefined'
+				>
+					{{ element.options.name }}
+				</el-link>
+			</template>
+
       <template v-if="element.type === 'img-upload'">
         <el-upload
           :name="element.options.file"
