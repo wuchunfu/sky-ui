@@ -443,6 +443,41 @@ export const layoutComponents = [
     label: '表格布局',
     type: 'table',
     options: {
-    }
+    },
+    rows: [
+      {
+        columns: [
+          {
+            type: "td",
+            options: {
+              customClass: "",
+              colspan: 1,
+              rowspan: 1,
+              align: "left",
+              valign: "top",
+              width: "",
+              height: ""
+            },
+            list: [],
+            key: "szgn00s9",
+            rules: []
+          },
+          {
+            type: "td",
+            list: [],
+            options: {
+              customClass: "",
+              colspan: 1,
+              rowspan: 1,
+              align: "left",
+              valign: "top",
+              width: "",
+              height: ""
+            },
+            key: "v6o53805"
+          }
+        ]
+      }
+    ],
   }
 ]
