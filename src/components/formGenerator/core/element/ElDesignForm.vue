@@ -122,15 +122,16 @@
 				<codeEditor v-if='generateJsonVisible' :modelValue='generateJsonTemplate' theme='ambiance-mobile' readOnly></codeEditor>
 
         <template #footer>
-          <el-button size="medium" @click="() => (generateJsonVisible = false)"
-            >取消</el-button
-          >
+          <el-button size="medium" @click="() => (generateJsonVisible = false)">
+						取消
+					</el-button>
           <el-button
             type="primary"
             size="medium"
             @click="handleCopyClick(generateJsonTemplate)"
-            >Copy</el-button
-          >
+					>
+						复制
+					</el-button>
         </template>
       </el-dialog>
 
@@ -138,15 +139,16 @@
 				<codeEditor v-if='dataCodeVisible' :modelValue='dataCodeTemplate' theme='ambiance-mobile' readOnly></codeEditor>
 
         <template #footer>
-          <el-button size="medium" @click="() => (dataCodeVisible = false)"
-            >取消</el-button
-          >
+          <el-button size="medium" @click="() => (dataCodeVisible = false)">
+						取消
+					</el-button>
           <el-button
             type="primary"
             size="medium"
             @click="handleCopyClick(dataCodeTemplate)"
-            >Copy</el-button
-          >
+					>
+						复制
+					</el-button>
         </template>
       </el-dialog>
     </el-container>

@@ -6,6 +6,7 @@
 		:label-width="element.options.hideLabel ? '0' : element.options.labelWidth + 'px'"
 		:prop="element.model"
 		:class="{'widget-view-alert': element.type === 'alert'}"
+		style='padding: 5px;'
 	>
     <template v-if="element.type === 'input'">
       <el-input

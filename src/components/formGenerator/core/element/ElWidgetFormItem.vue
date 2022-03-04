@@ -8,6 +8,7 @@
 			:label="element.options.hideLabel ? '' : element.label"
 			:label-width="element.options.hideLabel ? '0' : element.options.labelWidth + 'px'"
 			:rules="element.options.rules"
+			style='padding: 5px;'
 		>
 			<template v-if="element.type === 'input'">
 				<el-input

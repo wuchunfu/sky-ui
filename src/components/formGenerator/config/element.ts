@@ -449,18 +449,16 @@ export const layoutComponents = [
         columns: [
           {
             type: "td",
+            list: [],
             options: {
               customClass: "",
               colspan: 1,
               rowspan: 1,
               align: "left",
               valign: "top",
-              width: "",
+              width: "50%",
               height: ""
             },
-            list: [],
-            key: "szgn00s9",
-            rules: []
           },
           {
             type: "td",
@@ -471,10 +469,39 @@ export const layoutComponents = [
               rowspan: 1,
               align: "left",
               valign: "top",
-              width: "",
+              width: "50%",
               height: ""
             },
-            key: "v6o53805"
+          }
+        ]
+      },
+      {
+        columns: [
+          {
+            type: "td",
+            list: [],
+            options: {
+              customClass: "",
+              colspan: 1,
+              rowspan: 1,
+              align: "left",
+              valign: "top",
+              width: "50%",
+              height: ""
+            },
+          },
+          {
+            type: "td",
+            list: [],
+            options: {
+              customClass: "",
+              colspan: 1,
+              rowspan: 1,
+              align: "left",
+              valign: "top",
+              width: "50%",
+              height: ""
+            },
           }
         ]
       }

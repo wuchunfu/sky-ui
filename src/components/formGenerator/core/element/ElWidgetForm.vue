@@ -86,8 +86,12 @@
 							@click="handleItemClick(element)"
 						>
 							<table style='width: 100%'>
-								<tr>
-									<td>
+								<tr v-for='(rowItem, rowIndex) in element.rows' :key='rowIndex'>
+									<td
+										v-for='(columnItem, columnIndex) in rowItem.columns'
+										:key='columnIndex'
+										:style='{width: 100 / rowItem.columns.length + "%"}'
+									>
 										<Draggable
 											class="widget-col-list"
 											item-key="key"
@@ -95,10 +99,10 @@
 											:animation="200"
 											:group="{ name: 'people' }"
 											:no-transition-on-drag="true"
-											:list="[]"
-											@add="handleColMoveAdd($event, element, colIndex)"
+											:list="columnItem.list"
+											@add="handleColMoveAdd($event, columnItem, columnIndex)"
 										>
-											<transition-group name="fade" tag="div" v-for="(element, index) of []" :key='index'>
+											<transition-group name="fade" tag="div" v-for="(element, index) of columnItem.list" :key='index'>
 												<ElWidgetFormItem
 													v-if="element.key"
 													:key="element.key"
@@ -106,8 +110,8 @@
 													:config="widgetForm.config"
 													:selectWidget="widgetFormSelect"
 													@click.stop="handleItemClick(element)"
-													@copy="handleCopyClick(index, col.list)"
-													@delete="handleDeleteClick(index, col.list)"
+													@copy="handleCopyClick(index, columnItem.list)"
+													@delete="handleDeleteClick(index, columnItem.list)"
 												/>
 											</transition-group>
 										</Draggable>
@@ -297,6 +301,33 @@ export default defineComponent({
       context.emit('update:widgetFormSelect', list[newIndex])
     }
 
+		const handleAddColumns = (row: { list: { [x: string]: any; }; }, newIndex: string | number, key: any) => {
+			row.list[newIndex] = {
+				...row.list[newIndex],
+				key,
+				model: `${row.list[newIndex].type}_${key}`,
+				rules: []
+			}
+
+			if (
+				row.list[newIndex].type === 'radio' ||
+				row.list[newIndex].type === 'checkbox' ||
+				row.list[newIndex].type === 'select'
+			) {
+				row.list[newIndex] = {
+					...row.list[newIndex],
+					options: {
+						...row.list[newIndex].options,
+						options: row.list[
+							newIndex
+							].options.options.map((item: any) => ({ ...item }))
+					}
+				}
+			}
+
+			context.emit('update:widgetFormSelect', row.list[newIndex])
+		}
+
     const handleColMoveAdd = (
       event: any,
       row: any,
@@ -314,30 +345,11 @@ export default defineComponent({
 
       const key = v4().replaceAll('-', '').substr(0,20)
 
-      row.columns[index].list[newIndex] = {
-        ...row.columns[index].list[newIndex],
-        key,
-        model: `${row.columns[index].list[newIndex].type}_${key}`,
-        rules: []
-      }
-
-      if (
-        row.columns[index].list[newIndex].type === 'radio' ||
-        row.columns[index].list[newIndex].type === 'checkbox' ||
-        row.columns[index].list[newIndex].type === 'select'
-      ) {
-        row.columns[index].list[newIndex] = {
-          ...row.columns[index].list[newIndex],
-          options: {
-            ...row.columns[index].list[newIndex].options,
-            options: row.columns[index].list[
-              newIndex
-            ].options.options.map((item: any) => ({ ...item }))
-          }
-        }
-      }
-
-      context.emit('update:widgetFormSelect', row.columns[index].list[newIndex])
+			if (row.type === 'td') {
+				handleAddColumns(row, newIndex, key)
+			} else {
+				handleAddColumns(row.columns[index], newIndex, key)
+			}
     }
 
     return {
@@ -350,19 +362,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang='scss' scoped>
-.widget-view-table {
-	table, th, td {
-		border: 1px solid #999999;
-		border-collapse: collapse;
-	}
-	table {
-		width: 100%;
-	}
-
-	td {
-		padding: 3px;
-	}
-}
-</style>

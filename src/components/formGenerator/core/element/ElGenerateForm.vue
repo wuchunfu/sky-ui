@@ -36,6 +36,38 @@
             </el-col>
           </el-row>
         </template>
+				<template v-else-if="element.type === 'table'">
+					<div
+						v-if="element.key"
+						:key="element.key"
+						class="widget-view-table"
+					>
+						<table style='width: 100%'>
+							<tr v-for='(rowItem, rowIndex) in element.rows' :key='rowIndex'>
+								<td
+									v-for='(columnItem, columnIndex) in rowItem.columns'
+									:key='columnIndex'
+									:style='{width: 100 / rowItem.columns.length + "%"}'
+								>
+									<ElGenerateFormItem
+										v-for="colItem of columnItem.list"
+										:model="model"
+										:key="colItem.key"
+										:element="colItem"
+										:config="data.config"
+										:disabled="disabled"
+									/>
+								</td>
+							</tr>
+						</table>
+						<div class="widget-view-action widget-col-action" v-if="widgetFormSelect?.key === element.key">
+							<SvgIcon name="fdelete" @click.stop="handleDeleteClick(index, widgetForm.list)" />
+						</div>
+						<div class="widget-view-drag widget-col-drag" v-if="widgetFormSelect?.key === element.key">
+							<SvgIcon name="fmove" />
+						</div>
+					</div>
+				</template>
         <ElGenerateFormItem
           v-else
           :model="model"
