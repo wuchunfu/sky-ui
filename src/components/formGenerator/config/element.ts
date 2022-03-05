@@ -32,6 +32,20 @@ const rules: Rules = {
   type: undefined
 }
 
+export const tableRowCol = {
+  type: "td",
+  list: [],
+  options: {
+    customClass: "",
+    colspan: 1,
+    rowspan: 1,
+    align: "left",
+    valign: "top",
+    width: "50%",
+    height: ""
+  },
+}
+
 export const widgetForm: WidgetForm = {
   list: [],
   config: {
@@ -447,62 +461,14 @@ export const layoutComponents = [
     rows: [
       {
         columns: [
-          {
-            type: "td",
-            list: [],
-            options: {
-              customClass: "",
-              colspan: 1,
-              rowspan: 1,
-              align: "left",
-              valign: "top",
-              width: "50%",
-              height: ""
-            },
-          },
-          {
-            type: "td",
-            list: [],
-            options: {
-              customClass: "",
-              colspan: 1,
-              rowspan: 1,
-              align: "left",
-              valign: "top",
-              width: "50%",
-              height: ""
-            },
-          }
+          tableRowCol,
+          tableRowCol
         ]
       },
       {
         columns: [
-          {
-            type: "td",
-            list: [],
-            options: {
-              customClass: "",
-              colspan: 1,
-              rowspan: 1,
-              align: "left",
-              valign: "top",
-              width: "50%",
-              height: ""
-            },
-          },
-          {
-            type: "td",
-            list: [],
-            options: {
-              customClass: "",
-              colspan: 1,
-              rowspan: 1,
-              align: "left",
-              valign: "top",
-              width: "50%",
-              height: ""
-            },
-          }
+          tableRowCol,
+          tableRowCol,
         ]
       }
     ],

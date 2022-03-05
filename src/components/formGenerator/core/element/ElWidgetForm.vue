@@ -119,8 +119,8 @@
 								</tr>
 							</table>
 							<div class="widget-view-action widget-col-action widget-view-table-action" v-if="widgetFormSelect?.key === element.key">
-								<SvgIcon name="fdelete" @click.stop="handleDeleteClick(index, widgetForm.list)" />
-								<SvgIcon name="fdelete" style='margin-left: 5px' @click.stop="handleDeleteClick(index, widgetForm.list)" />
+								<SvgIcon name="charuhang" @click.stop="handleInsertRow(element.rows)" />
+								<SvgIcon name="charulie" style='margin-left: 5px' @click.stop="handleInsertCol(element.rows)" />
 								<SvgIcon name="fdelete" style='margin-left: 5px' @click.stop="handleDeleteClick(index, widgetForm.list)" />
 							</div>
 							<div class="widget-view-drag widget-col-drag" v-if="widgetFormSelect?.key === element.key">
@@ -152,7 +152,7 @@ import { VueDraggableNext } from 'vue-draggable-next'
 import { v4 } from 'uuid'
 import ElWidgetFormItem from './ElWidgetFormItem.vue'
 import SvgIcon from '/@/components/svgIcon/index.vue';
-import { WidgetForm } from '/@/components/formGenerator/config/element'
+import { WidgetForm, tableRowCol } from '/@/components/formGenerator/config/element'
 
 const handleListInsert = (key: string, list: any[], obj: any) => {
   const newList: any[] = []
@@ -354,12 +354,30 @@ export default defineComponent({
 			}
     }
 
+    const handleInsertRow = (rows: any) => {
+			let cols = []
+			for (let i = 0; i < rows[0].columns.length; i++) {
+				cols.push(tableRowCol)
+			}
+			rows.push({
+				columns: cols
+			})
+    }
+
+		const handleInsertCol = (rows: any) => {
+			for (let r of rows) {
+				r.columns.push(tableRowCol)
+			}
+		}
+
     return {
       handleItemClick,
       handleCopyClick,
       handleDeleteClick,
       handleMoveAdd,
-      handleColMoveAdd
+      handleColMoveAdd,
+			handleInsertRow,
+			handleInsertCol
     }
   }
 })
