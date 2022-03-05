@@ -314,6 +314,12 @@ html, body {
           }
         }
 
+        .widget-view-action.widget-view-table-action {
+          display: flex;
+          width: 66px;
+          padding-top: 7px;
+        }
+
         .widget-view-drag.widget-col-drag {
           cursor: pointer;
           position: absolute;

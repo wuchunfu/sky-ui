@@ -118,8 +118,10 @@
 									</td>
 								</tr>
 							</table>
-							<div class="widget-view-action widget-col-action" v-if="widgetFormSelect?.key === element.key">
+							<div class="widget-view-action widget-col-action widget-view-table-action" v-if="widgetFormSelect?.key === element.key">
 								<SvgIcon name="fdelete" @click.stop="handleDeleteClick(index, widgetForm.list)" />
+								<SvgIcon name="fdelete" style='margin-left: 5px' @click.stop="handleDeleteClick(index, widgetForm.list)" />
+								<SvgIcon name="fdelete" style='margin-left: 5px' @click.stop="handleDeleteClick(index, widgetForm.list)" />
 							</div>
 							<div class="widget-view-drag widget-col-drag" v-if="widgetFormSelect?.key === element.key">
 								<SvgIcon name="fmove" />
