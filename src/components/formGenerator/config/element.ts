@@ -462,15 +462,8 @@ export const layoutComponents = [
       {
         columns: [
           tableRowCol,
-          tableRowCol
         ]
       },
-      {
-        columns: [
-          tableRowCol,
-          tableRowCol,
-        ]
-      }
     ],
   }
 ]

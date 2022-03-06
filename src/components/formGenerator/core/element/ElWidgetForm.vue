@@ -88,6 +88,7 @@
 							<table style='width: 100%'>
 								<tr v-for='(rowItem, rowIndex) in element.rows' :key='rowIndex'>
 									<td
+										class="widget-col widget-view"
 										v-for='(columnItem, columnIndex) in rowItem.columns'
 										:key='columnIndex'
 										:style='{width: 100 / rowItem.columns.length + "%"}'
@@ -154,41 +155,6 @@ import ElWidgetFormItem from './ElWidgetFormItem.vue'
 import SvgIcon from '/@/components/svgIcon/index.vue';
 import { WidgetForm, tableRowCol } from '/@/components/formGenerator/config/element'
 
-const handleListInsert = (key: string, list: any[], obj: any) => {
-  const newList: any[] = []
-  list.forEach(item => {
-    if (item.key === key) {
-      newList.push(item)
-      newList.push(obj)
-    } else {
-      if (item.columns) {
-        item.columns = item.columns.map((col: any) => ({
-          ...col,
-          list: handleListInsert(key, col.list, obj)
-        }))
-      }
-      newList.push(item)
-    }
-  })
-  return newList
-}
-
-const handleListDelete = (key: string, list: any[]) => {
-  const newList: any[] = []
-  list.forEach(item => {
-    if (item.key !== key) {
-      if (item.columns) {
-        item.columns = item.columns.map((col: any) => ({
-          ...col,
-          list: handleListDelete(key, col.list)
-        }))
-      }
-      newList.push(item)
-    }
-  })
-  return newList
-}
-
 export default defineComponent({
   name: 'ElWidgetForm',
   components: {
@@ -211,9 +177,44 @@ export default defineComponent({
       context.emit('update:widgetFormSelect', row)
     }
 
+		const handleListInsert = (key: string, list: any[], obj: any) => {
+			const newList: any[] = []
+			list.forEach(item => {
+				if (item.key === key) {
+					newList.push(item)
+					newList.push(obj)
+				} else {
+					if (item.columns) {
+						item.columns = item.columns.map((col: any) => ({
+							...col,
+							list: handleListInsert(key, col.list, obj)
+						}))
+					}
+					newList.push(item)
+				}
+			})
+			return newList
+		}
+
+		const handleListDelete = (key: string, list: any[]) => {
+			const newList: any[] = []
+			list.forEach(item => {
+				if (item.key !== key) {
+					if (item.columns) {
+						item.columns = item.columns.map((col: any) => ({
+							...col,
+							list: handleListDelete(key, col.list)
+						}))
+					}
+					newList.push(item)
+				}
+			})
+			return newList
+		}
+
     const handleCopyClick = (index: number, list: any[]) => {
-      const key = v4().replaceAll('-', '').substr(0,20)
-      const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
+      const key = getKey()
+			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
 
       let copyData = {
         ...list[index],
@@ -266,7 +267,7 @@ export default defineComponent({
     const handleMoveAdd = (event: any) => {
       const { newIndex } = event
 
-      const key = v4().replaceAll('-', '').substr(0,20)
+      const key = getKey()
       const list = JSON.parse(JSON.stringify(props.widgetForm.list))
 
       list[newIndex] = {
@@ -345,7 +346,7 @@ export default defineComponent({
         return false
       }
 
-      const key = v4().replaceAll('-', '').substr(0,20)
+      const key = getKey()
 
 			if (row.type === 'td') {
 				handleAddColumns(row, newIndex, key)
@@ -357,7 +358,9 @@ export default defineComponent({
     const handleInsertRow = (rows: any) => {
 			let cols = []
 			for (let i = 0; i < rows[0].columns.length; i++) {
-				cols.push(tableRowCol)
+				let col = JSON.parse(JSON.stringify(tableRowCol))
+				col.key = getKey()
+				cols.push(col)
 			}
 			rows.push({
 				columns: cols
@@ -366,8 +369,14 @@ export default defineComponent({
 
 		const handleInsertCol = (rows: any) => {
 			for (let r of rows) {
-				r.columns.push(tableRowCol)
+				let col = JSON.parse(JSON.stringify(tableRowCol))
+				col.key = getKey()
+				r.columns.push(col)
 			}
+		}
+
+		const getKey = () => {
+			return v4().replaceAll('-', '').substr(0,20)
 		}
 
     return {
