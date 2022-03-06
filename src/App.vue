@@ -2,7 +2,7 @@
 	<el-config-provider :locale="i18nLocale">
 		<router-view v-show="getThemeConfig.lockScreenTime !== 0" />
 		<LockScreen v-if="getThemeConfig.isLockScreen" />
-		<Setings ref="setingsRef" v-show="getThemeConfig.lockScreenTime !== 0" />
+		<Settings ref="settingsRef" v-show="getThemeConfig.lockScreenTime !== 0" />
 		<CloseFull />
 	</el-config-provider>
 </template>
@@ -15,14 +15,14 @@ import { useTitle } from '/@/utils/setWebTitle';
 import { Local } from '/@/utils/storage';
 import setIntroduction from '/@/utils/setIconfont';
 import LockScreen from '/@/layout/lockScreen/index.vue';
-import Setings from '/@/layout/navBars/breadcrumb/setings.vue';
+import Settings from '/@/layout/navBars/breadcrumb/setings.vue';
 import CloseFull from '/@/layout/navBars/breadcrumb/closeFull.vue';
 export default defineComponent({
 	name: 'app',
-	components: { LockScreen, Setings, CloseFull },
+	components: { LockScreen, Settings, CloseFull },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const setingsRef = ref();
+		const settingsRef = ref();
 		const route = useRoute();
 		const store = useStore();
 		const title = useTitle();
@@ -35,7 +35,7 @@ export default defineComponent({
 		});
 		// 布局配置弹窗打开
 		const openSettingsDrawer = () => {
-			setingsRef.value.openDrawer();
+			settingsRef.value.openDrawer();
 		};
 		// 设置初始化，防止刷新时恢复默认
 		onBeforeMount(() => {
@@ -76,7 +76,7 @@ export default defineComponent({
 			}
 		);
 		return {
-			setingsRef,
+			settingsRef,
 			getThemeConfig,
 			...toRefs(state),
 		};

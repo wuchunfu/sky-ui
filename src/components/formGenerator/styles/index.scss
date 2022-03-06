@@ -312,12 +312,21 @@ html, body {
             margin: 0 5px;
             cursor: move;
           }
+
+          .widget-col-action-dropdown {
+            margin-left: 1px;
+            margin-top: 6px;
+          }
         }
 
         .widget-view-action.widget-view-table-action {
           display: flex;
           width: 66px;
           padding-top: 7px;
+        }
+
+        .widget-view-action.widget-col-td-action {
+
         }
 
         .widget-view-drag.widget-col-drag {
@@ -505,6 +514,10 @@ html, body {
     td {
       padding: 3px;
     }
+  }
+
+  .widget-view-td-action {
+    text-align: right;
   }
 }
 

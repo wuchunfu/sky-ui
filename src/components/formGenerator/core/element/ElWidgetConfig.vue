@@ -1,6 +1,6 @@
 <template>
   <el-form label-position="top" v-if="data" :key="data.key">
-    <el-form-item label="标签标识" v-if="data.type !== 'grid'">
+    <el-form-item label="标签标识" v-if="data.type !== 'grid' && data.type !== 'td'">
       <el-input v-model="data.model" />
     </el-form-item>
 
@@ -173,7 +173,7 @@
           v-if="!data.options.range"
           v-model.number="data.options.defaultValue"
         />
-        <template v-if="data.options.range">
+        <template v-if="data.options?.range">
           <el-input-number
             v-model.number="data.options.defaultValue[0]"
             :max="data.options.max"
@@ -210,7 +210,7 @@
 			<el-switch v-model="data.options.controls" />
 		</el-form-item>
 
-		<el-form-item label="控制按钮位置" v-if="data.options.controls && hasKey('controlsPosition')">
+		<el-form-item label="控制按钮位置" v-if="data.options?.controls && hasKey('controlsPosition')">
 			<el-radio-group v-model="data.options.controlsPosition">
 				<el-radio-button label="default">默认</el-radio-button>
 				<el-radio-button label="right">右侧</el-radio-button>
@@ -331,7 +331,7 @@
 			</div>
       <div>
 				<el-space
-					v-if="data.options.remote"
+					v-if="data.options?.remote"
 					alignment="start"
 					direction="vertical"
 					style="margin-top: 10px;"
@@ -386,7 +386,7 @@
 													v-model="element.value"
 												/>
 												<el-input
-													v-if="data.options.showLabel"
+													v-if="data.options?.showLabel"
 													:style="{
                           width: '90px'
                         }"
@@ -437,7 +437,7 @@
 												v-model="element.value"
 											/>
 											<el-input
-												v-if="data.options.showLabel"
+												v-if="data.options?.showLabel"
 												v-model="element.label"
 												:style="{ width: '90px' }"
 											/>
@@ -733,8 +733,15 @@ export default defineComponent({
 
     watch(data, val => context.emit('update:select', val), { deep: true })
 
-    const hasKey = (key: string) =>
-      Object.keys(data.value.options).includes(key)
+    const hasKey = (key: string) => {
+			if (key) {
+				if (data.value.options) {
+					return Object.keys(data.value.options).includes(key)
+				}
+				return false
+			}
+			return false
+		}
 
 		const hasDataKey = (key: string) =>
 			Object.keys(data.value).includes(key)

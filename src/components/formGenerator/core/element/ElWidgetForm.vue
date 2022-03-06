@@ -85,13 +85,17 @@
 							:class="{ active: widgetFormSelect?.key === element.key }"
 							@click="handleItemClick(element)"
 						>
-							<table style='width: 100%'>
+							<table
+								style='width: 100%'
+							>
 								<tr v-for='(rowItem, rowIndex) in element.rows' :key='rowIndex'>
 									<td
 										class="widget-col widget-view"
 										v-for='(columnItem, columnIndex) in rowItem.columns'
 										:key='columnIndex'
 										:style='{width: 100 / rowItem.columns.length + "%"}'
+										@click.stop="handleItemClick(columnItem)"
+										:class="{ active: widgetFormSelect?.key === columnItem.key }"
 									>
 										<Draggable
 											class="widget-col-list"
@@ -116,6 +120,33 @@
 												/>
 											</transition-group>
 										</Draggable>
+										<div
+											class="widget-view-action widget-col-action"
+											v-if="widgetFormSelect?.key === columnItem.key"
+										>
+											<el-dropdown trigger="click" class='widget-col-action-dropdown' size='small' placement='bottom-end'>
+												<SvgIcon
+													name="table-settings"
+												/>
+												<template #dropdown>
+													<el-dropdown-menu>
+														<el-dropdown-item>左插入列</el-dropdown-item>
+														<el-dropdown-item>左插入列</el-dropdown-item>
+														<el-dropdown-item>上插入行</el-dropdown-item>
+														<el-dropdown-item>下插入行</el-dropdown-item>
+														<el-dropdown-item divided :disabled='columnIndex >= rowItem.columns?.length - 1'>向右合并</el-dropdown-item>
+														<el-dropdown-item :disabled='rowIndex >= element.rows?.length - 1'>向下合并</el-dropdown-item>
+														<el-dropdown-item divided>拆分成列</el-dropdown-item>
+														<el-dropdown-item>拆分成行</el-dropdown-item>
+														<el-dropdown-item divided :disabled='rowItem.columns?.length === 1'>删除当前列</el-dropdown-item>
+														<el-dropdown-item
+															:disabled='element.rows?.length === 1'
+															@click.stop="handleDeleteRowClick(rowIndex, element.key)"
+														>删除当前行</el-dropdown-item>
+													</el-dropdown-menu>
+												</template>
+											</el-dropdown>
+										</div>
 									</td>
 								</tr>
 							</table>
@@ -189,6 +220,13 @@ export default defineComponent({
 							...col,
 							list: handleListInsert(key, col.list, obj)
 						}))
+					} else if (item.rows) {
+						for (let row of item.rows) {
+							row.columns = row.columns.map((col: any) => ({
+								...col,
+								list: handleListInsert(key, col.list, obj)
+							}))
+						}
 					}
 					newList.push(item)
 				}
@@ -205,6 +243,13 @@ export default defineComponent({
 							...col,
 							list: handleListDelete(key, col.list)
 						}))
+					} else if (item.rows) {
+						for (let row of item.rows) {
+							row.columns = row.columns.map((col: any) => ({
+								...col,
+								list: handleListDelete(key, col.list)
+							}))
+						}
 					}
 					newList.push(item)
 				}
@@ -258,10 +303,36 @@ export default defineComponent({
         context.emit('update:widgetFormSelect', list[index + 1])
       }
 
-      context.emit('update:widgetForm', {
-        ...props.widgetForm,
-        list: handleListDelete(list[index].key, oldList)
-      })
+			context.emit('update:widgetForm', {
+				...props.widgetForm,
+				list: handleListDelete(list[index].key, oldList)
+			})
+    }
+
+    const handleDeleteRowClick = (index: number, key: string) => {
+			let newList: any[] = []
+			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
+			let selectData: any = {}
+			oldList.map((item: any) => {
+				if (item.key === key) {
+					item.rows.splice(index, 1)
+					let columns: any[] = []
+					if (index !== 0) {
+						columns = item.rows[index - 1].columns
+					} else {
+						columns = item.rows[index].columns
+					}
+					selectData = columns[columns?.length - 1]
+				}
+				newList.push(item)
+			})
+
+			context.emit('update:widgetForm', {
+				...props.widgetForm,
+				list: newList
+			})
+
+			context.emit('update:widgetFormSelect', selectData)
     }
 
     const handleMoveAdd = (event: any) => {
@@ -298,7 +369,10 @@ export default defineComponent({
           ...list[newIndex],
           columns: list[newIndex].columns.map((item: any) => ({ ...item }))
         }
-      }
+      } else if (list[newIndex].type === 'table') {
+				list[newIndex].rows[0].columns[0].key = getKey()
+			}
+
       context.emit('update:widgetForm', { ...props.widgetForm, list })
 
       context.emit('update:widgetFormSelect', list[newIndex])
@@ -383,6 +457,7 @@ export default defineComponent({
       handleItemClick,
       handleCopyClick,
       handleDeleteClick,
+			handleDeleteRowClick,
       handleMoveAdd,
       handleColMoveAdd,
 			handleInsertRow,
