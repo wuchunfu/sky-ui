@@ -93,9 +93,10 @@
 										class="widget-col widget-view"
 										v-for='(columnItem, columnIndex) in rowItem.columns'
 										:key='columnIndex'
-										:style='{width: 100 / rowItem.columns.length + "%"}'
 										@click.stop="handleItemClick(columnItem)"
 										:class="{ active: widgetFormSelect?.key === columnItem.key }"
+										:colspan="columnItem.options.colspan"
+										:rowspan="columnItem.options.rowspan"
 									>
 										<Draggable
 											class="widget-col-list"
@@ -130,18 +131,29 @@
 												/>
 												<template #dropdown>
 													<el-dropdown-menu>
-														<el-dropdown-item>左插入列</el-dropdown-item>
-														<el-dropdown-item>左插入列</el-dropdown-item>
-														<el-dropdown-item>上插入行</el-dropdown-item>
-														<el-dropdown-item>下插入行</el-dropdown-item>
-														<el-dropdown-item divided :disabled='columnIndex >= rowItem.columns?.length - 1'>向右合并</el-dropdown-item>
-														<el-dropdown-item :disabled='rowIndex >= element.rows?.length - 1'>向下合并</el-dropdown-item>
+														<el-dropdown-item @click.stop='handleAddTdClick(columnIndex, "leftCol")'>左插入列</el-dropdown-item>
+														<el-dropdown-item @click.stop='handleAddTdClick(columnIndex, "rightCol")'>右插入列</el-dropdown-item>
+														<el-dropdown-item @click.stop='handleAddTdClick(rowIndex, "topRow")'>上插入行</el-dropdown-item>
+														<el-dropdown-item @click.stop='handleAddTdClick(rowIndex, "bottomRow")'>下插入行</el-dropdown-item>
+														<el-dropdown-item
+															divided
+															:disabled='columnIndex === rowItem.columns?.length - 1'
+															@click.stop='handleMergeClick(rowIndex, columnIndex, "right")'
+														>向右合并</el-dropdown-item>
+														<el-dropdown-item
+															@click.stop='handleMergeClick(rowIndex, columnIndex, "bottom")'
+															:disabled='columnItem.options.rowspan + rowIndex === element.rows?.length'
+														>向下合并</el-dropdown-item>
 														<el-dropdown-item divided>拆分成列</el-dropdown-item>
 														<el-dropdown-item>拆分成行</el-dropdown-item>
-														<el-dropdown-item divided :disabled='rowItem.columns?.length === 1'>删除当前列</el-dropdown-item>
+														<el-dropdown-item
+															divided
+															:disabled='rowItem.columns?.length === 1'
+															@click.stop="handleDeleteTdClick(rowIndex, columnIndex, element.key, 'col')"
+														>删除当前列</el-dropdown-item>
 														<el-dropdown-item
 															:disabled='element.rows?.length === 1'
-															@click.stop="handleDeleteRowClick(rowIndex, element.key)"
+															@click.stop="handleDeleteTdClick(rowIndex, columnIndex, element.key, 'row')"
 														>删除当前行</el-dropdown-item>
 													</el-dropdown-menu>
 												</template>
@@ -309,20 +321,94 @@ export default defineComponent({
 			})
     }
 
-    const handleDeleteRowClick = (index: number, key: string) => {
+    const newCol = () => {
+			let col = JSON.parse(JSON.stringify(tableRowCol))
+			col.key = getKey()
+			return col
+    }
+
+    const handleMergeClick = (rowIndex: number, index: number, type: string) => {
+			let newList: any[] = []
+			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
+			oldList.map((item: any) => {
+				item.rows.map((rowItem: any, rIndex: any) => {
+					if (rIndex === rowIndex && rowItem.columns) {
+						if (type === 'right') {
+							rowItem.columns[index].list.push(...rowItem.columns[index + 1].list)
+							rowItem.columns[index].options.colspan += rowItem.columns[index + 1].options.colspan
+							rowItem.columns.splice(index + 1, 1)
+						} else {
+							rowItem.columns[index].list.push(...item.rows[rowIndex + 1].columns[index].list)
+							rowItem.columns[index].options.rowspan += item.rows[rowIndex + 1].columns[index].options.rowspan
+							item.rows[rowIndex + 1].columns.splice(index, 1)
+						}
+					}
+				})
+				newList.push(item)
+			})
+
+			context.emit('update:widgetForm', {
+				...props.widgetForm,
+				list: newList
+			})
+    }
+
+    const handleAddTdClick = (index: number, type: string) => {
+			let newList: any[] = []
+			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
+			oldList.map((item: any) => {
+				if (type === 'leftCol' || type === 'rightCol') {
+					for (let row of item.rows) {
+						if (type === 'leftCol') {
+							row.columns.splice(index, 0, newCol())
+						} else {
+							row.columns.splice(index + 1, 0, newCol())
+						}
+					}
+				} else if (type === 'topRow' || type === 'bottomRow') {
+					let cols = []
+					for (let i = 0; i < item.rows[0].columns.length; i++) {
+						cols.push(newCol())
+					}
+					if (type === 'topRow') {
+						item.rows.splice(index, 0, {columns: cols})
+					} else {
+						item.rows.splice(index + 1, 0, {columns: cols})
+					}
+				}
+				newList.push(item)
+			})
+
+			context.emit('update:widgetForm', {
+				...props.widgetForm,
+				list: newList
+			})
+    }
+
+    const handleDeleteTdClick = (rowIndex: number, colIndex: number, key: string, type: string) => {
 			let newList: any[] = []
 			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
 			let selectData: any = {}
 			oldList.map((item: any) => {
 				if (item.key === key) {
-					item.rows.splice(index, 1)
 					let columns: any[] = []
-					if (index !== 0) {
-						columns = item.rows[index - 1].columns
-					} else {
-						columns = item.rows[index].columns
+					if (type === 'row') {
+						item.rows.splice(rowIndex, 1)
+					} else if (type === 'col') {
+						for (let row of item.rows) {
+							row.columns.splice(colIndex, 1)
+						}
 					}
-					selectData = columns[columns?.length - 1]
+					if (item.rows.length === rowIndex) {
+						columns = item.rows[rowIndex - 1].columns
+					} else {
+						columns = item.rows[rowIndex].columns
+					}
+					if (columns.length === colIndex) {
+						selectData = columns[colIndex - 1]
+					} else {
+						selectData = columns[colIndex]
+					}
 				}
 				newList.push(item)
 			})
@@ -432,9 +518,7 @@ export default defineComponent({
     const handleInsertRow = (rows: any) => {
 			let cols = []
 			for (let i = 0; i < rows[0].columns.length; i++) {
-				let col = JSON.parse(JSON.stringify(tableRowCol))
-				col.key = getKey()
-				cols.push(col)
+				cols.push(newCol())
 			}
 			rows.push({
 				columns: cols
@@ -443,9 +527,7 @@ export default defineComponent({
 
 		const handleInsertCol = (rows: any) => {
 			for (let r of rows) {
-				let col = JSON.parse(JSON.stringify(tableRowCol))
-				col.key = getKey()
-				r.columns.push(col)
+				r.columns.push(newCol())
 			}
 		}
 
@@ -457,7 +539,9 @@ export default defineComponent({
       handleItemClick,
       handleCopyClick,
       handleDeleteClick,
-			handleDeleteRowClick,
+			handleDeleteTdClick,
+			handleAddTdClick,
+			handleMergeClick,
       handleMoveAdd,
       handleColMoveAdd,
 			handleInsertRow,
