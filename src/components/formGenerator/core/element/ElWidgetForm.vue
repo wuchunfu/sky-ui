@@ -137,23 +137,23 @@
 														<el-dropdown-item @click.stop='handleAddTdClick(rowIndex, "bottomRow")'>下插入行</el-dropdown-item>
 														<el-dropdown-item
 															divided
-															:disabled='columnIndex === rowItem.columns?.length - 1'
-															@click.stop='handleMergeClick(rowIndex, columnIndex, "right")'
+															:disabled='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1'
+															@click.stop='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1 ? "" : handleMergeClick(rowIndex, columnIndex, "right")'
 														>向右合并</el-dropdown-item>
 														<el-dropdown-item
-															@click.stop='handleMergeClick(rowIndex, columnIndex, "bottom")'
-															:disabled='columnItem.options.rowspan + rowIndex === element.rows?.length'
+															@click.stop='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length ? "" : handleMergeClick(rowIndex, columnIndex, "bottom")'
+															:disabled='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length'
 														>向下合并</el-dropdown-item>
 														<el-dropdown-item divided>拆分成列</el-dropdown-item>
 														<el-dropdown-item>拆分成行</el-dropdown-item>
 														<el-dropdown-item
 															divided
-															:disabled='rowItem.columns?.length === 1'
-															@click.stop="handleDeleteTdClick(rowIndex, columnIndex, element.key, 'col')"
+															:disabled='columnItem.options.colspan !== 1 || rowItem.columns?.length === 1'
+															@click.stop="columnItem.options.colspan !== 1 || rowItem.columns?.length === 1 ? '' : handleDeleteTdClick(rowIndex, columnIndex, element.key, 'col')"
 														>删除当前列</el-dropdown-item>
 														<el-dropdown-item
-															:disabled='element.rows?.length === 1'
-															@click.stop="handleDeleteTdClick(rowIndex, columnIndex, element.key, 'row')"
+															:disabled='columnItem.options.rowspan !== 1 || element.rows?.length === 1'
+															@click.stop="columnItem.options.rowspan !== 1 || element.rows?.length === 1 ? '' : handleDeleteTdClick(rowIndex, columnIndex, element.key, 'row')"
 														>删除当前行</el-dropdown-item>
 													</el-dropdown-menu>
 												</template>
@@ -337,10 +337,17 @@ export default defineComponent({
 							rowItem.columns[index].list.push(...rowItem.columns[index + 1].list)
 							rowItem.columns[index].options.colspan += rowItem.columns[index + 1].options.colspan
 							rowItem.columns.splice(index + 1, 1)
+							return
 						} else {
-							rowItem.columns[index].list.push(...item.rows[rowIndex + 1].columns[index].list)
-							rowItem.columns[index].options.rowspan += item.rows[rowIndex + 1].columns[index].options.rowspan
-							item.rows[rowIndex + 1].columns.splice(index, 1)
+							let nextIndex = index
+							let nextRowIndex = rowIndex + rowItem.columns[index].options.rowspan
+							if (rowItem.columns.length !== item.rows[nextRowIndex].columns.length) {
+								nextIndex = index - Math.abs(rowItem.columns.length - item.rows[nextRowIndex].columns.length);
+							}
+							rowItem.columns[index].list.push(...item.rows[nextRowIndex].columns[nextIndex].list)
+							rowItem.columns[index].options.rowspan += item.rows[nextRowIndex].columns[nextIndex].options.rowspan
+							item.rows[nextRowIndex].columns.splice(index, 1)
+							return
 						}
 					}
 				})
@@ -395,8 +402,18 @@ export default defineComponent({
 					if (type === 'row') {
 						item.rows.splice(rowIndex, 1)
 					} else if (type === 'col') {
-						for (let row of item.rows) {
-							row.columns.splice(colIndex, 1)
+						for (let rIndex in item.rows) {
+							if (item.rows.length === 1) {
+								item.rows[rIndex].columns.splice(colIndex, 1)
+							} else {
+								if (parseInt(rIndex) > 0) {
+									if (item.rows[rIndex].columns.length > item.rows[0].columns.length) {
+										item.rows[rIndex].columns.splice(colIndex, 1)
+									}
+								} else {
+									item.rows[rIndex].columns.splice(colIndex, 1)
+								}
+							}
 						}
 					}
 					if (item.rows.length === rowIndex) {
