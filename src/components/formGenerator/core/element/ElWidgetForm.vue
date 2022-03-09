@@ -135,17 +135,17 @@
 														<el-dropdown-item @click.stop='handleAddTdClick(columnIndex, "rightCol")'>右插入列</el-dropdown-item>
 														<el-dropdown-item @click.stop='handleAddTdClick(rowIndex, "topRow")'>上插入行</el-dropdown-item>
 														<el-dropdown-item @click.stop='handleAddTdClick(rowIndex, "bottomRow")'>下插入行</el-dropdown-item>
-														<el-dropdown-item
-															divided
-															:disabled='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1'
-															@click.stop='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1 ? "" : handleMergeClick(rowIndex, columnIndex, "right")'
-														>向右合并</el-dropdown-item>
-														<el-dropdown-item
-															@click.stop='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length ? "" : handleMergeClick(rowIndex, columnIndex, "bottom")'
-															:disabled='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length'
-														>向下合并</el-dropdown-item>
-														<el-dropdown-item divided>拆分成列</el-dropdown-item>
-														<el-dropdown-item>拆分成行</el-dropdown-item>
+<!--														<el-dropdown-item-->
+<!--															divided-->
+<!--															:disabled='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1'-->
+<!--															@click.stop='columnItem.options.rowspan !== 1 || columnIndex === rowItem.columns?.length - 1 ? "" : handleMergeClick(rowIndex, columnIndex, "right")'-->
+<!--														>向右合并</el-dropdown-item>-->
+<!--														<el-dropdown-item-->
+<!--															@click.stop='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length ? "" : handleMergeClick(rowIndex, columnIndex, "bottom")'-->
+<!--															:disabled='columnItem.options.colspan !== 1 || columnItem.options.rowspan + rowIndex === element.rows?.length'-->
+<!--														>向下合并</el-dropdown-item>-->
+<!--														<el-dropdown-item divided>拆分成列</el-dropdown-item>-->
+<!--														<el-dropdown-item>拆分成行</el-dropdown-item>-->
 														<el-dropdown-item
 															divided
 															:disabled='columnItem.options.colspan !== 1 || rowItem.columns?.length === 1'
@@ -327,38 +327,41 @@ export default defineComponent({
 			return col
     }
 
-    const handleMergeClick = (rowIndex: number, index: number, type: string) => {
-			let newList: any[] = []
-			const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
-			oldList.map((item: any) => {
-				item.rows.map((rowItem: any, rIndex: any) => {
-					if (rIndex === rowIndex && rowItem.columns) {
-						if (type === 'right') {
-							rowItem.columns[index].list.push(...rowItem.columns[index + 1].list)
-							rowItem.columns[index].options.colspan += rowItem.columns[index + 1].options.colspan
-							rowItem.columns.splice(index + 1, 1)
-							return
-						} else {
-							let nextIndex = index
-							let nextRowIndex = rowIndex + rowItem.columns[index].options.rowspan
-							if (rowItem.columns.length !== item.rows[nextRowIndex].columns.length) {
-								nextIndex = index - Math.abs(rowItem.columns.length - item.rows[nextRowIndex].columns.length);
-							}
-							rowItem.columns[index].list.push(...item.rows[nextRowIndex].columns[nextIndex].list)
-							rowItem.columns[index].options.rowspan += item.rows[nextRowIndex].columns[nextIndex].options.rowspan
-							item.rows[nextRowIndex].columns.splice(index, 1)
-							return
-						}
-					}
-				})
-				newList.push(item)
-			})
-
-			context.emit('update:widgetForm', {
-				...props.widgetForm,
-				list: newList
-			})
-    }
+    // const handleMergeClick = (rowIndex: number, index: number, type: string) => {
+		// 	let newList: any[] = []
+		// 	const oldList = JSON.parse(JSON.stringify(props.widgetForm.list))
+		// 	oldList.map((item: any) => {
+		// 		item.rows.map((rowItem: any, rIndex: any) => {
+		// 			if (rIndex === rowIndex && rowItem.columns) {
+		// 				if (type === 'right') {
+		// 					rowItem.columns[index].list.push(...rowItem.columns[index + 1].list)
+		// 					rowItem.columns[index].options.colspan += rowItem.columns[index + 1].options.colspan
+		// 					rowItem.columns.splice(index + 1, 1)
+		// 					return
+		// 				} else {
+		//
+		// 					getCollList(index, oldList)
+		//
+		// 					// let nextIndex = index
+		// 					// let nextRowIndex = rowIndex + rowItem.columns[index].options.rowspan
+		// 					// if (rowItem.columns.length !== item.rows[nextRowIndex].columns.length) {
+		// 					// 	nextIndex = index - Math.abs(rowItem.columns.length - item.rows[nextRowIndex].columns.length);
+		// 					// }
+		// 					// rowItem.columns[index].list.push(...item.rows[nextRowIndex].columns[nextIndex].list)
+		// 					// rowItem.columns[index].options.rowspan += item.rows[nextRowIndex].columns[nextIndex].options.rowspan
+		// 					// item.rows[nextRowIndex].columns.splice(index, 1)
+		// 					// return
+		// 				}
+		// 			}
+		// 		})
+		// 		newList.push(item)
+		// 	})
+		//
+		// 	context.emit('update:widgetForm', {
+		// 		...props.widgetForm,
+		// 		list: newList
+		// 	})
+    // }
 
     const handleAddTdClick = (index: number, type: string) => {
 			let newList: any[] = []
@@ -558,7 +561,7 @@ export default defineComponent({
       handleDeleteClick,
 			handleDeleteTdClick,
 			handleAddTdClick,
-			handleMergeClick,
+			// handleMergeClick,
       handleMoveAdd,
       handleColMoveAdd,
 			handleInsertRow,
