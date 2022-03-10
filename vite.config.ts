@@ -48,8 +48,47 @@ const viteConfig: UserConfig = {
 	},
 	build: {
 		outDir: 'dist',
-		minify: 'esbuild',
+		minify: 'terser',
 		sourcemap: false,
+		chunkSizeWarningLimit: 1500,
+		rollupOptions: {
+			output: {
+				entryFileNames: `assets/[name].${new Date().getTime()}.js`,
+				chunkFileNames: `assets/[name].${new Date().getTime()}.js`,
+				assetFileNames: `assets/[name].${new Date().getTime()}.[ext]`,
+				compact: true,
+				manualChunks: {
+					vue: ['vue', 'vue-router', 'vuex'],
+					echarts: ['echarts'],
+				},
+			},
+		},
+		terserOptions: {
+			compress: {
+				drop_console: true,
+				drop_debugger: true,
+			},
+			ie8: true,
+			output: {
+				comments: true,
+			},
+		},
+	},
+	css: {
+		postcss: {
+			plugins: [
+				{
+					postcssPlugin: 'internal:charset-removal',
+					AtRule: {
+						charset: (atRule) => {
+							if (atRule.name === 'charset') {
+								atRule.remove();
+							}
+						},
+					},
+				},
+			],
+		},
 	},
 	define: {
 		__VUE_I18N_LEGACY_API__: JSON.stringify(false),
