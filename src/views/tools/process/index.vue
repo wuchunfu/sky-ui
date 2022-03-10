@@ -19,11 +19,13 @@
 							>
 								<div class="workflow-left-title" @click="onTitleClick(val)">
 									<span>{{ val.title }}</span>
-									<SvgIcon :name="val.isOpen ? 'ele-ArrowDown' : 'ele-ArrowRight'" />
+									<el-icon>
+										<component :is="val.isOpen ? 'ArrowDown' : 'ArrowRight'"></component>
+									</el-icon>
 								</div>
 								<div class="workflow-left-item" v-for="(v, k) in val.children" :key="k" :data-name="v.name" :data-icon="v.icon" :data-id="v.id">
 									<div class="workflow-left-item-icon">
-										<SvgIcon :name="v.icon" class="workflow-icon-drag" />
+										<i :class="v.icon" class="workflow-icon-drag" />
 										<div class="font10 pl5 name">{{ v.name }}</div>
 									</div>
 								</div>
@@ -44,7 +46,7 @@
 						>
 							<div class="workflow-right-box" :class="{ 'workflow-right-active': jsPlumbNodeIndex === k }">
 								<div class="workflow-left-item-icon">
-									<SvgIcon :name="v.icon" class="workflow-icon-drag" />
+									<i :class="v.icon" class="workflow-icon-drag" />
 									<div class="font10 pl5 name">{{ v.name }}</div>
 								</div>
 							</div>

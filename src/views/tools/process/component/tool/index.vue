@@ -3,7 +3,9 @@
 		<div class="pl15">{{ setToolTitle }}</div>
 		<div class="workflow-tool-right">
 			<div class="workflow-tool-icon" v-for="(v, k) in toolList" :key="k" :title="v.title" @click="onToolClick(v.fnName)">
-				<SvgIcon :name="v.icon" />
+				<el-icon>
+					<component :is="v.icon"></component>
+				</el-icon>
 			</div>
 		</div>
 	</div>
@@ -11,19 +13,19 @@
 
 <script lang="ts">
 import { defineComponent, computed, reactive, toRefs } from 'vue';
-import { useStore } from '/@/store/index';
+import { useStore } from '/@/store';
 export default defineComponent({
 	name: 'pagesWorkflowTool',
 	setup(props, { emit }) {
 		const store = useStore();
 		const state = reactive({
 			toolList: [
-				{ icon: 'ele-Help', title: '帮助', fnName: 'help' },
-				{ icon: 'ele-Download', title: '下载', fnName: 'download' },
-				{ icon: 'ele-Check', title: '提交', fnName: 'submit' },
-				{ icon: 'ele-DocumentCopy', title: '复制', fnName: 'copy' },
-				{ icon: 'ele-Delete', title: '删除', fnName: 'del' },
-				{ icon: 'ele-FullScreen', title: '全屏', fnName: 'fullscreen' },
+				{ icon: 'Help', title: '帮助', fnName: 'help' },
+				{ icon: 'Download', title: '下载', fnName: 'download' },
+				{ icon: 'Check', title: '提交', fnName: 'submit' },
+				{ icon: 'DocumentCopy', title: '复制', fnName: 'copy' },
+				{ icon: 'Delete', title: '删除', fnName: 'del' },
+				{ icon: 'FullScreen', title: '全屏', fnName: 'fullscreen' },
 			],
 		});
 		// 设置 tool 标题

@@ -12,11 +12,11 @@
 			</el-form-item>
 			<el-form-item>
 				<el-button @click="onLineTextReset">
-					<SvgIcon name="ele-RefreshRight" />
+					<el-icon><RefreshRight></RefreshRight></el-icon>
 					重置
 				</el-button>
 				<el-button @click="onLineTextChange" type="primary">
-					<SvgIcon name="ele-Check" />
+					<el-icon><Check></Check></el-icon>
 					保存
 				</el-button>
 			</el-form-item>

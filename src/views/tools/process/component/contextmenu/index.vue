@@ -18,7 +18,9 @@
 					:key="k"
 					@click="onCurrentClick(v.contextMenuClickId)"
 				>
-					<SvgIcon :name="v.icon" />
+					<el-icon>
+						<component :is="v.icon"></component>
+					</el-icon>
 					<span>{{ v.txt }}{{ item.type === 'line' ? '线' : '节点' }}</span>
 				</li>
 			</ul>
@@ -40,8 +42,8 @@ export default defineComponent({
 		const state = reactive({
 			isShow: false,
 			dropdownList: [
-				{ contextMenuClickId: 0, txt: '删除', icon: 'ele-Delete' },
-				{ contextMenuClickId: 1, txt: '编辑', icon: 'ele-Edit' },
+				{ contextMenuClickId: 0, txt: '删除', icon: 'Delete' },
+				{ contextMenuClickId: 1, txt: '编辑', icon: 'Edit' },
 			],
 			item: {
 				type: 'node',

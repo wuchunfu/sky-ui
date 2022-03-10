@@ -28,11 +28,11 @@
 						</el-form-item>
 						<el-form-item>
 							<el-button class="mb15" @click="onNodeRefresh">
-								<SvgIcon name="ele-RefreshRight" />
+								<el-icon><RefreshRight></RefreshRight></el-icon>
 								重置
 							</el-button>
 							<el-button type="primary" class="mb15" @click="onNodeSubmit">
-								<SvgIcon name="ele-Check" />
+								<el-icon><Check></Check></el-icon>
 								保存
 							</el-button>
 						</el-form-item>
@@ -68,11 +68,11 @@
 						</el-form-item>
 						<el-form-item>
 							<el-button class="mb15" @click="onExtendRefresh">
-								<SvgIcon name="ele-RefreshRight" />
+								<el-icon><RefreshRight></RefreshRight></el-icon>
 								重置
 							</el-button>
 							<el-button type="primary" class="mb15" @click="onExtendSubmit" :loading="loading.extend">
-								<SvgIcon name="ele-Check" />
+								<el-icon><Check></Check></el-icon>
 								保存
 							</el-button>
 						</el-form-item>
