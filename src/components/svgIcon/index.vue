@@ -1,5 +1,8 @@
 <template>
-  <svg aria-hidden="true" class="svg-icon-spin">
+	<el-icon v-if='name.startsWith("ele-")'>
+		<component :is='name.slice(0, name.length)'></component>
+	</el-icon>
+  <svg aria-hidden="true" class="svg-icon-spin" v-else>
     <use :fill="color" :xlink:href="symbolId"/>
   </svg>
 </template>
